@@ -10,3 +10,15 @@ D:\3.Projects\2. Programming\3.Backup\ProjectCars\ProjectCars.Model\obj\Debug\ne
 D:\3.Projects\2. Programming\3.Backup\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.dll
 D:\3.Projects\2. Programming\3.Backup\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ref\ProjectCars.Model.dll
 D:\3.Projects\2. Programming\3.Backup\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.pdb
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\bin\Debug\net5.0\ProjectCars.Model.deps.json
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\bin\Debug\net5.0\ProjectCars.Model.dll
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\bin\Debug\net5.0\ref\ProjectCars.Model.dll
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\bin\Debug\net5.0\ProjectCars.Model.pdb
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.csprojAssemblyReference.cache
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.GeneratedMSBuildEditorConfig.editorconfig
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.AssemblyInfoInputs.cache
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.AssemblyInfo.cs
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.csproj.CoreCompileInputs.cache
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.dll
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ref\ProjectCars.Model.dll
+D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Model\obj\Debug\net5.0\ProjectCars.Model.pdb

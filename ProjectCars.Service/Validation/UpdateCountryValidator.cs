@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace ProjectCars.Service.Validation
 {
-    public class UpdateRoleValidator : AbstractValidator<UpdateRoleDto>
+    public class UpdateCountryValidator : AbstractValidator<UpdateCountryDto>
     {
-        public UpdateRoleValidator(ProjectCarsContext context)
+        public UpdateCountryValidator(ProjectCarsContext context)
         {
-            RuleFor(r => r.Name)
+            RuleFor(c => c.Name)
                 .NotEmpty()
                 .WithMessage("Name is required parameter")
                 .MaximumLength(30)
                 .WithMessage("Maximum length is 30 characters")
-                .Must(name => !context.Roles.Any(r => r.Name == name))
+                .Must(name => !context.Countries.Any(c => c.Name == name))
                 .WithMessage("Name must be unique");
         }
     }

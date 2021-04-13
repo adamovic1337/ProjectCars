@@ -62,6 +62,7 @@ namespace ProjectCars.API.Controllers
                      );
         }
 
+        // OPTIONS api/roles
         [HttpOptions]
         public IActionResult GetOptions()
         {
@@ -78,7 +79,7 @@ namespace ProjectCars.API.Controllers
             var role = CreateLinksForRole(roleToReturn.Id, roleToReturn);
 
             return CreatedAtRoute("GetRole",
-                                  new { roleId = role.Id },
+                                  new { roleId = role.id },
                                   role);
         }
 
