@@ -1,28 +1,22 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using ProjectCars.Repository;
+using Newtonsoft.Json.Serialization;
+using ProjectCars.API.Middleware;
 using ProjectCars.Repository.Common;
 using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.DbContexts;
 using ProjectCars.Service;
 using ProjectCars.Service.Contract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Newtonsoft.Json.Serialization;
-using ProjectCars.API.Middleware;
 using ProjectCars.Service.Profiles;
 using ProjectCars.Service.Validation;
+using System.Linq;
 
 namespace ProjectCars.API
 {
@@ -42,12 +36,11 @@ namespace ProjectCars.API
             services.AddControllers(setupAction =>
                 {
                     setupAction.ReturnHttpNotAcceptable = true;
-
-            }).AddNewtonsoftJson(setupAction =>
-            {
-                setupAction.SerializerSettings.ContractResolver =
-                    new CamelCasePropertyNamesContractResolver();
-            })
+                }).AddNewtonsoftJson(setupAction =>
+                {
+                    setupAction.SerializerSettings.ContractResolver =
+                        new CamelCasePropertyNamesContractResolver();
+                })
             .AddXmlDataContractSerializerFormatters();
             services.Configure<MvcOptions>(config =>
             {
@@ -58,7 +51,7 @@ namespace ProjectCars.API
                 newtonsoftJsonOutputFormatter?.SupportedMediaTypes.Add("application/vnd.marvin.hateoas+json");
             });
 
-            //auto mapper, context, swagger 
+            //auto mapper, context, swagger
             services.AddAutoMapper(typeof(RoleProfile).Assembly);
             services.AddDbContext<ProjectCarsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectCars")));
             services.AddSwaggerGen(c =>
@@ -73,12 +66,15 @@ namespace ProjectCars.API
             //services
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ICountryService, CountryService>();
+            services.AddScoped<ICityService, CityService>();
 
             //validators
             services.AddTransient<CreateRoleValidator>();
             services.AddTransient<UpdateRoleValidator>();
             services.AddTransient<CreateCountryValidator>();
             services.AddTransient<UpdateCountryValidator>();
+            services.AddTransient<CreateCityValidator>();
+            services.AddTransient<UpdateCityValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -31,83 +31,7 @@ namespace ProjectCars.API.Controllers
             _countryService = countryService;
         }
 
-        #endregion
-
-        // GET: api/countries
-        [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet(Name = "GetCountries")]
-        [HttpHead]
-        public IActionResult Get([FromQuery] SearchCountryDto searchCountry, [FromHeader(Name = "Accept")] string mediaType)
-        {
-            PaginationMetadata(searchCountry);
-
-            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
-                return Ok(_countryService.GetCountries(searchCountry));
-
-            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
-                      CreateLinksForCountries(searchCountry, _countryService.GetCountries(searchCountry)) : _countryService.GetCountries(searchCountry)
-                     );
-        }
-
-        // GET api/countries/5
-        [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet("{countryId}", Name = "GetCountry")]
-        public IActionResult Get(int countryId, [FromHeader(Name = "Accept")] string mediaType)
-        {
-            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
-                return Ok(_countryService.GetCountryById(countryId));
-
-            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
-                CreateLinksForCountry(countryId, _countryService.GetCountryById(countryId)) : _countryService.GetCountryById(countryId)
-            );
-        }
-
-        // OPTIONS api/countries
-        [HttpOptions]
-        public IActionResult GetOptions()
-        {
-            Response.Headers.Add("Allow", "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
-            return Ok();
-        }
-
-        // POST api/countries
-        [Consumes("application/json", "application/xml")]
-        [HttpPost(Name = "CreateCountry")]
-        public IActionResult Post([FromBody] CreateCountryDto countryDto)
-        {
-            var countryToReturn = _countryService.CreateCountry(countryDto);
-            var country = CreateLinksForCountry(countryToReturn.Id, countryToReturn);
-
-            return CreatedAtRoute("GetCountry",
-                new { countryId = country.id },
-                country);
-        }
-
-        // PUT api/roles/5
-        [Consumes("application/json", "application/xml")]
-        [HttpPut("{countryId}", Name = "UpdateCountryPut")]
-        public IActionResult Put(int countryId, [FromBody] UpdateCountryDto countryDto)
-        {
-            _countryService.UpdateCountryPut(countryId, countryDto);
-            return NoContent();
-        }
-
-        // PATCH api/roles/5
-        [Consumes("application/json-patch+json")]
-        [HttpPatch("{countryId}", Name = "UpdateCountryPatch")]
-        public IActionResult Patch(int countryId, [FromBody] JsonPatchDocument<UpdateCountryDto> patchDocument)
-        {
-            _countryService.UpdateCountryPatch(countryId, patchDocument);
-            return NoContent();
-        }
-
-        // DELETE api/countries/5
-        [HttpDelete("{countryId}", Name = "DeleteCountry")]
-        public IActionResult Delete(int countryId)
-        {
-            _countryService.DeleteCountry(countryId);
-            return NoContent();
-        }
+        #endregion CONSTRUCTORS
 
         #region METHODS
 
@@ -184,7 +108,7 @@ namespace ProjectCars.API.Controllers
 
             var collection = countryDto.Select(country => CreateLinksForCountry(country.Id, country)).ToList();
 
-            var roles = _countryService.PagedListCountries(searchCountry);
+            var countries = _countryService.PagedListCountries(searchCountry);
 
             links.Add(
                 new LinkDto(
@@ -193,7 +117,7 @@ namespace ProjectCars.API.Controllers
                     "GET"
                 ));
 
-            if (roles.HasPrevious)
+            if (countries.HasPrevious)
             {
                 links.Add(
                     new LinkDto(
@@ -203,7 +127,7 @@ namespace ProjectCars.API.Controllers
                     ));
             }
 
-            if (roles.HasNext)
+            if (countries.HasNext)
             {
                 links.Add(
                     new LinkDto(
@@ -223,5 +147,81 @@ namespace ProjectCars.API.Controllers
         }
 
         #endregion METHODS
+
+        // GET: api/countries
+        [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
+        [HttpGet(Name = "GetCountries")]
+        [HttpHead]
+        public IActionResult Get([FromQuery] SearchCountryDto searchCountry, [FromHeader(Name = "Accept")] string mediaType)
+        {
+            PaginationMetadata(searchCountry);
+
+            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
+                return Ok(_countryService.GetCountries(searchCountry));
+
+            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
+                      CreateLinksForCountries(searchCountry, _countryService.GetCountries(searchCountry)) : _countryService.GetCountries(searchCountry)
+                     );
+        }
+
+        // GET api/countries/5
+        [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
+        [HttpGet("{countryId}", Name = "GetCountry")]
+        public IActionResult Get(int countryId, [FromHeader(Name = "Accept")] string mediaType)
+        {
+            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
+                return Ok(_countryService.GetCountryById(countryId));
+
+            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
+                CreateLinksForCountry(countryId, _countryService.GetCountryById(countryId)) : _countryService.GetCountryById(countryId)
+            );
+        }
+
+        // OPTIONS api/countries
+        [HttpOptions]
+        public IActionResult GetOptions()
+        {
+            Response.Headers.Add("Allow", "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
+            return Ok();
+        }
+
+        // POST api/countries
+        [Consumes("application/json", "application/xml")]
+        [HttpPost(Name = "CreateCountry")]
+        public IActionResult Post([FromBody] CreateCountryDto countryDto)
+        {
+            var countryToReturn = _countryService.CreateCountry(countryDto);
+            var country = CreateLinksForCountry(countryToReturn.Id, countryToReturn);
+
+            return CreatedAtRoute("GetCountry",
+                new { countryId = country.id },
+                country);
+        }
+
+        // PUT api/roles/5
+        [Consumes("application/json", "application/xml")]
+        [HttpPut("{countryId}", Name = "UpdateCountryPut")]
+        public IActionResult Put(int countryId, [FromBody] UpdateCountryDto countryDto)
+        {
+            _countryService.UpdateCountryPut(countryId, countryDto);
+            return NoContent();
+        }
+
+        // PATCH api/roles/5
+        [Consumes("application/json-patch+json")]
+        [HttpPatch("{countryId}", Name = "UpdateCountryPatch")]
+        public IActionResult Patch(int countryId, [FromBody] JsonPatchDocument<UpdateCountryDto> patchDocument)
+        {
+            _countryService.UpdateCountryPatch(countryId, patchDocument);
+            return NoContent();
+        }
+
+        // DELETE api/countries/5
+        [HttpDelete("{countryId}", Name = "DeleteCountry")]
+        public IActionResult Delete(int countryId)
+        {
+            _countryService.DeleteCountry(countryId);
+            return NoContent();
+        }
     }
 }

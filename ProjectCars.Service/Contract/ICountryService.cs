@@ -54,7 +54,7 @@ namespace ProjectCars.Service.Contract
         void UpdateCountryPatch(int countryId, JsonPatchDocument<UpdateCountryDto> patchDocument);
 
         /// <summary>
-        /// Delete Role
+        /// Delete Country
         /// </summary>
         /// <param name="countryId"></param>
         void DeleteCountry(int countryId);

@@ -33,82 +33,6 @@ namespace ProjectCars.API.Controllers
 
         #endregion CONSTRUCTORS
 
-        // GET: api/roles
-        [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet(Name = "GetRoles")]
-        [HttpHead]
-        public IActionResult Get([FromQuery] SearchRoleDto searchRole, [FromHeader(Name = "Accept")] string mediaType)
-        {
-            PaginationMetadata(searchRole);
-
-            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
-                return Ok(_roleService.GetRoles(searchRole));
-
-            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
-                      CreateLinksForRoles(searchRole, _roleService.GetRoles(searchRole)) : _roleService.GetRoles(searchRole)
-                     );
-        }
-
-        // GET api/roles/5
-        [Produces("application/json","application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet("{roleId}", Name = "GetRole")]
-        public IActionResult Get(int roleId, [FromHeader(Name = "Accept")] string mediaType)
-        {
-            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
-                return Ok(_roleService.GetRoleById(roleId));
-
-            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
-                      CreateLinksForRole(roleId, _roleService.GetRoleById(roleId)) : _roleService.GetRoleById(roleId)
-                     );
-        }
-
-        // OPTIONS api/roles
-        [HttpOptions]
-        public IActionResult GetOptions()
-        {
-            Response.Headers.Add("Allow", "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
-            return Ok();
-        }
-
-        // POST api/roles
-        [Consumes("application/json", "application/xml")]
-        [HttpPost(Name = "CreateRole")]
-        public IActionResult Post([FromBody] CreateRoleDto roleDto)
-        {
-            var roleToReturn = _roleService.CreateRole(roleDto);
-            var role = CreateLinksForRole(roleToReturn.Id, roleToReturn);
-
-            return CreatedAtRoute("GetRole",
-                                  new { roleId = role.id },
-                                  role);
-        }
-
-        // PUT api/roles/5
-        [Consumes("application/json", "application/xml")]
-        [HttpPut("{roleId}", Name = "UpdateRolePut")]
-        public IActionResult Put(int roleId, [FromBody] UpdateRoleDto roleDto)
-        {
-            _roleService.UpdateRolePut(roleId, roleDto);
-            return NoContent();
-        }
-
-        // PATCH api/roles/5
-        [Consumes("application/json-patch+json")]
-        [HttpPatch("{roleId}", Name = "UpdateRolePatch")]
-        public IActionResult Patch(int roleId, [FromBody] JsonPatchDocument<UpdateRoleDto> patchDocument)
-        {
-            _roleService.UpdateRolePatch(roleId, patchDocument);
-            return NoContent();
-        }
-
-        // DELETE api/roles/5
-        [HttpDelete("{roleId}", Name = "DeleteRole")]
-        public IActionResult Delete(int roleId)
-        {
-            _roleService.DeleteRole(roleId);
-            return NoContent();
-        }
-
         #region METHODS
 
         private void PaginationMetadata(SearchRoleDto searchRole)
@@ -223,5 +147,81 @@ namespace ProjectCars.API.Controllers
         }
 
         #endregion METHODS
+
+        // GET: api/roles
+        [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
+        [HttpGet(Name = "GetRoles")]
+        [HttpHead]
+        public IActionResult Get([FromQuery] SearchRoleDto searchRole, [FromHeader(Name = "Accept")] string mediaType)
+        {
+            PaginationMetadata(searchRole);
+
+            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
+                return Ok(_roleService.GetRoles(searchRole));
+
+            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
+                      CreateLinksForRoles(searchRole, _roleService.GetRoles(searchRole)) : _roleService.GetRoles(searchRole)
+                     );
+        }
+
+        // GET api/roles/5
+        [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
+        [HttpGet("{roleId}", Name = "GetRole")]
+        public IActionResult Get(int roleId, [FromHeader(Name = "Accept")] string mediaType)
+        {
+            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
+                return Ok(_roleService.GetRoleById(roleId));
+
+            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
+                      CreateLinksForRole(roleId, _roleService.GetRoleById(roleId)) : _roleService.GetRoleById(roleId)
+                     );
+        }
+
+        // OPTIONS api/roles
+        [HttpOptions]
+        public IActionResult GetOptions()
+        {
+            Response.Headers.Add("Allow", "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
+            return Ok();
+        }
+
+        // POST api/roles
+        [Consumes("application/json", "application/xml")]
+        [HttpPost(Name = "CreateRole")]
+        public IActionResult Post([FromBody] CreateRoleDto roleDto)
+        {
+            var roleToReturn = _roleService.CreateRole(roleDto);
+            var role = CreateLinksForRole(roleToReturn.Id, roleToReturn);
+
+            return CreatedAtRoute("GetRole",
+                                  new { roleId = role.id },
+                                  role);
+        }
+
+        // PUT api/roles/5
+        [Consumes("application/json", "application/xml")]
+        [HttpPut("{roleId}", Name = "UpdateRolePut")]
+        public IActionResult Put(int roleId, [FromBody] UpdateRoleDto roleDto)
+        {
+            _roleService.UpdateRolePut(roleId, roleDto);
+            return NoContent();
+        }
+
+        // PATCH api/roles/5
+        [Consumes("application/json-patch+json")]
+        [HttpPatch("{roleId}", Name = "UpdateRolePatch")]
+        public IActionResult Patch(int roleId, [FromBody] JsonPatchDocument<UpdateRoleDto> patchDocument)
+        {
+            _roleService.UpdateRolePatch(roleId, patchDocument);
+            return NoContent();
+        }
+
+        // DELETE api/roles/5
+        [HttpDelete("{roleId}", Name = "DeleteRole")]
+        public IActionResult Delete(int roleId)
+        {
+            _roleService.DeleteRole(roleId);
+            return NoContent();
+        }
     }
 }
