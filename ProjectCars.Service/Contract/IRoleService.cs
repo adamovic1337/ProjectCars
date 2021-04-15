@@ -28,9 +28,9 @@ namespace ProjectCars.Service.Contract
         /// <summary>
         /// Returns one Role
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="roleId"></param>
         /// <returns>Returns one Role object</returns>
-        RoleDto GetRoleById(int id);
+        RoleDto GetRoleById(int roleId);
 
         /// <summary>
         /// Creates Role entity

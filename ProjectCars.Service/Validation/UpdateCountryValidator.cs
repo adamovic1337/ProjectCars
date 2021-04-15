@@ -6,7 +6,7 @@ namespace ProjectCars.Service.Validation
 {
     public class UpdateCountryValidator : AbstractValidator<UpdateCountryDto>
     {
-        public UpdateCountryValidator(ProjectCarsContext context)
+        public UpdateCountryValidator()
         {
             RuleFor(c => c.Name)
                 .NotEmpty()

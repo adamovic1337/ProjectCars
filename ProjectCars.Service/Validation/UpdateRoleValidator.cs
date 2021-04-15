@@ -6,7 +6,7 @@ namespace ProjectCars.Service.Validation
 {
     public class UpdateRoleValidator : AbstractValidator<UpdateRoleDto>
     {
-        public UpdateRoleValidator(ProjectCarsContext context)
+        public UpdateRoleValidator()
         {
             RuleFor(r => r.Name)
                 .NotEmpty()

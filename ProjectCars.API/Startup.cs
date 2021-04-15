@@ -68,6 +68,7 @@ namespace ProjectCars.API
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IManufacturerService, ManufacturerService>();
 
             //validators
             services.AddTransient<CreateRoleValidator>();
@@ -78,6 +79,8 @@ namespace ProjectCars.API
             services.AddTransient<UpdateCityValidator>();
             services.AddTransient<CreateUserValidator>();
             services.AddTransient<UpdateUserValidator>();
+            services.AddTransient<CreateManufacturerValidator>();
+            services.AddTransient<UpdateManufacturerValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

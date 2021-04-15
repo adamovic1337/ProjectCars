@@ -6,7 +6,7 @@ namespace ProjectCars.Service.Validation
 {
     public class UpdateUserValidator : AbstractValidator<UpdateUserDto>
     {
-        public UpdateUserValidator(ProjectCarsContext context)
+        public UpdateUserValidator()
         {
             RuleFor(u => u.Email)
                 .NotEmpty()
