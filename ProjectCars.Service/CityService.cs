@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.VisualBasic;
 using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
@@ -8,13 +10,10 @@ using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
+using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
-using System;
 using System.Collections.Generic;
 using System.Linq.Dynamic.Core;
-using FluentValidation;
-using Microsoft.VisualBasic;
-using ProjectCars.Service.Helpers;
 
 namespace ProjectCars.Service
 {
@@ -32,13 +31,13 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public CityService(IUnitOfWork unitOfWork, IGenericRepository<City> cityRepository, IMapper mapper, CreateCityValidator createCountryValidator, UpdateCityValidator updateCountryValidator)
+        public CityService(IUnitOfWork unitOfWork, IGenericRepository<City> cityRepository, IMapper mapper, CreateCityValidator createCityValidator, UpdateCityValidator updateCityValidator)
         {
             _unitOfWork = unitOfWork;
             _cityRepository = cityRepository;
             _mapper = mapper;
-            _createCityValidator = createCountryValidator;
-            _updateCityValidator = updateCountryValidator;
+            _createCityValidator = createCityValidator;
+            _updateCityValidator = updateCityValidator;
         }
 
         #endregion CONSTRUCTORS

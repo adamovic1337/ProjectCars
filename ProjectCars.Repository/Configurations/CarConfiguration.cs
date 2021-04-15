@@ -8,7 +8,6 @@ namespace ProjectCars.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<Car> builder)
         {
-            builder.HasIndex(c => c.Vin).IsUnique();
             builder.Property(c => c.Vin).HasMaxLength(17).IsRequired();
             builder.Property(c => c.FirstRegistration).IsRequired();
             builder.Property(c => c.Mileage).IsRequired();

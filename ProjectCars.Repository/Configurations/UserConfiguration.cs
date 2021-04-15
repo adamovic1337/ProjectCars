@@ -8,9 +8,6 @@ namespace ProjectCars.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasIndex(u => u.Email).IsUnique();
-            builder.HasIndex(u => u.Username).IsUnique();
-
             builder.Property(user => user.FirstName).HasMaxLength(50);
             builder.Property(user => user.LastName).HasMaxLength(50);
             builder.Property(user => user.Password).IsRequired();

@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Repository.DbContexts;
-using System.Linq;
 
 namespace ProjectCars.Service.Validation
 {
@@ -13,9 +12,7 @@ namespace ProjectCars.Service.Validation
                 .NotEmpty()
                 .WithMessage("Name is required parameter")
                 .MaximumLength(30)
-                .WithMessage("Maximum length is 30 characters")
-                .Must(name => !context.Roles.Any(r => r.Name == name))
-                .WithMessage("Name must be unique");
+                .WithMessage("Maximum length is 30 characters");
         }
     }
 }

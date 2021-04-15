@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.VisualBasic;
 using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
@@ -7,13 +10,10 @@ using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
-using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
-using AutoMapper;
-using FluentValidation;
-using Microsoft.VisualBasic;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
+using System.Collections.Generic;
+using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -40,7 +40,7 @@ namespace ProjectCars.Service
             _unitOfWork = unitOfWork;
         }
 
-        #endregion
+        #endregion CONSTRUCTORS
 
         #region METHODS
 
@@ -110,8 +110,8 @@ namespace ProjectCars.Service
 
             _countryRepository.Delete(countryId);
             _unitOfWork.Commit();
-        } 
+        }
 
-        #endregion
+        #endregion METHODS
     }
 }

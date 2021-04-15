@@ -93,13 +93,13 @@ namespace ProjectCars.API.Controllers
             return type switch
             {
                 ResourceUriType.PreviousPage => Url.Link("GetCountries",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, roleName = search.CityName }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, cityName = search.CityName }),
                 ResourceUriType.NextPage => Url.Link("GetCountries",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, roleName = search.CityName }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, cityName = search.CityName }),
                 ResourceUriType.Current => Url.Link("GetCountries",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, roleName = search.CityName }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, cityName = search.CityName }),
                 _ => Url.Link("GetCountries",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, roleName = search.CityName })
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, cityName = search.CityName })
             };
         }
 
