@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using ProjectCars.Model.DTO.Update;
-using ProjectCars.Repository.DbContexts;
 
 namespace ProjectCars.Service.Validation
 {
