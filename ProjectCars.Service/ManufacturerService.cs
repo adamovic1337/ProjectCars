@@ -17,7 +17,6 @@ using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
-
     public class ManufacturerService : IManufacturerService
     {
         #region FIELDS
@@ -41,7 +40,7 @@ namespace ProjectCars.Service
             _updateManufacturerValidator = updateManufacturerValidator;
         }
 
-        #endregion
+        #endregion CONSTRUCTORS
 
         #region METHODS
 
@@ -78,7 +77,7 @@ namespace ProjectCars.Service
             _unitOfWork.Commit();
 
             var manufacturerToReturn = _mapper.Map<ManufacturerDto>(manufacturerEntity);
-           
+
             return manufacturerToReturn;
         }
 
@@ -112,8 +111,8 @@ namespace ProjectCars.Service
 
             _manufacturerRepository.Delete(manufacturerId);
             _unitOfWork.Commit();
-        } 
-        
-        #endregion
+        }
+
+        #endregion METHODS
     }
 }

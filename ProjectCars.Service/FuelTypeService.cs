@@ -40,7 +40,7 @@ namespace ProjectCars.Service
             _updateFuelTypeValidator = updateFuelTypeValidator;
         }
 
-        #endregion
+        #endregion CONSTRUCTORS
 
         #region METHODS
 
@@ -110,8 +110,8 @@ namespace ProjectCars.Service
 
             _fuelTypeRepository.Delete(fuelTypeId);
             _unitOfWork.Commit();
-        } 
+        }
 
-        #endregion
+        #endregion METHODS
     }
 }
