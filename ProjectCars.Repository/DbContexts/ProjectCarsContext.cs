@@ -31,7 +31,7 @@ namespace ProjectCars.Repository.DbContexts
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Engine> Engines { get; set; }
         public DbSet<FuelType> FuelTypes { get; set; }
-        public DbSet<CarModel> Models { get; set; }
+        public DbSet<CarModel> CarModels { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<UserCar> UserCars { get; set; }
         public DbSet<ServiceRequest> ServiceRequest { get; set; }
