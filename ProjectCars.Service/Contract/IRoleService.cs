@@ -22,7 +22,7 @@ namespace ProjectCars.Service.Contract
         /// Return PagedList for creating X-Pagination header
         /// </summary>
         /// <param name="searchRole"></param>
-        /// <returns>Returns PagedList of roles</returns>
+        /// <returns>Returns PagedList of Roles</returns>
         PagedList<Role> PagedListRoles(SearchRoleDto searchRole);
 
         /// <summary>
