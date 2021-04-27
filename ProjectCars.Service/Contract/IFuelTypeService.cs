@@ -23,7 +23,7 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchFuelType"></param>
         /// <returns>Returns PagedList of FuelTypes</returns>
-        PagedList<FuelType> PagedListRoles(SearchFuelTypeDto searchFuelType);
+        PagedList<FuelType> PagedListFuelTypes(SearchFuelTypeDto searchFuelType);
 
         /// <summary>
         /// Returns one FuelType

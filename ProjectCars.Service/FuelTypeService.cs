@@ -56,7 +56,7 @@ namespace ProjectCars.Service
             return _mapper.Map<IEnumerable<FuelTypeDto>>(fuelTypes);
         }
 
-        public PagedList<FuelType> PagedListRoles(SearchFuelTypeDto searchFuelType)
+        public PagedList<FuelType> PagedListFuelTypes(SearchFuelTypeDto searchFuelType)
         {
             return _fuelTypeRepository.GetAll(searchFuelType.PageNumber, searchFuelType.PageSize, r => r.Name.Contains(Strings.Trim(searchFuelType.FuelTypeName)));
         }
