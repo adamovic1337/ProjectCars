@@ -5851,11 +5851,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.API\\ProjectCars.API.csproj",
+      "projectUniqueName": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.API\\ProjectCars.API.csproj",
       "projectName": "ProjectCars.API",
-      "projectPath": "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.API\\ProjectCars.API.csproj",
+      "projectPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.API\\ProjectCars.API.csproj",
       "packagesPath": "C:\\Users\\Stefan\\.nuget\\packages\\",
-      "outputPath": "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.API\\obj\\",
+      "outputPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Stefan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5872,14 +5872,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj": {
-              "projectPath": "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj"
+            "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj": {
+              "projectPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj"
             },
-            "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj": {
-              "projectPath": "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj"
+            "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj": {
+              "projectPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj"
             },
-            "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Service\\ProjectCars.Service.csproj": {
-              "projectPath": "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Service\\ProjectCars.Service.csproj"
+            "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Service\\ProjectCars.Service.csproj": {
+              "projectPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Service\\ProjectCars.Service.csproj"
             }
           }
         }
@@ -5921,7 +5921,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

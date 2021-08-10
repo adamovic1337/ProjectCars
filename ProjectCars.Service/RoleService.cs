@@ -84,6 +84,8 @@ namespace ProjectCars.Service
         {
             var role = _roleRepository.GetOne(roleId).EntityNotFoundCheck();
 
+            roleDto.Id = roleId;
+
             _updateRoleValidator.ValidateAndThrow(roleDto);
             _roleRepository.Update(role);
             _mapper.Map(roleDto, role);
@@ -97,6 +99,8 @@ namespace ProjectCars.Service
             var roleDto = _mapper.Map<UpdateRoleDto>(role);
 
             patchDocument.ApplyTo(roleDto);
+
+            roleDto.Id = roleId;
 
             _updateRoleValidator.ValidateAndThrow(roleDto);
             _roleRepository.Update(role);

@@ -10,7 +10,6 @@ using ProjectCars.Model.DTO.View;
 using ProjectCars.Service.Contract;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 
 namespace ProjectCars.API.Controllers
 {
@@ -34,22 +33,6 @@ namespace ProjectCars.API.Controllers
         #endregion CONSTRUCTORS
 
         #region METHODS
-
-        private void PaginationMetadata(SearchRoleDto searchRole)
-        {
-            var roles = _roleService.PagedListRoles(searchRole);
-
-            var paginationMetadata = new
-            {
-                totalCount = roles.TotalCount,
-                pageSize = roles.PageSize,
-                currentPage = roles.CurrentPage,
-                totalPages = roles.TotalPages,
-            };
-
-            Response.Headers.Add("X-Pagination",
-                JsonSerializer.Serialize(paginationMetadata));
-        }
 
         private dynamic CreateLinksForRole(int roleId, RoleDto roleDto)
         {
@@ -154,13 +137,13 @@ namespace ProjectCars.API.Controllers
         [HttpHead]
         public IActionResult Get([FromQuery] SearchRoleDto searchRole, [FromHeader(Name = "Accept")] string mediaType)
         {
-            PaginationMetadata(searchRole);
+            this.PaginationMetadata(_roleService.PagedListRoles(searchRole));
 
-            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
-                return Ok(_roleService.GetRoles(searchRole));
-
-            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
-                      CreateLinksForRoles(searchRole, _roleService.GetRoles(searchRole)) : _roleService.GetRoles(searchRole)
+            return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
+                   ? Ok(_roleService.GetRoles(searchRole))
+                   : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
+                        ? CreateLinksForRoles(searchRole, _roleService.GetRoles(searchRole))
+                        : _roleService.GetRoles(searchRole)
                      );
         }
 
@@ -169,11 +152,11 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{roleId}", Name = "GetRole")]
         public IActionResult Get(int roleId, [FromHeader(Name = "Accept")] string mediaType)
         {
-            if (!MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType))
-                return Ok(_roleService.GetRoleById(roleId));
-
-            return Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json" ?
-                      CreateLinksForRole(roleId, _roleService.GetRoleById(roleId)) : _roleService.GetRoleById(roleId)
+            return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
+                   ? Ok(_roleService.GetRoleById(roleId))
+                   : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
+                        ? CreateLinksForRole(roleId, _roleService.GetRoleById(roleId))
+                        : _roleService.GetRoleById(roleId)
                      );
         }
 

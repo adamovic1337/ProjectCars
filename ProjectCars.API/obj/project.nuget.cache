@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OZzSFOmapFYicvQz7AdFjUgjyACi3DyMhQHlR23rBmigb6Il02XKANUvhshbBP5hilBc7aXieZ4RWyPcmeyqqw==",
+  "dgSpecHash": "iRkMD24725pHG1V827qDR5/65cSaKkRubAn0LZm/KWasjzfd1Lz7FzVe5iXnMn99FRhockLGrr+rDZgQzu11ZA==",
   "success": true,
-  "projectFilePath": "D:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.API\\ProjectCars.API.csproj",
+  "projectFilePath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.API\\ProjectCars.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Stefan\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\Stefan\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
