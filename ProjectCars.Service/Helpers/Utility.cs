@@ -6,12 +6,7 @@ namespace ProjectCars.Service.Helpers
     {
         public static TEntity EntityNotFoundCheck<TEntity>(this TEntity entity) where TEntity : class
         {
-            if (entity == null)
-            {
-                throw new EntityNotFoundException();
-            }
-
-            return entity;
+            return entity is null ? throw new EntityNotFoundException() : entity;
         }
     }
 }

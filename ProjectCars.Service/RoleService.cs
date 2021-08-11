@@ -110,7 +110,7 @@ namespace ProjectCars.Service
 
         public void DeleteRole(int roleId)
         {
-            _roleRepository.GetOne(roleId).EntityNotFoundCheck();
+            _ = _roleRepository.GetOne(roleId).EntityNotFoundCheck();
 
             _roleRepository.Delete(roleId);
             _unitOfWork.Commit();
