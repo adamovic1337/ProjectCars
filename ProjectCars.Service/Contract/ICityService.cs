@@ -16,7 +16,7 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchCity"></param>
         /// <returns>Returns collection of Countries></returns>
-        IEnumerable<CityDto> GetCountries(SearchCityDto searchCity);
+        IEnumerable<CityDto> GetCities(SearchCityDto searchCity);
 
         /// <summary>
         /// Return PagedList for creating X-Pagination header

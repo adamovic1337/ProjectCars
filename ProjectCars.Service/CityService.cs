@@ -44,7 +44,7 @@ namespace ProjectCars.Service
 
         #region METHODS
 
-        public IEnumerable<CityDto> GetCountries(SearchCityDto searchCity)
+        public IEnumerable<CityDto> GetCities(SearchCityDto searchCity)
         {
             var orderBy = searchCity.OrderBy.Split(new[] { '-' })[0];
             var direction = searchCity.OrderBy?.Split(new[] { '-' })[1];
@@ -84,6 +84,8 @@ namespace ProjectCars.Service
         {
             var city = _cityRepository.GetOne(cityId).EntityNotFoundCheck();
 
+            cityDto.Id = cityId;
+
             _updateCityValidator.ValidateAndThrow(cityDto);
             _cityRepository.Update(city);
             _mapper.Map(cityDto, city);
@@ -97,6 +99,8 @@ namespace ProjectCars.Service
             var cityDto = _mapper.Map<UpdateCityDto>(city);
 
             patchDocument.ApplyTo(cityDto);
+
+            cityDto.Id = cityId;
 
             _updateCityValidator.ValidateAndThrow(cityDto);
             _cityRepository.Update(city);
