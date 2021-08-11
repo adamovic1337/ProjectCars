@@ -8,6 +8,7 @@ namespace ProjectCars.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<CarService> builder)
         {
+            builder.HasIndex(cs => cs.Name).IsUnique();
             builder.Property(cs => cs.Name).HasMaxLength(100).IsRequired();
             builder.Property(cs => cs.Phone).HasMaxLength(20).IsRequired();
             builder.Property(cs => cs.Address).HasMaxLength(100).IsRequired();

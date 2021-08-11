@@ -84,6 +84,8 @@ namespace ProjectCars.Service
         {
             var carService = _carServiceRepository.GetOne(carServiceId).EntityNotFoundCheck();
 
+            carServiceDto.Id = carServiceId;
+
             _updateCarServiceValidator.ValidateAndThrow(carServiceDto);
             _carServiceRepository.Update(carService);
             _mapper.Map(carServiceDto, carService);
@@ -97,6 +99,8 @@ namespace ProjectCars.Service
             var carServiceDto = _mapper.Map<UpdateCarServiceDto>(carService);
 
             patchDocument.ApplyTo(carServiceDto);
+
+            carServiceDto.Id = carServiceId;
 
             _updateCarServiceValidator.ValidateAndThrow(carServiceDto);
             _carServiceRepository.Update(carService);
