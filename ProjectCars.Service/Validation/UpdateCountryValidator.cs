@@ -9,8 +9,10 @@ namespace ProjectCars.Service.Validation
     {
         private readonly ProjectCarsContext _context;
 
-        public UpdateCountryValidator()
+        public UpdateCountryValidator(ProjectCarsContext context)
         {
+            _context = context;
+
             RuleFor(c => c.Name)
                 .NotEmpty()
                 .WithMessage("Name is required parameter")

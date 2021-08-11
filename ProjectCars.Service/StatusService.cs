@@ -84,6 +84,8 @@ namespace ProjectCars.Service
         {
             var status = _statusRepository.GetOne(statusId).EntityNotFoundCheck();
 
+            statusDto.Id = statusId;
+
             _updateStatusValidator.ValidateAndThrow(statusDto);
             _statusRepository.Update(status);
             _mapper.Map(statusDto, status);
@@ -97,6 +99,8 @@ namespace ProjectCars.Service
             var statusDto = _mapper.Map<UpdateStatusDto>(status);
 
             patchDocument.ApplyTo(statusDto);
+
+            statusDto.Id = statusId;
 
             _updateStatusValidator.ValidateAndThrow(statusDto);
             _statusRepository.Update(status);
