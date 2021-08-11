@@ -34,7 +34,7 @@ namespace ProjectCars.API.Controllers
 
         #region METHODS
 
-        private dynamic CreateLinksForRole(int roleId, RoleDto roleDto)
+        private dynamic CreateLinks(int roleId, RoleDto roleDto)
         {
             var links = new List<LinkDto>
             {
@@ -85,17 +85,17 @@ namespace ProjectCars.API.Controllers
             };
         }
 
-        private dynamic CreateLinksForRoles(SearchRoleDto searchRole, IEnumerable<RoleDto> roleDto)
+        private dynamic CreateLinksForList(SearchRoleDto search, IEnumerable<RoleDto> roleDto)
         {
             var links = new List<LinkDto>();
 
-            var collection = roleDto.Select(role => CreateLinksForRole(role.Id, role)).ToList();
+            var collection = roleDto.Select(role => CreateLinks(role.Id, role)).ToList();
 
-            var roles = _roleService.PagedListRoles(searchRole);
+            var roles = _roleService.PagedListRoles(search);
 
             links.Add(
                 new LinkDto(
-                    CreateResourceUri(searchRole, ResourceUriType.Current),
+                    CreateResourceUri(search, ResourceUriType.Current),
                     "current",
                     "GET"
                 ));
@@ -104,7 +104,7 @@ namespace ProjectCars.API.Controllers
             {
                 links.Add(
                     new LinkDto(
-                        CreateResourceUri(searchRole, ResourceUriType.PreviousPage),
+                        CreateResourceUri(search, ResourceUriType.PreviousPage),
                         "previous",
                         "GET"
                     ));
@@ -114,7 +114,7 @@ namespace ProjectCars.API.Controllers
             {
                 links.Add(
                     new LinkDto(
-                        CreateResourceUri(searchRole, ResourceUriType.NextPage),
+                        CreateResourceUri(search, ResourceUriType.NextPage),
                         "next",
                         "GET"
                     ));
@@ -142,7 +142,7 @@ namespace ProjectCars.API.Controllers
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_roleService.GetRoles(searchRole))
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForRoles(searchRole, _roleService.GetRoles(searchRole))
+                        ? CreateLinksForList(searchRole, _roleService.GetRoles(searchRole))
                         : _roleService.GetRoles(searchRole)
                      );
         }
@@ -155,7 +155,7 @@ namespace ProjectCars.API.Controllers
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_roleService.GetRoleById(roleId))
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForRole(roleId, _roleService.GetRoleById(roleId))
+                        ? CreateLinks(roleId, _roleService.GetRoleById(roleId))
                         : _roleService.GetRoleById(roleId)
                      );
         }
@@ -174,7 +174,7 @@ namespace ProjectCars.API.Controllers
         public IActionResult Post([FromBody] CreateRoleDto roleDto)
         {
             var roleToReturn = _roleService.CreateRole(roleDto);
-            var role = CreateLinksForRole(roleToReturn.Id, roleToReturn);
+            var role = CreateLinks(roleToReturn.Id, roleToReturn);
 
             return CreatedAtRoute("GetRole",
                                   new { roleId = role.id },

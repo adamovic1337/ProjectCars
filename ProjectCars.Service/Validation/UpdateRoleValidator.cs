@@ -7,7 +7,7 @@ namespace ProjectCars.Service.Validation
 {
     public class UpdateRoleValidator : AbstractValidator<UpdateRoleDto>
     {
-        private ProjectCarsContext _context;
+        private readonly ProjectCarsContext _context;
 
         public UpdateRoleValidator(ProjectCarsContext context)
         {
@@ -19,7 +19,7 @@ namespace ProjectCars.Service.Validation
                 .MaximumLength(30)
                 .WithMessage("Maximum length is 30 characters")
                 .Must(UniqueName)
-                .WithMessage("Name must be unique"); ;
+                .WithMessage("Name must be unique");
         }
 
         private bool UniqueName(UpdateRoleDto role, string name)

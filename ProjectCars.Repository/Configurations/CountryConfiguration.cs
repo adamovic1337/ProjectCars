@@ -8,6 +8,7 @@ namespace ProjectCars.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<Country> builder)
         {
+            builder.HasIndex(c => c.Name).IsUnique();
             builder.Property(c => c.Name).HasMaxLength(60).IsRequired();
 
             builder.HasMany(c => c.Cities)

@@ -84,6 +84,8 @@ namespace ProjectCars.Service
         {
             var country = _countryRepository.GetOne(countryId).EntityNotFoundCheck();
 
+            countryDto.Id = countryId;
+
             _updateCountryValidator.ValidateAndThrow(countryDto);
             _countryRepository.Update(country);
             _mapper.Map(countryDto, country);
@@ -97,6 +99,8 @@ namespace ProjectCars.Service
             var countryDto = _mapper.Map<UpdateCountryDto>(country);
 
             patchDocument.ApplyTo(countryDto);
+
+            countryDto.Id = countryId;
 
             _updateCountryValidator.ValidateAndThrow(countryDto);
             _countryRepository.Update(country);
