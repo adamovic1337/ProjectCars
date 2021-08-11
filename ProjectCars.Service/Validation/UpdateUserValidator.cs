@@ -1,12 +1,18 @@
 ﻿using FluentValidation;
 using ProjectCars.Model.DTO.Update;
+using ProjectCars.Repository.DbContexts;
+using System.Linq;
 
 namespace ProjectCars.Service.Validation
 {
     public class UpdateUserValidator : AbstractValidator<UpdateUserDto>
     {
-        public UpdateUserValidator()
+        private readonly ProjectCarsContext _context;
+
+        public UpdateUserValidator(ProjectCarsContext context)
         {
+            _context = context;
+
             RuleFor(u => u.Email)
                 .NotEmpty()
                 .WithMessage("Email is required parameter")
@@ -17,7 +23,9 @@ namespace ProjectCars.Service.Validation
                 .NotEmpty()
                 .WithMessage("Username is required parameter")
                 .MaximumLength(30)
-                .WithMessage("Maximum length is 30 characters");
+                .WithMessage("Maximum length is 30 characters")
+                .Must(UniqueName)
+                .WithMessage("Name must be unique");
 
             RuleFor(u => u.Password)
                 .NotEmpty()
@@ -36,6 +44,19 @@ namespace ProjectCars.Service.Validation
                 .WithMessage("Last Name is required parameter")
                 .MaximumLength(50)
                 .WithMessage("Maximum length is 50 characters");
+        }
+
+        private bool UniqueName(UpdateUserDto user, string name)
+        {
+            var sameRecord = _context.Users.Where(u => u.Id == user.Id && u.Username == user.Username).SingleOrDefault();
+
+            if (sameRecord != null)
+            {
+                return true;
+            }
+            var differentRecord = _context.Roles.Where(u => u.Name == user.Username).SingleOrDefault();
+
+            return differentRecord == null;
         }
     }
 }

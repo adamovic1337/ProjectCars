@@ -85,6 +85,8 @@ namespace ProjectCars.Service
         {
             var user = _userRepository.GetOne(userId).EntityNotFoundCheck();
 
+            userDto.Id = userId;
+
             _updateUserValidator.ValidateAndThrow(userDto);
             _userRepository.Update(user);
             _mapper.Map(userDto, user);
@@ -98,6 +100,8 @@ namespace ProjectCars.Service
             var userDto = _mapper.Map<UpdateUserDto>(user);
 
             patchDocument.ApplyTo(userDto);
+
+            userDto.Id = userId;
 
             _updateUserValidator.ValidateAndThrow(userDto);
             _userRepository.Update(user);

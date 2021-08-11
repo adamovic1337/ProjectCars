@@ -8,11 +8,12 @@ namespace ProjectCars.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(user => user.FirstName).HasMaxLength(50);
-            builder.Property(user => user.LastName).HasMaxLength(50);
-            builder.Property(user => user.Password).IsRequired();
-            builder.Property(user => user.Username).HasMaxLength(30).IsRequired();
-            builder.Property(user => user.Email).HasMaxLength(254).IsRequired();
+            builder.HasIndex(u => u.Username).IsUnique();
+            builder.Property(u => u.FirstName).HasMaxLength(50);
+            builder.Property(u => u.LastName).HasMaxLength(50);
+            builder.Property(u => u.Password).IsRequired();
+            builder.Property(u => u.Username).HasMaxLength(30).IsRequired();
+            builder.Property(u => u.Email).HasMaxLength(254).IsRequired();
 
             builder.HasMany(u => u.UserCars)
                    .WithOne(uc => uc.User)
