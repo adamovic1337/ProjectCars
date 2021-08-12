@@ -42,13 +42,13 @@ namespace ProjectCars.Service.Validation
 
         private bool UniqueName(UpdateCarServiceDto carService, string name)
         {
-            var sameRecord = _context.CarServices.Where(cs => cs.Id == carService.Id && cs.Name == carService.Name).SingleOrDefault();
+            var sameRecord = _context.CarServices.Where(cs => cs.Id == carService.Id && cs.Name == name).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.CarServices.Where(cs => cs.Name == carService.Name).SingleOrDefault();
+            var differentRecord = _context.CarServices.Where(cs => cs.Name == name).SingleOrDefault();
 
             return differentRecord == null;
         }

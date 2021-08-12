@@ -48,28 +48,28 @@ namespace ProjectCars.Service.Validation
                 .WithMessage("Maximum length is 50 characters");
         }
 
-        private bool UniqueName(UpdateUserDto user, string name)
+        private bool UniqueName(UpdateUserDto user, string username)
         {
-            var sameRecord = _context.Users.Where(u => u.Id == user.Id && u.Username == user.Username).SingleOrDefault();
+            var sameRecord = _context.Users.Where(u => u.Id == user.Id && u.Username == username).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.Users.Where(u => u.Username == user.Username).SingleOrDefault();
+            var differentRecord = _context.Users.Where(u => u.Username == username).SingleOrDefault();
 
             return differentRecord == null;
         }
 
-        private bool UniqueEmail(UpdateUserDto user, string name)
+        private bool UniqueEmail(UpdateUserDto user, string email)
         {
-            var sameRecord = _context.Users.Where(u => u.Id == user.Id && u.Email == user.Email).SingleOrDefault();
+            var sameRecord = _context.Users.Where(u => u.Id == user.Id && u.Email == email).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.Users.Where(u => u.Email == user.Email).SingleOrDefault();
+            var differentRecord = _context.Users.Where(u => u.Email == email).SingleOrDefault();
 
             return differentRecord == null;
         }

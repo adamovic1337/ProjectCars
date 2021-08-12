@@ -23,13 +23,13 @@ namespace ProjectCars.Service.Validation
         }
         private bool UniqueName(UpdateCountryDto country, string name)
         {
-            var sameRecord = _context.Countries.Where(c => c.Id == country.Id && c.Name == country.Name).SingleOrDefault();
+            var sameRecord = _context.Countries.Where(c => c.Id == country.Id && c.Name == name).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.Countries.Where(c => c.Name == country.Name).SingleOrDefault();
+            var differentRecord = _context.Countries.Where(c => c.Name == name).SingleOrDefault();
 
             return differentRecord == null;
         }

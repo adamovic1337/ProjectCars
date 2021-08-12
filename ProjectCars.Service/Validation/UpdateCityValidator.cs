@@ -28,13 +28,13 @@ namespace ProjectCars.Service.Validation
 
         private bool UniqueName(UpdateCityDto city, string name)
         {
-            var sameRecord = _context.Cities.Where(c => c.Id == city.Id && c.Name == city.Name).SingleOrDefault();
+            var sameRecord = _context.Cities.Where(c => c.Id == city.Id && c.Name == name).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.Cities.Where(c => c.Name == city.Name).SingleOrDefault();
+            var differentRecord = _context.Cities.Where(c => c.Name == name).SingleOrDefault();
 
             return differentRecord == null;
         }

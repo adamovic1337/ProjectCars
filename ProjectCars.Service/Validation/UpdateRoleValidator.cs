@@ -24,13 +24,13 @@ namespace ProjectCars.Service.Validation
 
         private bool UniqueName(UpdateRoleDto role, string name)
         {
-            var sameRecord = _context.Roles.Where(r => r.Id == role.Id && r.Name == role.Name).SingleOrDefault();
+            var sameRecord = _context.Roles.Where(r => r.Id == role.Id && r.Name == name).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.Roles.Where(r => r.Name == role.Name).SingleOrDefault();
+            var differentRecord = _context.Roles.Where(r => r.Name == name).SingleOrDefault();
 
             return differentRecord == null;
         }

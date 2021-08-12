@@ -28,13 +28,13 @@ namespace ProjectCars.Service.Validation
 
         private bool UniqueName(UpdateManufacturerDto manufacturer, string name)
         {
-            var sameRecord = _context.Manufacturers.Where(m => m.Id == manufacturer.Id && m.Name == manufacturer.Name).SingleOrDefault();
+            var sameRecord = _context.Manufacturers.Where(m => m.Id == manufacturer.Id && m.Name == name).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.Manufacturers.Where(m => m.Name == manufacturer.Name).SingleOrDefault();
+            var differentRecord = _context.Manufacturers.Where(m => m.Name == name).SingleOrDefault();
 
             return differentRecord == null;
         }

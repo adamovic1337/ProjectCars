@@ -24,13 +24,13 @@ namespace ProjectCars.Service.Validation
 
         private bool UniqueName(UpdateFuelTypeDto fuelType, string name)
         {
-            var sameRecord = _context.FuelTypes.Where(f => f.Id == fuelType.Id && f.Name == fuelType.Name).SingleOrDefault();
+            var sameRecord = _context.FuelTypes.Where(f => f.Id == fuelType.Id && f.Name == name).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.FuelTypes.Where(f => f.Name == fuelType.Name).SingleOrDefault();
+            var differentRecord = _context.FuelTypes.Where(f => f.Name == name).SingleOrDefault();
 
             return differentRecord == null;
         }
