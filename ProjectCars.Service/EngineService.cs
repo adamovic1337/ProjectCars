@@ -83,6 +83,8 @@ namespace ProjectCars.Service
         {
             var engine = _engineRepository.GetOne(engineId).EntityNotFoundCheck();
 
+            engineDto.Id = engineId;
+
             _updateEngineValidator.ValidateAndThrow(engineDto);
             _engineRepository.Update(engine);
             _mapper.Map(engineDto, engine);
@@ -96,6 +98,8 @@ namespace ProjectCars.Service
             var engineDto = _mapper.Map<UpdateEngineDto>(engine);
 
             patchDocument.ApplyTo(engineDto);
+
+            engineDto.Id = engineId;
 
             _updateEngineValidator.ValidateAndThrow(engineDto);
             _engineRepository.Update(engine);
