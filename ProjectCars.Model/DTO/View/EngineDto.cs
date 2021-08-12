@@ -1,6 +1,6 @@
 ﻿namespace ProjectCars.Model.DTO.View
 {
-    public class EngineDto
+    public class EngineDto : BaseViewDTO
     {
         public int Id { get; set; }
         public int CubicCapacity { get; set; }

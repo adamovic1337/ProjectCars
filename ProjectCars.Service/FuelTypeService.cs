@@ -84,6 +84,8 @@ namespace ProjectCars.Service
         {
             var fuelType = _fuelTypeRepository.GetOne(fuelTypeId).EntityNotFoundCheck();
 
+            fuelTypeDto.Id = fuelTypeId;
+
             _updateFuelTypeValidator.ValidateAndThrow(fuelTypeDto);
             _fuelTypeRepository.Update(fuelType);
             _mapper.Map(fuelTypeDto, fuelType);
@@ -97,6 +99,8 @@ namespace ProjectCars.Service
             var fuelTypeDto = _mapper.Map<UpdateFuelTypeDto>(fuelType);
 
             patchDocument.ApplyTo(fuelTypeDto);
+
+            fuelTypeDto.Id = fuelTypeId;
 
             _updateFuelTypeValidator.ValidateAndThrow(fuelTypeDto);
             _fuelTypeRepository.Update(fuelType);

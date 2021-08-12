@@ -2,7 +2,7 @@
 
 namespace ProjectCars.Model.DTO.View
 {
-    public class ServiceRequestDto
+    public class ServiceRequestDto : BaseViewDTO
     {
         public int Id { get; set; }
         public string UserDescription { get; set; }
