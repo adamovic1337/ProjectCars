@@ -34,7 +34,7 @@ namespace ProjectCars.API.Controllers
 
         #region METHODS
 
-        private dynamic CreateLinks(int carServiceId, CarServiceDto carServiceDto)
+        private CarServiceDto CreateLinks(int carServiceId, CarServiceDto carServiceDto)
         {
             var links = new List<LinkDto>
             {
@@ -60,14 +60,9 @@ namespace ProjectCars.API.Controllers
                 )
             };
 
-            var result = new
-            {
-                id = carServiceDto.Id,
-                name = carServiceDto.Name,
-                links
-            };
+            carServiceDto.Links = links;
 
-            return result;
+            return carServiceDto;
         }
 
         private string CreateResourceUri(SearchCarServiceDto search, ResourceUriType type)
@@ -177,7 +172,7 @@ namespace ProjectCars.API.Controllers
             var carService = CreateLinks(carServiceToReturn.Id, carServiceToReturn);
 
             return CreatedAtRoute("GetCarService",
-                                  new { carServiceId = carService.id },
+                                  new { carServiceId = carService.Id },
                                   carService);
         }
 

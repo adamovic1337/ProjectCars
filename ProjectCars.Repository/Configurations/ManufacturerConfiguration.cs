@@ -8,6 +8,7 @@ namespace ProjectCars.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<Manufacturer> builder)
         {
+            builder.HasIndex(m => m.Name).IsUnique();
             builder.Property(m => m.Name).HasMaxLength(100).IsRequired();
 
             builder.HasMany(m => m.Models)

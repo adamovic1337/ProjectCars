@@ -1,6 +1,6 @@
 ﻿namespace ProjectCars.Model.DTO.View
 {
-    public class CountryDto
+    public class CountryDto : BaseViewDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

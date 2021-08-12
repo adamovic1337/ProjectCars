@@ -27,7 +27,7 @@ namespace ProjectCars.Service.Validation
                 .MaximumLength(30)
                 .WithMessage("Maximum length is 30 characters")
                 .Must(UniqueName)
-                .WithMessage("Name must be unique");
+                .WithMessage("Username must be unique");
 
             RuleFor(u => u.Password)
                 .NotEmpty()

@@ -34,7 +34,7 @@ namespace ProjectCars.API.Controllers
 
         #region METHODS
         
-        private dynamic CreateLinks(int statusId, StatusDto statusDto)
+        private StatusDto CreateLinks(int statusId, StatusDto statusDto)
         {
             var links = new List<LinkDto>
             {
@@ -60,14 +60,9 @@ namespace ProjectCars.API.Controllers
                 )
             };
 
-            var result = new
-            {
-                id = statusDto.Id,
-                name = statusDto.Name,
-                links
-            };
+            statusDto.Links = links;
 
-            return result;
+            return statusDto;
         }
 
         private string CreateResourceUri(SearchStatusDto search, ResourceUriType type)
@@ -177,7 +172,7 @@ namespace ProjectCars.API.Controllers
             var status = CreateLinks(statusToReturn.Id, statusToReturn);
 
             return CreatedAtRoute("GetStatus",
-                                  new { statusId = status.id },
+                                  new { statusId = status.Id },
                                   status);
         }
 

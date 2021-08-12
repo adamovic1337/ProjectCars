@@ -34,7 +34,7 @@ namespace ProjectCars.API.Controllers
 
         #region METHODS
 
-        private dynamic CreateLinks(int countryId, CountryDto countryDto)
+        private CountryDto CreateLinks(int countryId, CountryDto countryDto)
         {
             var links = new List<LinkDto>
             {
@@ -60,14 +60,9 @@ namespace ProjectCars.API.Controllers
                 )
             };
 
-            var result = new
-            {
-                id = countryDto.Id,
-                name = countryDto.Name,
-                links
-            };
+            countryDto.Links = links;
 
-            return result;
+            return countryDto;
         }
 
         private string CreateResourceUri(SearchCountryDto search, ResourceUriType type)
@@ -177,7 +172,7 @@ namespace ProjectCars.API.Controllers
             var country = CreateLinks(countryToReturn.Id, countryToReturn);
 
             return CreatedAtRoute("GetCountry",
-                                  new { countryId = country.id },
+                                  new { countryId = country.Id },
                                   country);
         }
 

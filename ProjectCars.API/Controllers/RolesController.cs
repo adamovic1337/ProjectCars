@@ -34,7 +34,7 @@ namespace ProjectCars.API.Controllers
 
         #region METHODS
 
-        private dynamic CreateLinks(int roleId, RoleDto roleDto)
+        private RoleDto CreateLinks(int roleId, RoleDto roleDto)
         {
             var links = new List<LinkDto>
             {
@@ -60,14 +60,9 @@ namespace ProjectCars.API.Controllers
                 )
             };
 
-            var result = new
-            {
-                id = roleDto.Id,
-                name = roleDto.Name,
-                links
-            };
+            roleDto.Links = links;
 
-            return result;
+            return roleDto;
         }
 
         private string CreateResourceUri(SearchRoleDto search, ResourceUriType type)
@@ -177,7 +172,7 @@ namespace ProjectCars.API.Controllers
             var role = CreateLinks(roleToReturn.Id, roleToReturn);
 
             return CreatedAtRoute("GetRole",
-                                  new { roleId = role.id },
+                                  new { roleId = role.Id },
                                   role);
         }
 

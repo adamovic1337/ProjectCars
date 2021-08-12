@@ -1,6 +1,6 @@
 ﻿namespace ProjectCars.Model.DTO.View
 {
-    public class CityDto
+    public class CityDto : BaseViewDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

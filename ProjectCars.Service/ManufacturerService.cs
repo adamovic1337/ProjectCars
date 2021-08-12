@@ -85,6 +85,8 @@ namespace ProjectCars.Service
         {
             var manufacturer = _manufacturerRepository.GetOne(manufacturerId).EntityNotFoundCheck();
 
+            manufacturerDto.Id = manufacturerId;
+
             _updateManufacturerValidator.ValidateAndThrow(manufacturerDto);
             _manufacturerRepository.Update(manufacturer);
             _mapper.Map(manufacturerDto, manufacturer);
@@ -98,6 +100,8 @@ namespace ProjectCars.Service
             var manufacturerDto = _mapper.Map<UpdateManufacturerDto>(manufacturer);
 
             patchDocument.ApplyTo(manufacturerDto);
+
+            manufacturerDto.Id = manufacturerId;
 
             _updateManufacturerValidator.ValidateAndThrow(manufacturerDto);
             _manufacturerRepository.Update(manufacturer);

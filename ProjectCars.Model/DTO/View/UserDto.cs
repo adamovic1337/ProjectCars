@@ -1,6 +1,6 @@
 ﻿namespace ProjectCars.Model.DTO.View
 {
-    public class UserDto
+    public class UserDto : BaseViewDTO
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
