@@ -17,7 +17,9 @@ namespace ProjectCars.Service.Validation
                 .NotEmpty()
                 .WithMessage("Email is required parameter")
                 .MaximumLength(254)
-                .WithMessage("Maximum length is 254 characters");
+                .WithMessage("Maximum length is 254 characters")
+                .Must(UniqueEmail)
+                .WithMessage("Email must be unique");
 
             RuleFor(u => u.Username)
                 .NotEmpty()
@@ -54,7 +56,20 @@ namespace ProjectCars.Service.Validation
             {
                 return true;
             }
-            var differentRecord = _context.Roles.Where(u => u.Name == user.Username).SingleOrDefault();
+            var differentRecord = _context.Users.Where(u => u.Username == user.Username).SingleOrDefault();
+
+            return differentRecord == null;
+        }
+
+        private bool UniqueEmail(UpdateUserDto user, string name)
+        {
+            var sameRecord = _context.Users.Where(u => u.Id == user.Id && u.Email == user.Email).SingleOrDefault();
+
+            if (sameRecord != null)
+            {
+                return true;
+            }
+            var differentRecord = _context.Users.Where(u => u.Email == user.Email).SingleOrDefault();
 
             return differentRecord == null;
         }

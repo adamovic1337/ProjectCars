@@ -77,7 +77,7 @@ namespace ProjectCars.Repository.Helpers
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
                 .RuleFor(u => u.Email, (f) => f.Internet.Email())
                 .RuleFor(u => u.Username, f => f.Internet.UserName())
-                .RuleFor(u => u.Password, f => f.Internet.Password())
+                .RuleFor(u => u.Password, f => "password123")
                 .RuleFor(u => u.CityId, f => f.PickRandom(citiesIds))
                 .RuleFor(u => u.RoleId, f => f.PickRandom(1, 2, 3));
 

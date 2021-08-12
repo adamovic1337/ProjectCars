@@ -149,7 +149,7 @@ namespace ProjectCars.API.Controllers
 
         // GET api/countries/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet("{countryId}", Name = "GetRole")]
+        [HttpGet("{countryId}", Name = "GetCountry")]
         public IActionResult Get(int countryId, [FromHeader(Name = "Accept")] string mediaType)
         {
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
@@ -183,7 +183,7 @@ namespace ProjectCars.API.Controllers
 
         // PUT api/countries/5
         [Consumes("application/json", "application/xml")]
-        [HttpPut("{countryId}", Name = "UpdateRolePut")]
+        [HttpPut("{countryId}", Name = "UpdateCountryPut")]
         public IActionResult Put(int countryId, [FromBody] UpdateCountryDto countryDto)
         {
             _countryService.UpdateCountryPut(countryId, countryDto);
@@ -192,7 +192,7 @@ namespace ProjectCars.API.Controllers
 
         // PATCH api/countries/5
         [Consumes("application/json-patch+json")]
-        [HttpPatch("{countryId}", Name = "UpdateRolePatch")]
+        [HttpPatch("{countryId}", Name = "UpdateCountryPatch")]
         public IActionResult Patch(int countryId, [FromBody] JsonPatchDocument<UpdateCountryDto> patchDocument)
         {
             _countryService.UpdateCountryPatch(countryId, patchDocument);
@@ -200,7 +200,7 @@ namespace ProjectCars.API.Controllers
         }
 
         // DELETE api/countries/5
-        [HttpDelete("{countryId}", Name = "DeleteRole")]
+        [HttpDelete("{countryId}", Name = "DeleteCountry")]
         public IActionResult Delete(int countryId)
         {
             _countryService.DeleteCountry(countryId);

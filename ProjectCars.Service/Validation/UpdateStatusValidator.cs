@@ -30,7 +30,7 @@ namespace ProjectCars.Service.Validation
             {
                 return true;
             }
-            var differentRecord = _context.Countries.Where(s => s.Name == status.Name).SingleOrDefault();
+            var differentRecord = _context.Status.Where(s => s.Name == status.Name).SingleOrDefault();
 
             return differentRecord == null;
         }

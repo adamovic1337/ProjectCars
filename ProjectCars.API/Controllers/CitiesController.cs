@@ -176,7 +176,7 @@ namespace ProjectCars.API.Controllers
             var cityToReturn = _cityService.CreateCity(cityDto);
             var city = CreateLinks(cityToReturn.Id, cityToReturn);
 
-            return CreatedAtRoute("GetRole",
+            return CreatedAtRoute("GetCity",
                                   new { cityId = city.id },
                                   city);
         }
@@ -199,7 +199,7 @@ namespace ProjectCars.API.Controllers
             return NoContent();
         }
 
-        // DELETE api/roles/5
+        // DELETE api/cities/5
         [HttpDelete("{cityId}", Name = "DeleteCity")]
         public IActionResult Delete(int cityId)
         {

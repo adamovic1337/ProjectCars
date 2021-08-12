@@ -132,7 +132,7 @@ namespace ProjectCars.API.Controllers
         #endregion METHODS
 
         // GET: api/roles
-        [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
+        //[Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet(Name = "GetRoles")]
         [HttpHead]
         public IActionResult Get([FromQuery] SearchRoleDto searchRole, [FromHeader(Name = "Accept")] string mediaType)

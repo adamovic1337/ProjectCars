@@ -48,7 +48,7 @@ namespace ProjectCars.Service.Validation
             {
                 return true;
             }
-            var differentRecord = _context.Roles.Where(cs => cs.Name == carService.Name).SingleOrDefault();
+            var differentRecord = _context.CarServices.Where(cs => cs.Name == carService.Name).SingleOrDefault();
 
             return differentRecord == null;
         }
