@@ -162,14 +162,16 @@ namespace ProjectCars.Repository.Helpers
 
             var engine = new Faker<Engine>()
                 .RuleFor(e => e.Id, _ => engineId++)
+                .RuleFor(e => e.Name, f => f.Lorem.Word())
                 .RuleFor(e => e.CubicCapacity, f => f.Random.Int(999, 3000))
                 .RuleFor(e => e.Power, f => f.Random.Int(100, 700))
                 .RuleFor(e => e.FuelTypeId, f => f.PickRandom(1, 2, 3, 4));
 
             var generateEngines = engine.Generate(100);
-            var enginesIds = generateEngines.Select(c => c.Id).ToList();
+            var uniqueEngines = generateEngines.DistinctBy(e => e.Name).ToList();
+            var enginesIds = uniqueEngines.Select(c => c.Id).ToList();
 
-            modelBuilder.Entity<Engine>().HasData(generateEngines);
+            modelBuilder.Entity<Engine>().HasData(uniqueEngines);
 
             #endregion ENGINES
 

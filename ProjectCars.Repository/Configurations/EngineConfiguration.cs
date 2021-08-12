@@ -8,6 +8,8 @@ namespace ProjectCars.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<Engine> builder)
         {
+            builder.HasIndex(e => e.Name).IsUnique();
+            builder.Property(e => e.Name).HasMaxLength(30).IsRequired();
             builder.Property(e => e.CubicCapacity).HasMaxLength(4).IsRequired();
             builder.Property(e => e.Power).HasMaxLength(4).IsRequired();
 
