@@ -49,18 +49,21 @@ namespace ProjectCars.Service
             var orderBy = searchServiceRequest.OrderBy.Split(new[] { '-' })[0];
             var direction = searchServiceRequest.OrderBy?.Split(new[] { '-' })[1];
 
-            var serviceRequests = _serviceRequestRepository.GetAll(searchServiceRequest.PageNumber, searchServiceRequest.PageSize,
-                sr => sr.RepairEnd >= searchServiceRequest.DateRepairedFrom && sr.RepairEnd <= searchServiceRequest.DateRepairedTo,
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var serviceRequests = _serviceRequestRepository.GetAll(searchServiceRequest.PageNumber, 
+                                                                   searchServiceRequest.PageSize,
+                                                                   sr => sr.Status.Name.Contains(Strings.Trim(searchServiceRequest.Status)),
+                                                                   q => q.OrderBy($"{orderBy} {direction}"
+                                                                   ));
 
             return _mapper.Map<IEnumerable<ServiceRequestDto>>(serviceRequests);
         }
 
         public PagedList<ServiceRequest> PagedListServiceRequests(SearchServiceRequestDto searchServiceRequest)
         {
-            return _serviceRequestRepository.GetAll(searchServiceRequest.PageNumber, 
-                searchServiceRequest.PageSize, 
-                sr => sr.RepairEnd >= searchServiceRequest.DateRepairedFrom && sr.RepairEnd <= searchServiceRequest.DateRepairedTo
+            return 
+                _serviceRequestRepository.GetAll(searchServiceRequest.PageNumber,
+                searchServiceRequest.PageSize,
+                sr => sr.Status.Name.Contains(Strings.Trim(searchServiceRequest.Status))
                 );
         }
 
