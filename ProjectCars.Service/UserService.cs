@@ -49,17 +49,19 @@ namespace ProjectCars.Service
             var orderBy = searchUser.OrderBy.Split(new[] { '-' })[0];
             var direction = searchUser.OrderBy?.Split(new[] { '-' })[1];
 
-            var users = _userRepository.GetAll(searchUser.PageNumber, searchUser.PageSize,
-                u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)),
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var users = _userRepository.GetAll(searchUser.PageNumber, 
+                                               searchUser.PageSize,
+                                               u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)),
+                                               q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }
 
         public PagedList<User> PagedListUsers(SearchUserDto searchUser)
         {
-            return _userRepository.GetAll(searchUser.PageNumber, searchUser.PageSize,
-                u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)));
+            return _userRepository.GetAll(searchUser.PageNumber, 
+                                          searchUser.PageSize,
+                                          u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)));
         }
 
         public UserDto GetUserById(int userId)

@@ -49,16 +49,19 @@ namespace ProjectCars.Service
             var orderBy = searchFuelType.OrderBy.Split(new[] { '-' })[0];
             var direction = searchFuelType.OrderBy?.Split(new[] { '-' })[1];
 
-            var fuelTypes = _fuelTypeRepository.GetAll(searchFuelType.PageNumber, searchFuelType.PageSize,
-                f => f.Name.Contains(Strings.Trim(searchFuelType.FuelTypeName)),
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var fuelTypes = _fuelTypeRepository.GetAll(searchFuelType.PageNumber, 
+                                                       searchFuelType.PageSize,
+                                                       f => f.Name.Contains(Strings.Trim(searchFuelType.FuelTypeName)),
+                                                       q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<FuelTypeDto>>(fuelTypes);
         }
 
         public PagedList<FuelType> PagedListFuelTypes(SearchFuelTypeDto searchFuelType)
         {
-            return _fuelTypeRepository.GetAll(searchFuelType.PageNumber, searchFuelType.PageSize, r => r.Name.Contains(Strings.Trim(searchFuelType.FuelTypeName)));
+            return _fuelTypeRepository.GetAll(searchFuelType.PageNumber, 
+                                              searchFuelType.PageSize, 
+                                              r => r.Name.Contains(Strings.Trim(searchFuelType.FuelTypeName)));
         }
 
         public FuelTypeDto GetFuelTypeById(int fuelTypeId)

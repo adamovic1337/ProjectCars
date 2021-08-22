@@ -49,16 +49,19 @@ namespace ProjectCars.Service
             var orderBy = searchStatus.OrderBy.Split(new[] { '-' })[0];
             var direction = searchStatus.OrderBy?.Split(new[] { '-' })[1];
 
-            var status = _statusRepository.GetAll(searchStatus.PageNumber, searchStatus.PageSize,
-                s => s.Name.Contains(Strings.Trim(searchStatus.StatusName)),
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var status = _statusRepository.GetAll(searchStatus.PageNumber, 
+                                                  searchStatus.PageSize,
+                                                  s => s.Name.Contains(Strings.Trim(searchStatus.StatusName)),
+                                                  q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<StatusDto>>(status);
         }
 
         public PagedList<Status> PagedListStatus(SearchStatusDto searchStatus)
         {
-            return _statusRepository.GetAll(searchStatus.PageNumber, searchStatus.PageSize, r => r.Name.Contains(Strings.Trim(searchStatus.StatusName)));
+            return _statusRepository.GetAll(searchStatus.PageNumber, 
+                                            searchStatus.PageSize, 
+                                            r => r.Name.Contains(Strings.Trim(searchStatus.StatusName)));
         }
 
         public StatusDto GetStatusById(int statusId)

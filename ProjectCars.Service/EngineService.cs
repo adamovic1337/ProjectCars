@@ -48,16 +48,19 @@ namespace ProjectCars.Service
             var orderBy = searchEngine.OrderBy.Split(new[] { '-' })[0];
             var direction = searchEngine.OrderBy?.Split(new[] { '-' })[1];
 
-            var engines = _engineRepository.GetAll(searchEngine.PageNumber, searchEngine.PageSize,
-                e => e.CubicCapacity <= searchEngine.CubicCapacityMax && e.CubicCapacity >= searchEngine.CubicCapacityMin,
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var engines = _engineRepository.GetAll(searchEngine.PageNumber, 
+                                                   searchEngine.PageSize,
+                                                   e => e.CubicCapacity <= searchEngine.CubicCapacityMax && e.CubicCapacity >= searchEngine.CubicCapacityMin,
+                                                   q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<EngineDto>>(engines);
         }
 
         public PagedList<Engine> PagedListEngines(SearchEngineDto searchEngine)
         {
-            return _engineRepository.GetAll(searchEngine.PageNumber, searchEngine.PageSize, e => e.CubicCapacity <= searchEngine.CubicCapacityMax && e.CubicCapacity >= searchEngine.CubicCapacityMin);
+            return _engineRepository.GetAll(searchEngine.PageNumber, 
+                                            searchEngine.PageSize, 
+                                            e => e.CubicCapacity <= searchEngine.CubicCapacityMax && e.CubicCapacity >= searchEngine.CubicCapacityMin);
         }
 
         public EngineDto GetEngineById(int engineId)

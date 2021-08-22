@@ -49,16 +49,19 @@ namespace ProjectCars.Service
             var orderBy = searchCountry.OrderBy.Split(new[] { '-' })[0];
             var direction = searchCountry.OrderBy?.Split(new[] { '-' })[1];
 
-            var countries = _countryRepository.GetAll(searchCountry.PageNumber, searchCountry.PageSize,
-                c => c.Name.Contains(Strings.Trim(searchCountry.CountryName)),
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var countries = _countryRepository.GetAll(searchCountry.PageNumber, 
+                                                      searchCountry.PageSize,
+                                                      c => c.Name.Contains(Strings.Trim(searchCountry.CountryName)),
+                                                      q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<CountryDto>>(countries);
         }
 
         public PagedList<Country> PagedListCountries(SearchCountryDto searchCountry)
         {
-            return _countryRepository.GetAll(searchCountry.PageNumber, searchCountry.PageSize, r => r.Name.Contains(Strings.Trim(searchCountry.CountryName)));
+            return _countryRepository.GetAll(searchCountry.PageNumber, 
+                                             searchCountry.PageSize, 
+                                             r => r.Name.Contains(Strings.Trim(searchCountry.CountryName)));
         }
 
         public CountryDto GetCountryById(int countryId)

@@ -49,16 +49,19 @@ namespace ProjectCars.Service
             var orderBy = searchManufacturer.OrderBy.Split(new[] { '-' })[0];
             var direction = searchManufacturer.OrderBy?.Split(new[] { '-' })[1];
 
-            var manufacturers = _manufacturerRepository.GetAll(searchManufacturer.PageNumber, searchManufacturer.PageSize,
-                r => r.Name.Contains(Strings.Trim(searchManufacturer.ManufacturerName)),
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var manufacturers = _manufacturerRepository.GetAll(searchManufacturer.PageNumber, 
+                                                               searchManufacturer.PageSize,
+                                                               r => r.Name.Contains(Strings.Trim(searchManufacturer.ManufacturerName)),
+                                                               q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<ManufacturerDto>>(manufacturers);
         }
 
         public PagedList<Manufacturer> PagedListManufacturers(SearchManufacturerDto searchManufacturer)
         {
-            return _manufacturerRepository.GetAll(searchManufacturer.PageNumber, searchManufacturer.PageSize, r => r.Name.Contains(Strings.Trim(searchManufacturer.ManufacturerName)));
+            return _manufacturerRepository.GetAll(searchManufacturer.PageNumber, 
+                                                  searchManufacturer.PageSize, 
+                                                  r => r.Name.Contains(Strings.Trim(searchManufacturer.ManufacturerName)));
         }
 
         public ManufacturerDto GetManufacturerById(int manufacturerId)

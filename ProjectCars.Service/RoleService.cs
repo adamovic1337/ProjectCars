@@ -49,16 +49,19 @@ namespace ProjectCars.Service
             var orderBy = searchRole.OrderBy.Split(new[] { '-' })[0];
             var direction = searchRole.OrderBy?.Split(new[] { '-' })[1];
 
-            var roles = _roleRepository.GetAll(searchRole.PageNumber, searchRole.PageSize,
-                r => r.Name.Contains(Strings.Trim(searchRole.RoleName)),
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var roles = _roleRepository.GetAll(searchRole.PageNumber, 
+                                               searchRole.PageSize,
+                                               r => r.Name.Contains(Strings.Trim(searchRole.RoleName)),
+                                               q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<RoleDto>>(roles);
         }
 
         public PagedList<Role> PagedListRoles(SearchRoleDto searchRole)
         {
-            return _roleRepository.GetAll(searchRole.PageNumber, searchRole.PageSize, r => r.Name.Contains(Strings.Trim(searchRole.RoleName)));
+            return _roleRepository.GetAll(searchRole.PageNumber, 
+                                          searchRole.PageSize, 
+                                          r => r.Name.Contains(Strings.Trim(searchRole.RoleName)));
         }
 
         public RoleDto GetRoleById(int roleId)

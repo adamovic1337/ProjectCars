@@ -49,16 +49,19 @@ namespace ProjectCars.Service
             var orderBy = searchCity.OrderBy.Split(new[] { '-' })[0];
             var direction = searchCity.OrderBy?.Split(new[] { '-' })[1];
 
-            var cities = _cityRepository.GetAll(searchCity.PageNumber, searchCity.PageSize,
-                c => c.Name.Contains(Strings.Trim(searchCity.CityName)),
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var cities = _cityRepository.GetAll(searchCity.PageNumber, 
+                                                searchCity.PageSize,
+                                                c => c.Name.Contains(Strings.Trim(searchCity.CityName)),
+                                                q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<CityDto>>(cities);
         }
 
         public PagedList<City> PagedListCities(SearchCityDto searchCity)
         {
-            return _cityRepository.GetAll(searchCity.PageNumber, searchCity.PageSize, r => r.Name.Contains(Strings.Trim(searchCity.CityName)));
+            return _cityRepository.GetAll(searchCity.PageNumber, 
+                                          searchCity.PageSize, 
+                                          r => r.Name.Contains(Strings.Trim(searchCity.CityName)));
         }
 
         public CityDto GetCityById(int cityId)

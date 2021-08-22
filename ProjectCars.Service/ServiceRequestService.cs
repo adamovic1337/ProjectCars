@@ -62,8 +62,8 @@ namespace ProjectCars.Service
         {
             return 
                 _serviceRequestRepository.GetAll(searchServiceRequest.PageNumber,
-                searchServiceRequest.PageSize,
-                sr => sr.Status.Name.Contains(Strings.Trim(searchServiceRequest.Status))
+                                                 searchServiceRequest.PageSize,
+                                                 sr => sr.Status.Name.Contains(Strings.Trim(searchServiceRequest.Status))
                 );
         }
 

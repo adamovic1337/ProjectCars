@@ -49,16 +49,19 @@ namespace ProjectCars.Service
             var orderBy = searchCarService.OrderBy.Split(new[] { '-' })[0];
             var direction = searchCarService.OrderBy?.Split(new[] { '-' })[1];
 
-            var carServices = _carServiceRepository.GetAll(searchCarService.PageNumber, searchCarService.PageSize,
-                cs => cs.Name.Contains(Strings.Trim(searchCarService.CarServiceName)),
-                q => q.OrderBy($"{orderBy} {direction}"));
+            var carServices = _carServiceRepository.GetAll(searchCarService.PageNumber, 
+                                                           searchCarService.PageSize,
+                                                           cs => cs.Name.Contains(Strings.Trim(searchCarService.CarServiceName)),
+                                                           q => q.OrderBy($"{orderBy} {direction}"));
 
             return _mapper.Map<IEnumerable<CarServiceDto>>(carServices);
         }
 
         public PagedList<CarService> PagedListCarServices(SearchCarServiceDto searchCarService)
         {
-            return _carServiceRepository.GetAll(searchCarService.PageNumber, searchCarService.PageSize, r => r.Name.Contains(Strings.Trim(searchCarService.CarServiceName)));
+            return _carServiceRepository.GetAll(searchCarService.PageNumber, 
+                                                searchCarService.PageSize, 
+                                                r => r.Name.Contains(Strings.Trim(searchCarService.CarServiceName)));
         }
 
         public CarServiceDto GetCarServiceById(int carServiceId)
