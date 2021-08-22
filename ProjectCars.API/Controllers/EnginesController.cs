@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ProjectCars.API.Controllers
 {
-    [Route("api/engine")]
+    [Route("api/engines")]
     [ApiController]
     public class EnginesController : ControllerBase
     {

@@ -2,8 +2,8 @@
 {
     public class SearchEngineDto : BaseSearch
     {
-        public int CubicCapacityMin { get; set; }
-        public int CubicCapacityMax { get; set; }
+        public int CubicCapacityMin { get; set; } = 600;
+        public int CubicCapacityMax { get; set; } = 9999;
         public string OrderBy { get; set; } = "cubicCapacity-asc";
     }
 }
