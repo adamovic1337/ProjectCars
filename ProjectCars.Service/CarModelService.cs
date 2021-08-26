@@ -14,7 +14,6 @@ using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -41,10 +40,10 @@ namespace ProjectCars.Service
             _updateCarModelValidator = updatecarModelValidator;
         }
 
-        #endregion
+        #endregion CONSTRUCTORS
 
         #region METHODS
-        
+
         public List<CarModelDto> GetCarModels(SearchCarModelDto searchCarModel)
         {
             return _carModelRepository.GetAll(searchCarModel);
@@ -52,7 +51,7 @@ namespace ProjectCars.Service
 
         public PaginationData<CarModel> PaginationData(SearchCarModelDto searchCarModel)
         {
-            return _carModelRepository.GetPaginationData(searchCarModel, 
+            return _carModelRepository.GetPaginationData(searchCarModel,
                                                          c => c.Name.Contains(Strings.Trim(searchCarModel.CarModelName)));
         }
 
@@ -109,6 +108,6 @@ namespace ProjectCars.Service
             _unitOfWork.Commit();
         }
 
-        #endregion
+        #endregion METHODS
     }
 }
