@@ -8,6 +8,7 @@ using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
+using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
@@ -22,7 +23,7 @@ namespace ProjectCars.Service
         #region FIELDS
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<Manufacturer> _manufacturerRepository;
+        private readonly IManufacturerRepository _manufacturerRepository;
         private readonly IMapper _mapper;
         private readonly CreateManufacturerValidator _createManufacturerValidator;
         private readonly UpdateManufacturerValidator _updateManufacturerValidator;
@@ -31,7 +32,7 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public ManufacturerService(IUnitOfWork unitOfWork, IGenericRepository<Manufacturer> manufacturerRepository, IMapper mapper, CreateManufacturerValidator createManufacturerValidator, UpdateManufacturerValidator updateManufacturerValidator)
+        public ManufacturerService(IUnitOfWork unitOfWork, IManufacturerRepository manufacturerRepository, IMapper mapper, CreateManufacturerValidator createManufacturerValidator, UpdateManufacturerValidator updateManufacturerValidator)
         {
             _unitOfWork = unitOfWork;
             _manufacturerRepository = manufacturerRepository;
@@ -44,31 +45,20 @@ namespace ProjectCars.Service
 
         #region METHODS
 
-        public IEnumerable<ManufacturerDto> GetManufacturers(SearchManufacturerDto searchManufacturer)
+        public List<ManufacturerDto> GetManufacturers(SearchManufacturerDto searchManufacturer)
         {
-            var orderBy = searchManufacturer.OrderBy.Split(new[] { '-' })[0];
-            var direction = searchManufacturer.OrderBy?.Split(new[] { '-' })[1];
-
-            var manufacturers = _manufacturerRepository.GetAll(searchManufacturer.PageNumber, 
-                                                               searchManufacturer.PageSize,
-                                                               r => r.Name.Contains(Strings.Trim(searchManufacturer.ManufacturerName)),
-                                                               q => q.OrderBy($"{orderBy} {direction}"));
-
-            return _mapper.Map<IEnumerable<ManufacturerDto>>(manufacturers);
+            return _manufacturerRepository.GetAll(searchManufacturer);
         }
 
-        public PagedList<Manufacturer> PagedListManufacturers(SearchManufacturerDto searchManufacturer)
+        public PaginationData<Manufacturer> PaginationData(SearchManufacturerDto searchManufacturer)
         {
-            return _manufacturerRepository.GetAll(searchManufacturer.PageNumber, 
-                                                  searchManufacturer.PageSize, 
-                                                  r => r.Name.Contains(Strings.Trim(searchManufacturer.ManufacturerName)));
+            return _manufacturerRepository.GetPaginationData(searchManufacturer, 
+                                                             r => r.Name.Contains(Strings.Trim(searchManufacturer.ManufacturerName)));
         }
 
         public ManufacturerDto GetManufacturerById(int manufacturerId)
         {
-            var manufacturer = _manufacturerRepository.GetOne(manufacturerId).EntityNotFoundCheck();
-
-            return _mapper.Map<ManufacturerDto>(manufacturer);
+            return _manufacturerRepository.GetOne(manufacturerId).EntityNotFoundCheck();
         }
 
         public ManufacturerDto CreateManufacturer(CreateManufacturerDto manufacturerDto)
@@ -86,7 +76,7 @@ namespace ProjectCars.Service
 
         public void UpdateManufacturerPut(int manufacturerId, UpdateManufacturerDto manufacturerDto)
         {
-            var manufacturer = _manufacturerRepository.GetOne(manufacturerId).EntityNotFoundCheck();
+            var manufacturer = _manufacturerRepository.GetForUpdate(manufacturerId).EntityNotFoundCheck();
 
             manufacturerDto.Id = manufacturerId;
 
@@ -98,7 +88,7 @@ namespace ProjectCars.Service
 
         public void UpdateManufacturerPatch(int manufacturerId, JsonPatchDocument<UpdateManufacturerDto> patchDocument)
         {
-            var manufacturer = _manufacturerRepository.GetOne(manufacturerId).EntityNotFoundCheck();
+            var manufacturer = _manufacturerRepository.GetForUpdate(manufacturerId).EntityNotFoundCheck();
 
             var manufacturerDto = _mapper.Map<UpdateManufacturerDto>(manufacturer);
 

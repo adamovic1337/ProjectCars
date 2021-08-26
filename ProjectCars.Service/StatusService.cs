@@ -8,6 +8,7 @@ using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
+using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
@@ -22,7 +23,7 @@ namespace ProjectCars.Service
         #region FIELDS
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<Status> _statusRepository;
+        private readonly IStatusRepository _statusRepository;
         private readonly IMapper _mapper;
         private readonly CreateStatusValidator _createStatusValidator;
         private readonly UpdateStatusValidator _updateStatusValidator;
@@ -31,7 +32,7 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public StatusService(IUnitOfWork unitOfWork, IGenericRepository<Status> statusRepository, IMapper mapper, CreateStatusValidator createStatusValidator, UpdateStatusValidator updateStatusValidator)
+        public StatusService(IUnitOfWork unitOfWork, IStatusRepository statusRepository, IMapper mapper, CreateStatusValidator createStatusValidator, UpdateStatusValidator updateStatusValidator)
         {
             _unitOfWork = unitOfWork;
             _statusRepository = statusRepository;
@@ -44,31 +45,20 @@ namespace ProjectCars.Service
 
         #region METHODS
 
-        public IEnumerable<StatusDto> GetStatus(SearchStatusDto searchStatus)
+        public List<StatusDto> GetStatus(SearchStatusDto searchStatus)
         {
-            var orderBy = searchStatus.OrderBy.Split(new[] { '-' })[0];
-            var direction = searchStatus.OrderBy?.Split(new[] { '-' })[1];
-
-            var status = _statusRepository.GetAll(searchStatus.PageNumber, 
-                                                  searchStatus.PageSize,
-                                                  s => s.Name.Contains(Strings.Trim(searchStatus.StatusName)),
-                                                  q => q.OrderBy($"{orderBy} {direction}"));
-
-            return _mapper.Map<IEnumerable<StatusDto>>(status);
+            return _statusRepository.GetAll(searchStatus);
         }
 
-        public PagedList<Status> PagedListStatus(SearchStatusDto searchStatus)
+        public PaginationData<Status> PaginationData(SearchStatusDto searchStatus)
         {
-            return _statusRepository.GetAll(searchStatus.PageNumber, 
-                                            searchStatus.PageSize, 
-                                            r => r.Name.Contains(Strings.Trim(searchStatus.StatusName)));
+            return _statusRepository.GetPaginationData(searchStatus,
+                                                       r => r.Name.Contains(Strings.Trim(searchStatus.StatusName)));
         }
 
         public StatusDto GetStatusById(int statusId)
         {
-            var status = _statusRepository.GetOne(statusId).EntityNotFoundCheck();
-
-            return _mapper.Map<StatusDto>(status);
+            return _statusRepository.GetOne(statusId).EntityNotFoundCheck();
         }
 
         public StatusDto CreateStatus(CreateStatusDto statusDto)
@@ -85,7 +75,7 @@ namespace ProjectCars.Service
 
         public void UpdateStatusPut(int statusId, UpdateStatusDto statusDto)
         {
-            var status = _statusRepository.GetOne(statusId).EntityNotFoundCheck();
+            var status = _statusRepository.GetForUpdate(statusId).EntityNotFoundCheck();
 
             statusDto.Id = statusId;
 
@@ -97,7 +87,7 @@ namespace ProjectCars.Service
 
         public void UpdateStatusPatch(int statusId, JsonPatchDocument<UpdateStatusDto> patchDocument)
         {
-            var status = _statusRepository.GetOne(statusId).EntityNotFoundCheck();
+            var status = _statusRepository.GetForUpdate(statusId).EntityNotFoundCheck();
 
             var statusDto = _mapper.Map<UpdateStatusDto>(status);
 

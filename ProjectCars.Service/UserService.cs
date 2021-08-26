@@ -8,12 +8,12 @@ using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
+using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -22,7 +22,7 @@ namespace ProjectCars.Service
         #region FIELDS
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly CreateUserValidator _createUserValidator;
         private readonly UpdateUserValidator _updateUserValidator;
@@ -31,7 +31,7 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public UserService(IUnitOfWork unitOfWork, IGenericRepository<User> userRepository, IMapper mapper, CreateUserValidator createUserValidator, UpdateUserValidator updateUserValidator)
+        public UserService(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper, CreateUserValidator createUserValidator, UpdateUserValidator updateUserValidator)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
@@ -44,31 +44,20 @@ namespace ProjectCars.Service
 
         #region METHODS
 
-        public IEnumerable<UserDto> GetUsers(SearchUserDto searchUser)
+        public List<UserDto> GetUsers(SearchUserDto searchUser)
         {
-            var orderBy = searchUser.OrderBy.Split(new[] { '-' })[0];
-            var direction = searchUser.OrderBy?.Split(new[] { '-' })[1];
-
-            var users = _userRepository.GetAll(searchUser.PageNumber, 
-                                               searchUser.PageSize,
-                                               u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)),
-                                               q => q.OrderBy($"{orderBy} {direction}"));
-
-            return _mapper.Map<IEnumerable<UserDto>>(users);
+            return _userRepository.GetAll(searchUser);
         }
 
-        public PagedList<User> PagedListUsers(SearchUserDto searchUser)
+        public PaginationData<User> PaginationData(SearchUserDto searchUser)
         {
-            return _userRepository.GetAll(searchUser.PageNumber, 
-                                          searchUser.PageSize,
-                                          u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)));
+            return _userRepository.GetPaginationData(searchUser,
+                                                      u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)));
         }
 
         public UserDto GetUserById(int userId)
         {
-            var user = _userRepository.GetOne(userId).EntityNotFoundCheck();
-
-            return _mapper.Map<UserDto>(user);
+            return _userRepository.GetOne(userId).EntityNotFoundCheck();
         }
 
         public UserDto CreateUser(CreateUserDto userDto)
@@ -85,7 +74,7 @@ namespace ProjectCars.Service
 
         public void UpdateUserPut(int userId, UpdateUserDto userDto)
         {
-            var user = _userRepository.GetOne(userId).EntityNotFoundCheck();
+            var user = _userRepository.GetForUpdate(userId).EntityNotFoundCheck();
 
             userDto.Id = userId;
 
@@ -97,7 +86,7 @@ namespace ProjectCars.Service
 
         public void UpdateUserPatch(int userId, JsonPatchDocument<UpdateUserDto> patchDocument)
         {
-            var user = _userRepository.GetOne(userId).EntityNotFoundCheck();
+            var user = _userRepository.GetForUpdate(userId).EntityNotFoundCheck();
 
             var userDto = _mapper.Map<UpdateUserDto>(user);
 
@@ -113,7 +102,7 @@ namespace ProjectCars.Service
 
         public void DeleteUser(int userId)
         {
-            _userRepository.GetOne(userId).EntityNotFoundCheck();
+            _ = _userRepository.GetOne(userId).EntityNotFoundCheck();
 
             _userRepository.Delete(userId);
             _unitOfWork.Commit();

@@ -16,14 +16,14 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchEngine"></param>
         /// <returns>Returns collection of Engine></returns>
-        IEnumerable<EngineDto> GetEngines(SearchEngineDto searchEngine);
+        List<EngineDto> GetEngines(SearchEngineDto searchEngine);
 
         /// <summary>
-        /// Return PagedList for creating X-Pagination header
+        /// Return Pagination Data for creating X-Pagination header
         /// </summary>
         /// <param name="searchEngine"></param>
         /// <returns>Returns PagedList of Engines</returns>
-        PagedList<Engine> PagedListEngines(SearchEngineDto searchEngine);
+        PaginationData<Engine> PaginationData(SearchEngineDto searchEngine);
 
         /// <summary>
         /// Returns one Engine

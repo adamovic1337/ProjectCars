@@ -8,6 +8,7 @@ using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
+using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
@@ -22,7 +23,7 @@ namespace ProjectCars.Service
         #region FIELDS
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<City> _cityRepository;
+        private readonly ICityRepository _cityRepository;
         private readonly IMapper _mapper;
         private readonly CreateCityValidator _createCityValidator;
         private readonly UpdateCityValidator _updateCityValidator;
@@ -31,7 +32,7 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public CityService(IUnitOfWork unitOfWork, IGenericRepository<City> cityRepository, IMapper mapper, CreateCityValidator createCityValidator, UpdateCityValidator updateCityValidator)
+        public CityService(IUnitOfWork unitOfWork, ICityRepository cityRepository, IMapper mapper, CreateCityValidator createCityValidator, UpdateCityValidator updateCityValidator)
         {
             _unitOfWork = unitOfWork;
             _cityRepository = cityRepository;
@@ -44,31 +45,20 @@ namespace ProjectCars.Service
 
         #region METHODS
 
-        public IEnumerable<CityDto> GetCities(SearchCityDto searchCity)
+        public List<CityDto> GetCities(SearchCityDto searchCity)
         {
-            var orderBy = searchCity.OrderBy.Split(new[] { '-' })[0];
-            var direction = searchCity.OrderBy?.Split(new[] { '-' })[1];
-
-            var cities = _cityRepository.GetAll(searchCity.PageNumber, 
-                                                searchCity.PageSize,
-                                                c => c.Name.Contains(Strings.Trim(searchCity.CityName)),
-                                                q => q.OrderBy($"{orderBy} {direction}"));
-
-            return _mapper.Map<IEnumerable<CityDto>>(cities);
+            return _cityRepository.GetAll(searchCity);
         }
 
-        public PagedList<City> PagedListCities(SearchCityDto searchCity)
+        public PaginationData<City> PaginationData(SearchCityDto searchCity)
         {
-            return _cityRepository.GetAll(searchCity.PageNumber, 
-                                          searchCity.PageSize, 
-                                          r => r.Name.Contains(Strings.Trim(searchCity.CityName)));
+            return _cityRepository.GetPaginationData(searchCity, 
+                                                     r => r.Name.Contains(Strings.Trim(searchCity.CityName)));
         }
 
         public CityDto GetCityById(int cityId)
         {
-            var city = _cityRepository.GetOne(cityId).EntityNotFoundCheck();
-
-            return _mapper.Map<CityDto>(city);
+            return _cityRepository.GetOne(cityId).EntityNotFoundCheck();
         }
 
         public CityDto CreateCity(CreateCityDto cityDto)
@@ -85,7 +75,7 @@ namespace ProjectCars.Service
 
         public void UpdateCityPut(int cityId, UpdateCityDto cityDto)
         {
-            var city = _cityRepository.GetOne(cityId).EntityNotFoundCheck();
+            var city = _cityRepository.GetForUpdate(cityId).EntityNotFoundCheck();
 
             cityDto.Id = cityId;
 
@@ -97,7 +87,7 @@ namespace ProjectCars.Service
 
         public void UpdateCityPatch(int cityId, JsonPatchDocument<UpdateCityDto> patchDocument)
         {
-            var city = _cityRepository.GetOne(cityId).EntityNotFoundCheck();
+            var city = _cityRepository.GetForUpdate(cityId).EntityNotFoundCheck();
 
             var cityDto = _mapper.Map<UpdateCityDto>(city);
 
@@ -113,7 +103,7 @@ namespace ProjectCars.Service
 
         public void DeleteCity(int cityId)
         {
-            _cityRepository.GetOne(cityId).EntityNotFoundCheck();
+            _ = _cityRepository.GetOne(cityId).EntityNotFoundCheck();
 
             _cityRepository.Delete(cityId);
             _unitOfWork.Commit();

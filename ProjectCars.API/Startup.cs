@@ -9,8 +9,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using ProjectCars.API.Middleware;
+using ProjectCars.Repository;
 using ProjectCars.Repository.Common;
 using ProjectCars.Repository.Common.Contract;
+using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.DbContexts;
 using ProjectCars.Service;
 using ProjectCars.Service.Contract;
@@ -61,6 +63,19 @@ namespace ProjectCars.API
 
             //repositories
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            services.AddScoped<ICarModelRepository, CarModelRepository>();
+            services.AddScoped<ICarServiceRepository, CarServiceRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<IEngineRepository, EngineRepository>();
+            services.AddScoped<IFuelTypeRepository, FuelTypeRepository>();
+            services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>(); 
+            services.AddScoped<IServiceRequestRepository, ServiceRequestRepository>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //services
@@ -75,6 +90,7 @@ namespace ProjectCars.API
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<ICarServiceService, CarServiceService>();
             services.AddScoped<IServiceRequestService, ServiceRequestService>();
+            services.AddScoped<ICarsService, CarsService>();
 
             //validators
             services.AddTransient<CreateRoleValidator>();

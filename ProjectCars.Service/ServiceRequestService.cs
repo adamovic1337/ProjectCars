@@ -1,19 +1,18 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.VisualBasic;
 using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
+using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -22,7 +21,7 @@ namespace ProjectCars.Service
         #region FIELDS
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<ServiceRequest> _serviceRequestRepository;
+        private readonly IServiceRequestRepository _serviceRequestRepository;
         private readonly IMapper _mapper;
         private readonly CreateServiceRequestValidator _createServiceRequestValidator;
         private readonly UpdateServiceRequestValidator _updateServiceRequestValidator;
@@ -31,7 +30,7 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public ServiceRequestService(IUnitOfWork unitOfWork, IGenericRepository<ServiceRequest> serviceRequestRepository, IMapper mapper, CreateServiceRequestValidator createServiceRequestValidator, UpdateServiceRequestValidator updateServiceRequestValidator)
+        public ServiceRequestService(IUnitOfWork unitOfWork, IServiceRequestRepository serviceRequestRepository, IMapper mapper, CreateServiceRequestValidator createServiceRequestValidator, UpdateServiceRequestValidator updateServiceRequestValidator)
         {
             _unitOfWork = unitOfWork;
             _serviceRequestRepository = serviceRequestRepository;
@@ -40,38 +39,24 @@ namespace ProjectCars.Service
             _updateServiceRequestValidator = updateServiceRequestValidator;
         }
 
-        #endregion
-        
+        #endregion CONSTRUCTORS
+
         #region METHODS
 
-        public IEnumerable<ServiceRequestDto> GetServiceRequests(SearchServiceRequestDto searchServiceRequest)
+        public List<ServiceRequestDto> GetServiceRequests(SearchServiceRequestDto searchServiceRequest)
         {
-            var orderBy = searchServiceRequest.OrderBy.Split(new[] { '-' })[0];
-            var direction = searchServiceRequest.OrderBy?.Split(new[] { '-' })[1];
-
-            var serviceRequests = _serviceRequestRepository.GetAll(searchServiceRequest.PageNumber, 
-                                                                   searchServiceRequest.PageSize,
-                                                                   sr => sr.Status.Name.Contains(Strings.Trim(searchServiceRequest.Status)),
-                                                                   q => q.OrderBy($"{orderBy} {direction}"
-                                                                   ));
-
-            return _mapper.Map<IEnumerable<ServiceRequestDto>>(serviceRequests);
+            return _serviceRequestRepository.GetAll(searchServiceRequest);
         }
 
-        public PagedList<ServiceRequest> PagedListServiceRequests(SearchServiceRequestDto searchServiceRequest)
+        public PaginationData<ServiceRequest> PaginationData(SearchServiceRequestDto searchServiceRequest)
         {
-            return 
-                _serviceRequestRepository.GetAll(searchServiceRequest.PageNumber,
-                                                 searchServiceRequest.PageSize,
-                                                 sr => sr.Status.Name.Contains(Strings.Trim(searchServiceRequest.Status))
-                );
+            return _serviceRequestRepository.GetPaginationData(searchServiceRequest,
+                                                               sr => sr.StatusId == searchServiceRequest.StatusId);
         }
 
         public ServiceRequestDto GetServiceRequestById(int serviceRequestId)
         {
-            var serviceRequest = _serviceRequestRepository.GetOne(serviceRequestId).EntityNotFoundCheck();
-
-            return _mapper.Map<ServiceRequestDto>(serviceRequest);
+            return _serviceRequestRepository.GetOne(serviceRequestId).EntityNotFoundCheck();
         }
 
         public ServiceRequestDto CreateServiceRequest(CreateServiceRequestDto serviceRequestDto)
@@ -88,7 +73,7 @@ namespace ProjectCars.Service
 
         public void UpdateServiceRequestPut(int serviceRequestId, UpdateServiceRequestDto serviceRequestDto)
         {
-            var serviceRequest = _serviceRequestRepository.GetOne(serviceRequestId).EntityNotFoundCheck();
+            var serviceRequest = _serviceRequestRepository.GetForUpdate(serviceRequestId).EntityNotFoundCheck();
 
             _updateServiceRequestValidator.ValidateAndThrow(serviceRequestDto);
             _serviceRequestRepository.Update(serviceRequest);
@@ -98,7 +83,7 @@ namespace ProjectCars.Service
 
         public void UpdateServiceRequestPatch(int serviceRequestId, JsonPatchDocument<UpdateServiceRequestDto> patchDocument)
         {
-            var serviceRequest = _serviceRequestRepository.GetOne(serviceRequestId).EntityNotFoundCheck();
+            var serviceRequest = _serviceRequestRepository.GetForUpdate(serviceRequestId).EntityNotFoundCheck();
 
             var serviceRequestDto = _mapper.Map<UpdateServiceRequestDto>(serviceRequest);
 
@@ -116,8 +101,8 @@ namespace ProjectCars.Service
 
             _serviceRequestRepository.Delete(serviceRequestId);
             _unitOfWork.Commit();
-        } 
+        }
 
-        #endregion
+        #endregion METHODS
     }
 }

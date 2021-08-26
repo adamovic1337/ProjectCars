@@ -86,7 +86,7 @@ namespace ProjectCars.API.Controllers
 
             var collection = cityDto.Select(city => CreateLinks(city.Id, city)).ToList();
 
-            var cities = _cityService.PagedListCities(search);
+            var paginationData = _cityService.PaginationData(search);
 
             links.Add(
                 new LinkDto(
@@ -95,7 +95,7 @@ namespace ProjectCars.API.Controllers
                     "GET"
                 ));
 
-            if (cities.HasPrevious)
+            if (paginationData.HasPrevious)
             {
                 links.Add(
                     new LinkDto(
@@ -105,7 +105,7 @@ namespace ProjectCars.API.Controllers
                     ));
             }
 
-            if (cities.HasNext)
+            if (paginationData.HasNext)
             {
                 links.Add(
                     new LinkDto(
@@ -132,7 +132,7 @@ namespace ProjectCars.API.Controllers
         [HttpHead]
         public IActionResult Get([FromQuery] SearchCityDto searchCity, [FromHeader(Name = "Accept")] string mediaType)
         {
-            this.PaginationMetadata(_cityService.PagedListCities(searchCity));
+            this.PaginationMetadata(_cityService.PaginationData(searchCity));
 
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_cityService.GetCities(searchCity))

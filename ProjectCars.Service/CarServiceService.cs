@@ -8,12 +8,12 @@ using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
+using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -22,7 +22,7 @@ namespace ProjectCars.Service
         #region FIELDS
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<CarService> _carServiceRepository;
+        private readonly ICarServiceRepository _carServiceRepository;
         private readonly IMapper _mapper;
         private readonly CreateCarServiceValidator _createCarServiceValidator;
         private readonly UpdateCarServiceValidator _updateCarServiceValidator;
@@ -31,7 +31,7 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public CarServiceService(IUnitOfWork unitOfWork, IGenericRepository<CarService> carServiceRepository, IMapper mapper, CreateCarServiceValidator createCarServiceValidator, UpdateCarServiceValidator updateCarServiceValidator)
+        public CarServiceService(IUnitOfWork unitOfWork, ICarServiceRepository carServiceRepository, IMapper mapper, CreateCarServiceValidator createCarServiceValidator, UpdateCarServiceValidator updateCarServiceValidator)
         {
             _unitOfWork = unitOfWork;
             _carServiceRepository = carServiceRepository;
@@ -44,31 +44,20 @@ namespace ProjectCars.Service
 
         #region METHODS
 
-        public IEnumerable<CarServiceDto> GetCarServices(SearchCarServiceDto searchCarService)
+        public List<CarServiceDto> GetCarServices(SearchCarServiceDto searchCarService)
         {
-            var orderBy = searchCarService.OrderBy.Split(new[] { '-' })[0];
-            var direction = searchCarService.OrderBy?.Split(new[] { '-' })[1];
-
-            var carServices = _carServiceRepository.GetAll(searchCarService.PageNumber, 
-                                                           searchCarService.PageSize,
-                                                           cs => cs.Name.Contains(Strings.Trim(searchCarService.CarServiceName)),
-                                                           q => q.OrderBy($"{orderBy} {direction}"));
-
-            return _mapper.Map<IEnumerable<CarServiceDto>>(carServices);
+            return _carServiceRepository.GetAll(searchCarService);
         }
 
-        public PagedList<CarService> PagedListCarServices(SearchCarServiceDto searchCarService)
+        public PaginationData<CarService> PaginationData(SearchCarServiceDto searchCarService)
         {
-            return _carServiceRepository.GetAll(searchCarService.PageNumber, 
-                                                searchCarService.PageSize, 
-                                                r => r.Name.Contains(Strings.Trim(searchCarService.CarServiceName)));
+            return _carServiceRepository.GetPaginationData(searchCarService,
+                                                           r => r.Name.Contains(Strings.Trim(searchCarService.CarServiceName)));
         }
 
         public CarServiceDto GetCarServiceById(int carServiceId)
         {
-            var carService = _carServiceRepository.GetOne(carServiceId).EntityNotFoundCheck();
-
-            return _mapper.Map<CarServiceDto>(carService);
+            return _carServiceRepository.GetOne(carServiceId).EntityNotFoundCheck();
         }
 
         public CarServiceDto CreateCarService(CreateCarServiceDto carServiceDto)
@@ -85,7 +74,7 @@ namespace ProjectCars.Service
 
         public void UpdateCarServicePut(int carServiceId, UpdateCarServiceDto carServiceDto)
         {
-            var carService = _carServiceRepository.GetOne(carServiceId).EntityNotFoundCheck();
+            var carService = _carServiceRepository.GetForUpdate(carServiceId).EntityNotFoundCheck();
 
             carServiceDto.Id = carServiceId;
 
@@ -97,7 +86,7 @@ namespace ProjectCars.Service
 
         public void UpdateCarServicePatch(int carServiceId, JsonPatchDocument<UpdateCarServiceDto> patchDocument)
         {
-            var carService = _carServiceRepository.GetOne(carServiceId).EntityNotFoundCheck();
+            var carService = _carServiceRepository.GetForUpdate(carServiceId).EntityNotFoundCheck();
 
             var carServiceDto = _mapper.Map<UpdateCarServiceDto>(carService);
 
@@ -113,7 +102,7 @@ namespace ProjectCars.Service
 
         public void DeleteCarService(int carServiceId)
         {
-            _carServiceRepository.GetOne(carServiceId).EntityNotFoundCheck();
+            _carServiceRepository.GetForUpdate(carServiceId).EntityNotFoundCheck();
 
             _carServiceRepository.Delete(carServiceId);
             _unitOfWork.Commit();

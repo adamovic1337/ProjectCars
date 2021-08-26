@@ -16,14 +16,14 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchStatus"></param>
         /// <returns>Returns collection of Status></returns>
-        IEnumerable<StatusDto> GetStatus(SearchStatusDto searchStatus);
+        List<StatusDto> GetStatus(SearchStatusDto searchStatus);
 
         /// <summary>
-        /// Return PagedList for creating X-Pagination header
+        /// Return pagination data for creating X-Pagination header
         /// </summary>
         /// <param name="searchStatus"></param>
         /// <returns>Returns PagedList of Status</returns>
-        PagedList<Status> PagedListStatus(SearchStatusDto searchStatus);
+        PaginationData<Status> PaginationData(SearchStatusDto searchStatus);
 
         /// <summary>
         /// Returns one Status

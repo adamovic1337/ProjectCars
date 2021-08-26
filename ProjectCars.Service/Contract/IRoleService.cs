@@ -16,14 +16,14 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchRole"></param>
         /// <returns>Returns collection of Role></returns>
-        IEnumerable<RoleDto> GetRoles(SearchRoleDto searchRole);
+        List<RoleDto> GetRoles(SearchRoleDto searchRole);
 
         /// <summary>
-        /// Return PagedList for creating X-Pagination header
+        /// Return pagination data for creating X-Pagination header
         /// </summary>
         /// <param name="searchRole"></param>
         /// <returns>Returns PagedList of Roles</returns>
-        PagedList<Role> PagedListRoles(SearchRoleDto searchRole);
+        PaginationData<Role> PaginationData(SearchRoleDto searchRole);
 
         /// <summary>
         /// Returns one Role

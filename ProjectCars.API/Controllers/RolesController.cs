@@ -86,7 +86,7 @@ namespace ProjectCars.API.Controllers
 
             var collection = roleDto.Select(role => CreateLinks(role.Id, role)).ToList();
 
-            var roles = _roleService.PagedListRoles(search);
+            var paginationData = _roleService.PaginationData(search);
 
             links.Add(
                 new LinkDto(
@@ -95,7 +95,7 @@ namespace ProjectCars.API.Controllers
                     "GET"
                 ));
 
-            if (roles.HasPrevious)
+            if (paginationData.HasPrevious)
             {
                 links.Add(
                     new LinkDto(
@@ -105,7 +105,7 @@ namespace ProjectCars.API.Controllers
                     ));
             }
 
-            if (roles.HasNext)
+            if (paginationData.HasNext)
             {
                 links.Add(
                     new LinkDto(
@@ -132,7 +132,7 @@ namespace ProjectCars.API.Controllers
         [HttpHead]
         public IActionResult Get([FromQuery] SearchRoleDto searchRole, [FromHeader(Name = "Accept")] string mediaType)
         {
-            this.PaginationMetadata(_roleService.PagedListRoles(searchRole));
+            this.PaginationMetadata(_roleService.PaginationData(searchRole));
 
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_roleService.GetRoles(searchRole))

@@ -16,14 +16,14 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchManufacturer"></param>
         /// <returns>Returns collection of Manufacturer></returns>
-        IEnumerable<ManufacturerDto> GetManufacturers(SearchManufacturerDto searchManufacturer);
+        List<ManufacturerDto> GetManufacturers(SearchManufacturerDto searchManufacturer);
 
         /// <summary>
-        /// Return PagedList for creating X-Pagination header
+        /// Return pagination data for creating X-Pagination header
         /// </summary>
         /// <param name="searchManufacturer"></param>
         /// <returns>Returns PagedList of Manufacturers</returns>
-        PagedList<Manufacturer> PagedListManufacturers(SearchManufacturerDto searchManufacturer);
+        PaginationData<Manufacturer> PaginationData(SearchManufacturerDto searchManufacturer);
 
         /// <summary>
         /// Returns one Manufacturer

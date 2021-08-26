@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ProjectCars.Repository.Helpers
 {
-    public class PagedList<T> : List<T>
+    public class PaginationData<T>
     {
         #region FIELDS
 
@@ -19,25 +18,23 @@ namespace ProjectCars.Repository.Helpers
 
         #region CONSTRUCTORS
 
-        private PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
+        private PaginationData(int count, int pageNumber, int pageSize)
         {
             TotalCount = count;
             CurrentPage = pageNumber;
             PageSize = pageSize;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            AddRange(items);
         }
 
         #endregion CONSTRUCTORS
 
         #region METHODS
 
-        public static PagedList<T> Create(IQueryable<T> source, int pageNumber, int pageSize)
+        public static PaginationData<T> Create(IQueryable<T> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+            return new PaginationData<T>(count, pageNumber, pageSize);
         }
 
         #endregion METHODS

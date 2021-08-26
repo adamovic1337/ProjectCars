@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using ProjectCars.Repository.Helpers;
+using ProjectCars.Model.DTO.Search;
 
 namespace ProjectCars.Repository.Common
 {
@@ -27,33 +28,20 @@ namespace ProjectCars.Repository.Common
 
         #region METHODS
 
-        public virtual PagedList<TEntity> GetAll(int pageNumber,
-                                                 int pageSize,
-                                                 Expression<Func<TEntity, bool>> filter = null,
-                                                 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-                                                 string includeProperties = "")
+        public virtual PaginationData<TEntity> GetPaginationData(BaseSearch search,
+                                                                 Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
             if (filter != null)
             {
                 query = query.Where(filter);
-            }
+            }            
 
-            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProperty);
-            }
-
-            if (orderBy != null)
-            {
-                query = orderBy(query);
-            }
-
-            return PagedList<TEntity>.Create(query, pageNumber, pageSize);
+            return PaginationData<TEntity>.Create(query, search.PageNumber, search.PageSize);
         }
 
-        public virtual TEntity GetOne(object id)
+        public virtual TEntity GetForUpdate(int id)
         {
             return Context.Set<TEntity>().Find(id);
         }

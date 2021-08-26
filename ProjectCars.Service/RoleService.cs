@@ -8,6 +8,7 @@ using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common.Contract;
+using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
@@ -22,7 +23,7 @@ namespace ProjectCars.Service
         #region FIELDS
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<Role> _roleRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly CreateRoleValidator _createRoleValidator;
         private readonly UpdateRoleValidator _updateRoleValidator;
@@ -31,7 +32,7 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public RoleService(IUnitOfWork unitOfWork, IGenericRepository<Role> roleRepository, IMapper mapper, CreateRoleValidator createRoleValidator, UpdateRoleValidator updateRoleValidator)
+        public RoleService(IUnitOfWork unitOfWork, IRoleRepository roleRepository, IMapper mapper, CreateRoleValidator createRoleValidator, UpdateRoleValidator updateRoleValidator)
         {
             _unitOfWork = unitOfWork;
             _roleRepository = roleRepository;
@@ -44,31 +45,20 @@ namespace ProjectCars.Service
 
         #region METHODS
 
-        public IEnumerable<RoleDto> GetRoles(SearchRoleDto searchRole)
+        public List<RoleDto> GetRoles(SearchRoleDto searchRole)
         {
-            var orderBy = searchRole.OrderBy.Split(new[] { '-' })[0];
-            var direction = searchRole.OrderBy?.Split(new[] { '-' })[1];
-
-            var roles = _roleRepository.GetAll(searchRole.PageNumber, 
-                                               searchRole.PageSize,
-                                               r => r.Name.Contains(Strings.Trim(searchRole.RoleName)),
-                                               q => q.OrderBy($"{orderBy} {direction}"));
-
-            return _mapper.Map<IEnumerable<RoleDto>>(roles);
+            return _roleRepository.GetAll(searchRole);
         }
 
-        public PagedList<Role> PagedListRoles(SearchRoleDto searchRole)
+        public PaginationData<Role> PaginationData(SearchRoleDto searchRole)
         {
-            return _roleRepository.GetAll(searchRole.PageNumber, 
-                                          searchRole.PageSize, 
-                                          r => r.Name.Contains(Strings.Trim(searchRole.RoleName)));
+            return _roleRepository.GetPaginationData(searchRole, 
+                                                     r => r.Name.Contains(Strings.Trim(searchRole.RoleName)));
         }
 
         public RoleDto GetRoleById(int roleId)
         {
-            var role = _roleRepository.GetOne(roleId).EntityNotFoundCheck();
-
-            return _mapper.Map<RoleDto>(role);
+            return _roleRepository.GetOne(roleId).EntityNotFoundCheck();
         }
 
         public RoleDto CreateRole(CreateRoleDto roleDto)
@@ -85,7 +75,7 @@ namespace ProjectCars.Service
 
         public void UpdateRolePut(int roleId, UpdateRoleDto roleDto)
         {
-            var role = _roleRepository.GetOne(roleId).EntityNotFoundCheck();
+            var role = _roleRepository.GetForUpdate(roleId).EntityNotFoundCheck();
 
             roleDto.Id = roleId;
 
@@ -97,7 +87,7 @@ namespace ProjectCars.Service
 
         public void UpdateRolePatch(int roleId, JsonPatchDocument<UpdateRoleDto> patchDocument)
         {
-            var role = _roleRepository.GetOne(roleId).EntityNotFoundCheck();
+            var role = _roleRepository.GetForUpdate(roleId).EntityNotFoundCheck();
 
             var roleDto = _mapper.Map<UpdateRoleDto>(role);
 

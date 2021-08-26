@@ -13,7 +13,7 @@
           "Microsoft.AspNetCore.JsonPatch": "5.0.4",
           "ProjectCars.Model": "1.0.0",
           "ProjectCars.Repository": "1.0.0",
-          "System.Linq.Dynamic.Core": "1.2.9"
+          "System.Linq.Dynamic.Core": "1.2.12"
         },
         "runtime": {
           "ProjectCars.Service.dll": {}
@@ -633,11 +633,11 @@
           "System.Runtime.Extensions": "4.3.0"
         }
       },
-      "System.Linq.Dynamic.Core/1.2.9": {
+      "System.Linq.Dynamic.Core/1.2.12": {
         "runtime": {
-          "lib/netcoreapp2.1/System.Linq.Dynamic.Core.dll": {
-            "assemblyVersion": "1.2.9.0",
-            "fileVersion": "1.2.9.0"
+          "lib/net5.0/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.2.12.0",
+            "fileVersion": "1.2.12.0"
           }
         }
       },
@@ -1032,6 +1032,7 @@
           "Microsoft.EntityFrameworkCore": "5.0.4",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.4",
           "ProjectCars.Model": "1.0.0",
+          "System.Linq.Dynamic.Core": "1.2.12",
           "morelinq": "3.3.2"
         },
         "runtime": {
@@ -1445,12 +1446,12 @@
       "path": "system.linq/4.3.0",
       "hashPath": "system.linq.4.3.0.nupkg.sha512"
     },
-    "System.Linq.Dynamic.Core/1.2.9": {
+    "System.Linq.Dynamic.Core/1.2.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-GjR4CCtIkiJSU6N8cidG4aa0ph+HBzFOq3uhLybuq4zjlKy3hjDrGbcEUeBiGpBmUrnUhTAJ5SCZGDoZS7d9SA==",
-      "path": "system.linq.dynamic.core/1.2.9",
-      "hashPath": "system.linq.dynamic.core.1.2.9.nupkg.sha512"
+      "sha512": "sha512-wJDLhidcJnLAJeZ4z10YVAxMm4rTW0zlYmUjriJTo4eGLHD5NKZOm6qFabkn5TinbfZ6LM9LeYFPyiQMpRly3Q==",
+      "path": "system.linq.dynamic.core/1.2.12",
+      "hashPath": "system.linq.dynamic.core.1.2.12.nupkg.sha512"
     },
     "System.Net.NameResolution/4.3.0": {
       "type": "package",

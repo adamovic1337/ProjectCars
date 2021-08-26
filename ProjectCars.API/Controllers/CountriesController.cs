@@ -86,7 +86,7 @@ namespace ProjectCars.API.Controllers
 
             var collection = countryDto.Select(country => CreateLinks(country.Id, country)).ToList();
 
-            var countries = _countryService.PagedListCountries(search);
+            var paginationData = _countryService.PaginationData(search);
 
             links.Add(
                 new LinkDto(
@@ -95,7 +95,7 @@ namespace ProjectCars.API.Controllers
                     "GET"
                 ));
 
-            if (countries.HasPrevious)
+            if (paginationData.HasPrevious)
             {
                 links.Add(
                     new LinkDto(
@@ -105,7 +105,7 @@ namespace ProjectCars.API.Controllers
                     ));
             }
 
-            if (countries.HasNext)
+            if (paginationData.HasNext)
             {
                 links.Add(
                     new LinkDto(
@@ -132,7 +132,7 @@ namespace ProjectCars.API.Controllers
         [HttpHead]
         public IActionResult Get([FromQuery] SearchCountryDto searchCountry, [FromHeader(Name = "Accept")] string mediaType)
         {
-            this.PaginationMetadata(_countryService.PagedListCountries(searchCountry));
+            this.PaginationMetadata(_countryService.PaginationData(searchCountry));
 
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_countryService.GetCountries(searchCountry))

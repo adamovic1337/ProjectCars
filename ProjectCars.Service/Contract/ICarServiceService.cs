@@ -16,14 +16,14 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchCarService"></param>
         /// <returns>Returns collection of Car Service></returns>
-        IEnumerable<CarServiceDto> GetCarServices(SearchCarServiceDto searchCarService);
+        List<CarServiceDto> GetCarServices(SearchCarServiceDto searchCarService);
 
         /// <summary>
-        /// Return PagedList for creating X-Pagination header
+        /// Return Pagination Data for creating X-Pagination header
         /// </summary>
         /// <param name="searchCarService"></param>
         /// <returns>Returns PagedList of Car Service</returns>
-        PagedList<CarService> PagedListCarServices(SearchCarServiceDto searchCarService);
+        PaginationData<CarService> PaginationData(SearchCarServiceDto searchCarService);
 
         /// <summary>
         /// Returns one Car Service

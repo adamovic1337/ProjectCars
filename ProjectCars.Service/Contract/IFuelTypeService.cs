@@ -16,14 +16,14 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchFuelType"></param>
         /// <returns>Returns collection of FuelTypes></returns>
-        IEnumerable<FuelTypeDto> GetFuelTypes(SearchFuelTypeDto searchFuelType);
+        List<FuelTypeDto> GetFuelTypes(SearchFuelTypeDto searchFuelType);
 
         /// <summary>
-        /// Return PagedList for creating X-Pagination header
+        /// Return Pagination Data for creating X-Pagination header
         /// </summary>
         /// <param name="searchFuelType"></param>
         /// <returns>Returns PagedList of FuelTypes</returns>
-        PagedList<FuelType> PagedListFuelTypes(SearchFuelTypeDto searchFuelType);
+        PaginationData<FuelType> PaginationData(SearchFuelTypeDto searchFuelType);
 
         /// <summary>
         /// Returns one FuelType

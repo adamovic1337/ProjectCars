@@ -1,4 +1,5 @@
-﻿using ProjectCars.Repository.Helpers;
+﻿using ProjectCars.Model.DTO.Search;
+using ProjectCars.Repository.Helpers;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,7 +9,7 @@ namespace ProjectCars.Repository.Common.Contract
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         /// <summary>
-        /// Get all records for selected entity based on user filters
+        /// Get all pagination data
         /// </summary>
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
@@ -16,18 +17,15 @@ namespace ProjectCars.Repository.Common.Contract
         /// <param name="orderBy"></param>
         /// <param name="includeProperties"></param>
         /// <returns>Returns collection of <see cref="TEntity"/></returns>
-        PagedList<TEntity> GetAll(int pageNumber,
-                                  int pageSize,
-                                  Expression<Func<TEntity, bool>> filter = null,
-                                  Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-                                  string includeProperties = "");
+        PaginationData<TEntity> GetPaginationData(BaseSearch search,
+                                                  Expression<Func<TEntity, bool>> filter = null);
 
         /// <summary>
-        /// Get one record by id
+        /// Get one record by id for update
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Returns one <see cref="TEntity"/> object</returns>
-        TEntity GetOne(object id);
+        TEntity GetForUpdate(int id);
 
         /// <summary>
         /// Create new entity

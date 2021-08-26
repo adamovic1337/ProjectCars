@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectCars.Model.DTO.Search;
 using ProjectCars.Repository.Helpers;
 using System.Text.Json;
 
@@ -7,14 +6,14 @@ namespace ProjectCars.API.Helpers
 {
     public static class Utility
     {
-        public static void PaginationMetadata<T>(this ControllerBase controllerBase, PagedList<T> pagedEntity) 
+        public static void PaginationMetadata<T>(this ControllerBase controllerBase, PaginationData<T> paginationData)
         {
             var paginationMetadata = new
             {
-                totalCount = pagedEntity.TotalCount,
-                pageSize = pagedEntity.PageSize,
-                currentPage = pagedEntity.CurrentPage,
-                totalPages = pagedEntity.TotalPages,
+                totalCount = paginationData.TotalCount,
+                pageSize = paginationData.PageSize,
+                currentPage = paginationData.CurrentPage,
+                totalPages = paginationData.TotalPages,
             };
 
             controllerBase.Response.Headers.Add("X-Pagination",

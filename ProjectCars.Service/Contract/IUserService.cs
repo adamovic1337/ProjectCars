@@ -16,15 +16,14 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchUser"></param>
         /// <returns>Returns collection of User></returns>
-        IEnumerable<UserDto> GetUsers(SearchUserDto searchUser);
+        List<UserDto> GetUsers(SearchUserDto searchUser);
 
         /// <summary>
-        /// Return PagedList for creating X-Pagination header
+        /// Returns pagination data for creating X-Pagination header
         /// </summary>
         /// <param name="searchUser"></param>
         /// <returns>Returns PagedList of Users</returns>
-        PagedList<User> PagedListUsers(SearchUserDto searchUser);
-
+        PaginationData<User> PaginationData(SearchUserDto searchUser);
         /// <summary>
         /// Returns one User
         /// </summary>

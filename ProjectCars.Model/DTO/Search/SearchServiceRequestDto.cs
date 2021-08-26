@@ -4,7 +4,7 @@ namespace ProjectCars.Model.DTO.Search
 {
     public class SearchServiceRequestDto : BaseSearch
     {
-        public string Status { get; set; } = string.Empty;
+        public int StatusId { get; set; }
 
         public string OrderBy { get; set; } = "repairEnd-asc";
     }

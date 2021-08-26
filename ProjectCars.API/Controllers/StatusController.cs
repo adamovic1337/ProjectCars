@@ -86,7 +86,7 @@ namespace ProjectCars.API.Controllers
 
             var collection = statusDto.Select(status => CreateLinks(status.Id, status)).ToList();
 
-            var status = _statusService.PagedListStatus(search);
+            var paginationData = _statusService.PaginationData(search);
 
             links.Add(
                 new LinkDto(
@@ -95,7 +95,7 @@ namespace ProjectCars.API.Controllers
                     "GET"
                 ));
 
-            if (status.HasPrevious)
+            if (paginationData.HasPrevious)
             {
                 links.Add(
                     new LinkDto(
@@ -105,7 +105,7 @@ namespace ProjectCars.API.Controllers
                     ));
             }
 
-            if (status.HasNext)
+            if (paginationData.HasNext)
             {
                 links.Add(
                     new LinkDto(
@@ -132,7 +132,7 @@ namespace ProjectCars.API.Controllers
         [HttpHead]
         public IActionResult Get([FromQuery] SearchStatusDto searchStatus, [FromHeader(Name = "Accept")] string mediaType)
         {
-            this.PaginationMetadata(_statusService.PagedListStatus(searchStatus));
+            this.PaginationMetadata(_statusService.PaginationData(searchStatus));
 
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_statusService.GetStatus(searchStatus))

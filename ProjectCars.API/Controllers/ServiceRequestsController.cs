@@ -70,13 +70,13 @@ namespace ProjectCars.API.Controllers
             return type switch
             {
                 ResourceUriType.PreviousPage => Url.Link("GetServiceRequests",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, status = search.Status }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, status = search.StatusId }),
                 ResourceUriType.NextPage => Url.Link("GetServiceRequests",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, status = search.Status }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, status = search.StatusId }),
                 ResourceUriType.Current => Url.Link("GetServiceRequests",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.Status }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.StatusId }),
                 _ => Url.Link("GetServiceRequests",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.Status })
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.StatusId })
             };
         }
 
@@ -86,7 +86,7 @@ namespace ProjectCars.API.Controllers
 
             var collection = serviceRequestDto.Select(serviceRequest => CreateLinks(serviceRequest.Id, serviceRequest)).ToList();
 
-            var serviceRequests = _serviceRequestService.PagedListServiceRequests(search);
+            var paginationData = _serviceRequestService.PaginationData(search);
 
             links.Add(
                 new LinkDto(
@@ -95,7 +95,7 @@ namespace ProjectCars.API.Controllers
                     "GET"
                 ));
 
-            if (serviceRequests.HasPrevious)
+            if (paginationData.HasPrevious)
             {
                 links.Add(
                     new LinkDto(
@@ -105,7 +105,7 @@ namespace ProjectCars.API.Controllers
                     ));
             }
 
-            if (serviceRequests.HasNext)
+            if (paginationData.HasNext)
             {
                 links.Add(
                     new LinkDto(
@@ -132,7 +132,7 @@ namespace ProjectCars.API.Controllers
         [HttpHead]
         public IActionResult Get([FromQuery] SearchServiceRequestDto searchServiceRequest, [FromHeader(Name = "Accept")] string mediaType)
         {
-            this.PaginationMetadata(_serviceRequestService.PagedListServiceRequests(searchServiceRequest));
+            this.PaginationMetadata(_serviceRequestService.PaginationData(searchServiceRequest));
 
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_serviceRequestService.GetServiceRequests(searchServiceRequest))

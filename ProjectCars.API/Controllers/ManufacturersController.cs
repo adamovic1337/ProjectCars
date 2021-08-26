@@ -86,7 +86,7 @@ namespace ProjectCars.API.Controllers
 
             var collection = manufacturerDto.Select(manufacturer => CreateLinks(manufacturer.Id, manufacturer)).ToList();
 
-            var manufacturers = _manufacturerService.PagedListManufacturers(search);
+            var paginationData = _manufacturerService.PaginationData(search);
 
             links.Add(
                 new LinkDto(
@@ -95,7 +95,7 @@ namespace ProjectCars.API.Controllers
                     "GET"
                 ));
 
-            if (manufacturers.HasPrevious)
+            if (paginationData.HasPrevious)
             {
                 links.Add(
                     new LinkDto(
@@ -105,7 +105,7 @@ namespace ProjectCars.API.Controllers
                     ));
             }
 
-            if (manufacturers.HasNext)
+            if (paginationData.HasNext)
             {
                 links.Add(
                     new LinkDto(
@@ -132,7 +132,7 @@ namespace ProjectCars.API.Controllers
         [HttpHead]
         public IActionResult Get([FromQuery] SearchManufacturerDto searchManufacturer, [FromHeader(Name = "Accept")] string mediaType)
         {
-            this.PaginationMetadata(_manufacturerService.PagedListManufacturers(searchManufacturer));
+            this.PaginationMetadata(_manufacturerService.PaginationData(searchManufacturer));
 
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_manufacturerService.GetManufacturers(searchManufacturer))

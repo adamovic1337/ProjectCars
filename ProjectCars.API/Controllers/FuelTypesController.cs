@@ -86,7 +86,7 @@ namespace ProjectCars.API.Controllers
 
             var collection = fuelTypeDto.Select(fuelType => CreateLinks(fuelType.Id, fuelType)).ToList();
 
-            var fuelTypes = _fuelTypeService.PagedListFuelTypes(search);
+            var paginationData = _fuelTypeService.PaginationData(search);
 
             links.Add(
                 new LinkDto(
@@ -95,7 +95,7 @@ namespace ProjectCars.API.Controllers
                     "GET"
                 ));
 
-            if (fuelTypes.HasPrevious)
+            if (paginationData.HasPrevious)
             {
                 links.Add(
                     new LinkDto(
@@ -105,7 +105,7 @@ namespace ProjectCars.API.Controllers
                     ));
             }
 
-            if (fuelTypes.HasNext)
+            if (paginationData.HasNext)
             {
                 links.Add(
                     new LinkDto(
@@ -132,7 +132,7 @@ namespace ProjectCars.API.Controllers
         [HttpHead]
         public IActionResult Get([FromQuery] SearchFuelTypeDto searchFuelType, [FromHeader(Name = "Accept")] string mediaType)
         {
-            this.PaginationMetadata(_fuelTypeService.PagedListFuelTypes(searchFuelType));
+            this.PaginationMetadata(_fuelTypeService.PaginationData(searchFuelType));
 
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
                    ? Ok(_fuelTypeService.GetFuelTypes(searchFuelType))

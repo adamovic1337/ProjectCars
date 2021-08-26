@@ -16,14 +16,14 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchCountry"></param>
         /// <returns>Returns collection of Countries></returns>
-        IEnumerable<CountryDto> GetCountries(SearchCountryDto searchCountry);
+        List<CountryDto> GetCountries(SearchCountryDto searchCountry);
 
         /// <summary>
-        /// Return PagedList for creating X-Pagination header
+        /// Return Pagination Data for creating X-Pagination header
         /// </summary>
         /// <param name="searchCountry"></param>
         /// <returns>Returns PagedList of Countries</returns>
-        PagedList<Country> PagedListCountries(SearchCountryDto searchCountry);
+        PaginationData<Country> PaginationData(SearchCountryDto searchCountry);
 
         /// <summary>
         /// Returns one Country

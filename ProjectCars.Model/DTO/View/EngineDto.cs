@@ -7,5 +7,6 @@
         public int CubicCapacity { get; set; }
         public int Power { get; set; }
         public int FuelTypeId { get; set; }
+        public string FuelTypeName { get; set; }
     }
 }

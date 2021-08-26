@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LSTJdIlmmoPeyxtiyXl8Z2kI9Cby4rvXdF0/ad6dfXSrJaBgbNcH1JqwIMGgjdlrYG5nF/MpVobAv2QAdtjwYA==",
+  "dgSpecHash": "u6m4ZQhxqCc/245GD3VFUDpp7N3K0ICfDfwmEu+hc2YfahR0HAC3KmEW9ucTLG81WySslCIw6Ik0/QQGyyR5rg==",
   "success": true,
   "projectFilePath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj",
   "expectedPackageFiles": [
@@ -61,6 +61,7 @@
     "C:\\Users\\Stefan\\.nuget\\packages\\system.io.filesystem\\4.3.0\\system.io.filesystem.4.3.0.nupkg.sha512",
     "C:\\Users\\Stefan\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\Stefan\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
+    "C:\\Users\\Stefan\\.nuget\\packages\\system.linq.dynamic.core\\1.2.12\\system.linq.dynamic.core.1.2.12.nupkg.sha512",
     "C:\\Users\\Stefan\\.nuget\\packages\\system.linq.expressions\\4.3.0\\system.linq.expressions.4.3.0.nupkg.sha512",
     "C:\\Users\\Stefan\\.nuget\\packages\\system.net.nameresolution\\4.3.0\\system.net.nameresolution.4.3.0.nupkg.sha512",
     "C:\\Users\\Stefan\\.nuget\\packages\\system.net.primitives\\4.3.0\\system.net.primitives.4.3.0.nupkg.sha512",
