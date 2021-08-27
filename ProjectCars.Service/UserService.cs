@@ -74,7 +74,7 @@ namespace ProjectCars.Service
 
         public void UpdateUserPut(int userId, UpdateUserDto userDto)
         {
-            var user = _userRepository.GetForUpdate(userId).EntityNotFoundCheck();
+            var user = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
             userDto.Id = userId;
 
@@ -86,7 +86,7 @@ namespace ProjectCars.Service
 
         public void UpdateUserPatch(int userId, JsonPatchDocument<UpdateUserDto> patchDocument)
         {
-            var user = _userRepository.GetForUpdate(userId).EntityNotFoundCheck();
+            var user = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
             var userDto = _mapper.Map<UpdateUserDto>(user);
 
@@ -102,9 +102,9 @@ namespace ProjectCars.Service
 
         public void DeleteUser(int userId)
         {
-            _ = _userRepository.GetOne(userId).EntityNotFoundCheck();
+            var user = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
-            _userRepository.Delete(userId);
+            _userRepository.Delete(user);
             _unitOfWork.Commit();
         }
 

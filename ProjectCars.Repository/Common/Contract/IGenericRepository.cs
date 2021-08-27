@@ -1,7 +1,6 @@
 ﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Repository.Helpers;
 using System;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace ProjectCars.Repository.Common.Contract
@@ -11,11 +10,7 @@ namespace ProjectCars.Repository.Common.Contract
         /// <summary>
         /// Get all pagination data
         /// </summary>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
         /// <param name="filter"></param>
-        /// <param name="orderBy"></param>
-        /// <param name="includeProperties"></param>
         /// <returns>Returns collection of <see cref="TEntity"/></returns>
         PaginationData<TEntity> GetPaginationData(BaseSearch search,
                                                   Expression<Func<TEntity, bool>> filter = null);
@@ -25,7 +20,7 @@ namespace ProjectCars.Repository.Common.Contract
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Returns one <see cref="TEntity"/> object</returns>
-        TEntity GetForUpdate(int id);
+        TEntity GetEntity(object id);
 
         /// <summary>
         /// Create new entity
@@ -38,12 +33,6 @@ namespace ProjectCars.Repository.Common.Contract
         /// </summary>
         /// <param name="entityToUpdate"></param>
         void Update(TEntity entityToUpdate);
-
-        /// <summary>
-        /// Delete entity by id
-        /// </summary>
-        /// <param name="id"></param>
-        void Delete(object id);
 
         /// <summary>
         /// Delete entity using <see cref="TEntity"/> object

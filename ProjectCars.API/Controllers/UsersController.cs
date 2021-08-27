@@ -134,11 +134,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_userService.PaginationData(searchUser));
 
+            var users = _userService.GetUsers(searchUser);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_userService.GetUsers(searchUser))
+                   ? Ok(users)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchUser, _userService.GetUsers(searchUser))
-                        : _userService.GetUsers(searchUser)
+                        ? CreateLinksForList(searchUser, users)
+                        : users
                      );
         }
 
@@ -147,11 +149,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{userId}", Name = "GetUser")]
         public IActionResult Get(int userId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var user = _userService.GetUserById(userId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_userService.GetUserById(userId))
+                   ? Ok(user)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(userId, _userService.GetUserById(userId))
-                        : _userService.GetUserById(userId)
+                        ? CreateLinks(userId, user)
+                        : user
                      );
         }
 

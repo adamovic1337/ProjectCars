@@ -76,7 +76,7 @@ namespace ProjectCars.Service
 
         public void UpdateManufacturerPut(int manufacturerId, UpdateManufacturerDto manufacturerDto)
         {
-            var manufacturer = _manufacturerRepository.GetForUpdate(manufacturerId).EntityNotFoundCheck();
+            var manufacturer = _manufacturerRepository.GetEntity(manufacturerId).EntityNotFoundCheck();
 
             manufacturerDto.Id = manufacturerId;
 
@@ -88,7 +88,7 @@ namespace ProjectCars.Service
 
         public void UpdateManufacturerPatch(int manufacturerId, JsonPatchDocument<UpdateManufacturerDto> patchDocument)
         {
-            var manufacturer = _manufacturerRepository.GetForUpdate(manufacturerId).EntityNotFoundCheck();
+            var manufacturer = _manufacturerRepository.GetEntity(manufacturerId).EntityNotFoundCheck();
 
             var manufacturerDto = _mapper.Map<UpdateManufacturerDto>(manufacturer);
 
@@ -104,9 +104,9 @@ namespace ProjectCars.Service
 
         public void DeleteManufacturer(int manufacturerId)
         {
-            _manufacturerRepository.GetOne(manufacturerId).EntityNotFoundCheck();
+            var manufacturer = _manufacturerRepository.GetEntity(manufacturerId).EntityNotFoundCheck();
 
-            _manufacturerRepository.Delete(manufacturerId);
+            _manufacturerRepository.Delete(manufacturer);
             _unitOfWork.Commit();
         }
 

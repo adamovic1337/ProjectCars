@@ -29,7 +29,7 @@ namespace ProjectCars.Repository
 
             return (from sr in Context.ServiceRequest
                     join cs in Context.CarServices on sr.CarServiceId equals cs.Id
-                    join uc in Context.UserCars on sr.UserCarId equals uc.Id
+                    join uc in Context.UserCars on sr.UserId equals uc.UserId
                     join c in Context.Cars on uc.CarId equals c.Id
                     join cm in Context.CarModels on c.ModelId equals cm.Id
                     join m in Context.Manufacturers on cm.ManufacturerId equals m.Id
@@ -47,7 +47,8 @@ namespace ProjectCars.Repository
                         CarModel = cm.Name,
                         UserFName = u.FirstName,
                         UserLName = u.LastName,
-                        UserCarId = sr.UserCarId,
+                        UserId = sr.UserId,
+                        CarId = sr.CarId,
                         CarServiceId = sr.CarServiceId,
                         CarServiceName = cs.Name,
                         StatusId = sr.StatusId,
@@ -61,7 +62,7 @@ namespace ProjectCars.Repository
         {
             return (from sr in Context.ServiceRequest
                     join cs in Context.CarServices on sr.CarServiceId equals cs.Id
-                    join uc in Context.UserCars on sr.UserCarId equals uc.Id
+                    join uc in Context.UserCars on sr.UserId equals uc.UserId
                     join c in Context.Cars on uc.CarId equals c.Id
                     join cm in Context.CarModels on c.ModelId equals cm.Id
                     join m in Context.Manufacturers on cm.ManufacturerId equals m.Id
@@ -79,7 +80,8 @@ namespace ProjectCars.Repository
                         CarModel = cm.Name,
                         UserFName = u.FirstName,
                         UserLName = u.LastName,
-                        UserCarId = sr.UserCarId,
+                        UserId = sr.UserId,
+                        CarId = sr.CarId,
                         CarServiceId = sr.CarServiceId,
                         CarServiceName = cs.Name,
                         StatusId = sr.StatusId,

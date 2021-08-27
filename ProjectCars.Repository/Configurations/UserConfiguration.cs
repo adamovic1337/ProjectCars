@@ -24,6 +24,11 @@ namespace ProjectCars.Repository.Configurations
                 .WithOne(cs => cs.User)
                 .HasForeignKey(cs => cs.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(u => u.ServiceRequests)
+                .WithOne(sr => sr.User)
+                .HasForeignKey(cs => cs.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

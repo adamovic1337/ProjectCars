@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectCars.Model.DTO.Search;
 using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.DbContexts;
+using ProjectCars.Repository.Helpers;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using ProjectCars.Repository.Helpers;
-using ProjectCars.Model.DTO.Search;
 
 namespace ProjectCars.Repository.Common
 {
@@ -36,16 +36,16 @@ namespace ProjectCars.Repository.Common
             if (filter != null)
             {
                 query = query.Where(filter);
-            }            
+            }
 
             return PaginationData<TEntity>.Create(query, search.PageNumber, search.PageSize);
         }
 
-        public virtual TEntity GetForUpdate(int id)
+        public virtual TEntity GetEntity(object id)
         {
             return Context.Set<TEntity>().Find(id);
         }
-        
+
         public virtual void Create(TEntity entity)
         {
             Context.Set<TEntity>().Add(entity);
@@ -55,12 +55,6 @@ namespace ProjectCars.Repository.Common
         {
             Context.Set<TEntity>().Attach(entityToUpdate);
             Context.Entry(entityToUpdate).State = EntityState.Modified;
-        }
-
-        public virtual void Delete(object id)
-        {
-            var entityToDelete = Context.Set<TEntity>().Find(id);
-            Delete(entityToDelete);
         }
 
         public virtual void Delete(TEntity entityToDelete)

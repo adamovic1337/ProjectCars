@@ -213,15 +213,12 @@ namespace ProjectCars.Repository.Helpers
 
             #region USER CARS
 
-            var userCarId = 1;
             var userCar = new Faker<UserCar>()
-                .RuleFor(uc => uc.Id, _ => userCarId++)
                 .RuleFor(uc => uc.CarId, f => f.PickRandom(carsIds))
                 .RuleFor(uc => uc.UserId, f => f.PickRandom(carOwnersIds));
 
             var generateUserCars = userCar.Generate(carServiceOwnersIds.Count);
             var uniqueUserCars = generateUserCars.DistinctBy(c => c.CarId).ToList();
-            var userCarsIds = uniqueUserCars.Select(c => c.Id).ToList();
 
             modelBuilder.Entity<UserCar>().HasData(uniqueUserCars);
 
@@ -287,7 +284,8 @@ namespace ProjectCars.Repository.Helpers
                 .RuleFor(sr => sr.RepairStart, f => f.Date.Past())
                 .RuleFor(sr => sr.RepairEnd, f => f.Date.Future())
                 .RuleFor(sr => sr.CarServiceId, f => f.PickRandom(carServicesIds))
-                .RuleFor(sr => sr.UserCarId, f => f.PickRandom(userCarsIds))
+                .RuleFor(sr => sr.UserId, f => f.PickRandom(carOwnersIds))
+                .RuleFor(sr => sr.CarId, f => f.PickRandom(carsIds))
                 .RuleFor(sr => sr.StatusId, f => f.PickRandom(1, 2, 3, 4, 5));
 
             var generateServiceRequest = serviceRequest.Generate(200);

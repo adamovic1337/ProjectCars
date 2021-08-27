@@ -134,11 +134,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_countryService.PaginationData(searchCountry));
 
+            var countries = _countryService.GetCountries(searchCountry);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_countryService.GetCountries(searchCountry))
+                   ? Ok(countries)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchCountry, _countryService.GetCountries(searchCountry))
-                        : _countryService.GetCountries(searchCountry)
+                        ? CreateLinksForList(searchCountry, countries)
+                        : countries
                      );
         }
 
@@ -147,11 +149,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{countryId}", Name = "GetCountry")]
         public IActionResult Get(int countryId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var country = _countryService.GetCountryById(countryId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_countryService.GetCountryById(countryId))
+                   ? Ok(country)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(countryId, _countryService.GetCountryById(countryId))
-                        : _countryService.GetCountryById(countryId)
+                        ? CreateLinks(countryId, country)
+                        : country
                      );
         }
 

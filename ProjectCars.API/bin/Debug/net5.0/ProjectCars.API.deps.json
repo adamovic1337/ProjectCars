@@ -1414,8 +1414,7 @@
           "FluentValidation": "9.5.3",
           "Microsoft.AspNetCore.JsonPatch": "5.0.4",
           "ProjectCars.Model": "1.0.0",
-          "ProjectCars.Repository": "1.0.0",
-          "System.Linq.Dynamic.Core": "1.2.12"
+          "ProjectCars.Repository": "1.0.0"
         },
         "runtime": {
           "ProjectCars.Service.dll": {}

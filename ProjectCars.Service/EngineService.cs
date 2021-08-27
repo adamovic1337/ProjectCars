@@ -74,7 +74,7 @@ namespace ProjectCars.Service
 
         public void UpdateEnginePut(int engineId, UpdateEngineDto engineDto)
         {
-            var engine = _engineRepository.GetForUpdate(engineId).EntityNotFoundCheck();
+            var engine = _engineRepository.GetEntity(engineId).EntityNotFoundCheck();
 
             engineDto.Id = engineId;
 
@@ -86,7 +86,7 @@ namespace ProjectCars.Service
 
         public void UpdateEnginePatch(int engineId, JsonPatchDocument<UpdateEngineDto> patchDocument)
         {
-            var engine = _engineRepository.GetForUpdate(engineId).EntityNotFoundCheck();
+            var engine = _engineRepository.GetEntity(engineId).EntityNotFoundCheck();
 
             var engineDto = _mapper.Map<UpdateEngineDto>(engine);
 
@@ -102,9 +102,9 @@ namespace ProjectCars.Service
 
         public void DeleteEngine(int engineId)
         {
-            _ = _engineRepository.GetOne(engineId).EntityNotFoundCheck();
+            var engine = _engineRepository.GetEntity(engineId).EntityNotFoundCheck();
 
-            _engineRepository.Delete(engineId);
+            _engineRepository.Delete(engine);
             _unitOfWork.Commit();
         }
 

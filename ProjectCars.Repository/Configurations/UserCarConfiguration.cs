@@ -8,10 +8,7 @@ namespace ProjectCars.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<UserCar> builder)
         {
-            builder.HasMany(uc => uc.ServiceRequests)
-                   .WithOne(sr => sr.UserCars)
-                   .HasForeignKey(sr => sr.UserCarId)
-                   .OnDelete(DeleteBehavior.Restrict);
+            builder.HasKey(uc => new { uc.CarId, uc.UserId });
         }
     }
 }

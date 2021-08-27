@@ -134,11 +134,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_manufacturerService.PaginationData(searchManufacturer));
 
+            var manufacturers = _manufacturerService.GetManufacturers(searchManufacturer);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_manufacturerService.GetManufacturers(searchManufacturer))
+                   ? Ok(manufacturers)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchManufacturer, _manufacturerService.GetManufacturers(searchManufacturer))
-                        : _manufacturerService.GetManufacturers(searchManufacturer)
+                        ? CreateLinksForList(searchManufacturer, manufacturers)
+                        : manufacturers
                      );
         }
 
@@ -147,11 +149,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{manufacturerId}", Name = "GetManufacturer")]
         public IActionResult Get(int manufacturerId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var manufacturer = _manufacturerService.GetManufacturerById(manufacturerId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_manufacturerService.GetManufacturerById(manufacturerId))
+                   ? Ok(manufacturer)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(manufacturerId, _manufacturerService.GetManufacturerById(manufacturerId))
-                        : _manufacturerService.GetManufacturerById(manufacturerId)
+                        ? CreateLinks(manufacturerId, manufacturer)
+                        : manufacturer
                      );
         }
 

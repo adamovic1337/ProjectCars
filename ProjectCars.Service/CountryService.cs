@@ -75,7 +75,7 @@ namespace ProjectCars.Service
 
         public void UpdateCountryPut(int countryId, UpdateCountryDto countryDto)
         {
-            var country = _countryRepository.GetForUpdate(countryId).EntityNotFoundCheck();
+            var country = _countryRepository.GetEntity(countryId).EntityNotFoundCheck();
 
             countryDto.Id = countryId;
 
@@ -87,7 +87,7 @@ namespace ProjectCars.Service
 
         public void UpdateCountryPatch(int countryId, JsonPatchDocument<UpdateCountryDto> patchDocument)
         {
-            var country = _countryRepository.GetForUpdate(countryId).EntityNotFoundCheck();
+            var country = _countryRepository.GetEntity(countryId).EntityNotFoundCheck();
 
             var countryDto = _mapper.Map<UpdateCountryDto>(country);
 
@@ -103,9 +103,9 @@ namespace ProjectCars.Service
 
         public void DeleteCountry(int countryId)
         {
-            _ = _countryRepository.GetOne(countryId).EntityNotFoundCheck();
+            var country = _countryRepository.GetEntity(countryId).EntityNotFoundCheck();
 
-            _countryRepository.Delete(countryId);
+            _countryRepository.Delete(country);
             _unitOfWork.Commit();
         }
 

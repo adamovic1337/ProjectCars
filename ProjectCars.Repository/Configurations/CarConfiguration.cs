@@ -12,14 +12,19 @@ namespace ProjectCars.Repository.Configurations
             builder.Property(c => c.FirstRegistration).IsRequired();
             builder.Property(c => c.Mileage).IsRequired();
 
-            builder.HasMany(c => c.CarUsers)
-                   .WithOne(cu => cu.Car)
-                   .HasForeignKey(cu => cu.CarId)
+            builder.HasMany(c => c.UserCars)
+                   .WithOne(uc => uc.Car)
+                   .HasForeignKey(uc => uc.CarId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(c => c.Maintenance)
                    .WithOne(m => m.Car)
                    .HasForeignKey(m => m.CarId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(c => c.ServiceRequests)
+                   .WithOne(sr =>sr.Car)
+                   .HasForeignKey(sr => sr.CarId)
                    .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -11,7 +11,8 @@ namespace ProjectCars.Model.DTO.View
         public DateTime? RepairEnd { get; set; }
         public int CarServiceId { get; set; }
         public string CarServiceName { get; set; }
-        public int UserCarId { get; set; }
+        public int UserId { get; set; }
+        public int CarId { get; set; }
         public string CarModel { get; set; }
         public string CarManufacturer { get; set; }
         public string UserFName { get; set; }

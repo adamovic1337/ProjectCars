@@ -75,7 +75,7 @@ namespace ProjectCars.Service
 
         public void UpdateFuelTypePut(int fuelTypeId, UpdateFuelTypeDto fuelTypeDto)
         {
-            var fuelType = _fuelTypeRepository.GetForUpdate(fuelTypeId).EntityNotFoundCheck();
+            var fuelType = _fuelTypeRepository.GetEntity(fuelTypeId).EntityNotFoundCheck();
 
             fuelTypeDto.Id = fuelTypeId;
 
@@ -87,7 +87,7 @@ namespace ProjectCars.Service
 
         public void UpdateFuelTypePatch(int fuelTypeId, JsonPatchDocument<UpdateFuelTypeDto> patchDocument)
         {
-            var fuelType = _fuelTypeRepository.GetForUpdate(fuelTypeId).EntityNotFoundCheck();
+            var fuelType = _fuelTypeRepository.GetEntity(fuelTypeId).EntityNotFoundCheck();
 
             var fuelTypeDto = _mapper.Map<UpdateFuelTypeDto>(fuelType);
 
@@ -103,9 +103,9 @@ namespace ProjectCars.Service
 
         public void DeleteFuelType(int fuelTypeId)
         {
-            _ = _fuelTypeRepository.GetOne(fuelTypeId).EntityNotFoundCheck();
+            var fuelType = _fuelTypeRepository.GetEntity(fuelTypeId).EntityNotFoundCheck();
 
-            _fuelTypeRepository.Delete(fuelTypeId);
+            _fuelTypeRepository.Delete(fuelType);
             _unitOfWork.Commit();
         }
 

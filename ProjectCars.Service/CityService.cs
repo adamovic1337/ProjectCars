@@ -75,7 +75,7 @@ namespace ProjectCars.Service
 
         public void UpdateCityPut(int cityId, UpdateCityDto cityDto)
         {
-            var city = _cityRepository.GetForUpdate(cityId).EntityNotFoundCheck();
+            var city = _cityRepository.GetEntity(cityId).EntityNotFoundCheck();
 
             cityDto.Id = cityId;
 
@@ -87,7 +87,7 @@ namespace ProjectCars.Service
 
         public void UpdateCityPatch(int cityId, JsonPatchDocument<UpdateCityDto> patchDocument)
         {
-            var city = _cityRepository.GetForUpdate(cityId).EntityNotFoundCheck();
+            var city = _cityRepository.GetEntity(cityId).EntityNotFoundCheck();
 
             var cityDto = _mapper.Map<UpdateCityDto>(city);
 
@@ -103,9 +103,9 @@ namespace ProjectCars.Service
 
         public void DeleteCity(int cityId)
         {
-            _ = _cityRepository.GetOne(cityId).EntityNotFoundCheck();
+            var city = _cityRepository.GetEntity(cityId).EntityNotFoundCheck();
 
-            _cityRepository.Delete(cityId);
+            _cityRepository.Delete(city);
             _unitOfWork.Commit();
         }
 

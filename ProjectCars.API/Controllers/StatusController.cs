@@ -134,11 +134,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_statusService.PaginationData(searchStatus));
 
+            var statuses = _statusService.GetStatus(searchStatus);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_statusService.GetStatus(searchStatus))
+                   ? Ok(statuses)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchStatus, _statusService.GetStatus(searchStatus))
-                        : _statusService.GetStatus(searchStatus)
+                        ? CreateLinksForList(searchStatus, statuses)
+                        : statuses
                      );
         }
 
@@ -147,11 +149,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{statusId}", Name = "GetStatus")]
         public IActionResult Get(int statusId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var status = _statusService.GetStatusById(statusId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_statusService.GetStatusById(statusId))
+                   ? Ok(status)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(statusId, _statusService.GetStatusById(statusId))
-                        : _statusService.GetStatusById(statusId)
+                        ? CreateLinks(statusId, status)
+                        : status
                      );
         }
 

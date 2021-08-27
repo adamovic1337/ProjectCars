@@ -134,11 +134,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_serviceRequestService.PaginationData(searchServiceRequest));
 
+            var serviceRequests = _serviceRequestService.GetServiceRequests(searchServiceRequest);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_serviceRequestService.GetServiceRequests(searchServiceRequest))
+                   ? Ok(serviceRequests)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchServiceRequest, _serviceRequestService.GetServiceRequests(searchServiceRequest))
-                        : _serviceRequestService.GetServiceRequests(searchServiceRequest)
+                        ? CreateLinksForList(searchServiceRequest, serviceRequests)
+                        : serviceRequests
                      );
         }
 
@@ -147,11 +149,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{serviceRequestId}", Name = "GetServiceRequest")]
         public IActionResult Get(int serviceRequestId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var serviceRequest = _serviceRequestService.GetServiceRequestById(serviceRequestId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_serviceRequestService.GetServiceRequestById(serviceRequestId))
+                   ? Ok(serviceRequest)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(serviceRequestId, _serviceRequestService.GetServiceRequestById(serviceRequestId))
-                        : _serviceRequestService.GetServiceRequestById(serviceRequestId)
+                        ? CreateLinks(serviceRequestId, serviceRequest)
+                        : serviceRequest
                      );
         }
 

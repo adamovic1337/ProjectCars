@@ -74,7 +74,7 @@ namespace ProjectCars.Service
 
         public void UpdateCarModelPut(int carModelId, UpdateCarModelDto carModelDto)
         {
-            var carModel = _carModelRepository.GetForUpdate(carModelId).EntityNotFoundCheck();
+            var carModel = _carModelRepository.GetEntity(carModelId).EntityNotFoundCheck();
 
             carModelDto.Id = carModelId;
 
@@ -86,7 +86,7 @@ namespace ProjectCars.Service
 
         public void UpdateCarModelPatch(int carModelId, JsonPatchDocument<UpdateCarModelDto> patchDocument)
         {
-            var carModel = _carModelRepository.GetForUpdate(carModelId).EntityNotFoundCheck();
+            var carModel = _carModelRepository.GetEntity(carModelId).EntityNotFoundCheck();
 
             var carModelDto = _mapper.Map<UpdateCarModelDto>(carModel);
 
@@ -102,9 +102,9 @@ namespace ProjectCars.Service
 
         public void DeleteCarModel(int carModelId)
         {
-            _ = _carModelRepository.GetOne(carModelId).EntityNotFoundCheck();
+            var carModel = _carModelRepository.GetEntity(carModelId).EntityNotFoundCheck();
 
-            _carModelRepository.Delete(carModelId);
+            _carModelRepository.Delete(carModel);
             _unitOfWork.Commit();
         }
 

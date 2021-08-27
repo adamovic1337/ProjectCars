@@ -134,11 +134,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_fuelTypeService.PaginationData(searchFuelType));
 
+            var fuelTypes = _fuelTypeService.GetFuelTypes(searchFuelType);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_fuelTypeService.GetFuelTypes(searchFuelType))
+                   ? Ok(fuelTypes)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchFuelType, _fuelTypeService.GetFuelTypes(searchFuelType))
-                        : _fuelTypeService.GetFuelTypes(searchFuelType)
+                        ? CreateLinksForList(searchFuelType, fuelTypes)
+                        : fuelTypes
                      );
         }
 
@@ -147,11 +149,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{fuelTypeId}", Name = "GetFuelType")]
         public IActionResult Get(int fuelTypeId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var fuelType = _fuelTypeService.GetFuelTypeById(fuelTypeId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_fuelTypeService.GetFuelTypeById(fuelTypeId))
+                   ? Ok(fuelType)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(fuelTypeId, _fuelTypeService.GetFuelTypeById(fuelTypeId))
-                        : _fuelTypeService.GetFuelTypeById(fuelTypeId)
+                        ? CreateLinks(fuelTypeId, fuelType)
+                        : fuelType
                      );
         }
 

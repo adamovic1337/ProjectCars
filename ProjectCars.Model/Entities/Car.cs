@@ -11,7 +11,8 @@ namespace ProjectCars.Model.Entities
         public int ModelId { get; set; }
 
         public CarModel Model { get; set; }
-        public ICollection<UserCar> CarUsers { get; set; }
+        public ICollection<ServiceRequest> ServiceRequests { get; set; }
+        public ICollection<UserCar> UserCars { get; set; }
         public ICollection<Maintenance> Maintenance { get; set; }
     }
 }

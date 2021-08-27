@@ -75,7 +75,7 @@ namespace ProjectCars.Service
 
         public void UpdateRolePut(int roleId, UpdateRoleDto roleDto)
         {
-            var role = _roleRepository.GetForUpdate(roleId).EntityNotFoundCheck();
+            var role = _roleRepository.GetEntity(roleId).EntityNotFoundCheck();
 
             roleDto.Id = roleId;
 
@@ -87,7 +87,7 @@ namespace ProjectCars.Service
 
         public void UpdateRolePatch(int roleId, JsonPatchDocument<UpdateRoleDto> patchDocument)
         {
-            var role = _roleRepository.GetForUpdate(roleId).EntityNotFoundCheck();
+            var role = _roleRepository.GetEntity(roleId).EntityNotFoundCheck();
 
             var roleDto = _mapper.Map<UpdateRoleDto>(role);
 
@@ -103,9 +103,9 @@ namespace ProjectCars.Service
 
         public void DeleteRole(int roleId)
         {
-            _ = _roleRepository.GetOne(roleId).EntityNotFoundCheck();
+            var role = _roleRepository.GetEntity(roleId).EntityNotFoundCheck();
 
-            _roleRepository.Delete(roleId);
+            _roleRepository.Delete(role);
             _unitOfWork.Commit();
         }
 

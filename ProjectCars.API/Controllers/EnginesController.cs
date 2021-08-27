@@ -138,11 +138,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_engineService.PaginationData(searchEngine));
 
+            var engines = _engineService.GetEngines(searchEngine);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_engineService.GetEngines(searchEngine))
+                   ? Ok(engines)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchEngine, _engineService.GetEngines(searchEngine))
-                        : _engineService.GetEngines(searchEngine)
+                        ? CreateLinksForList(searchEngine, engines)
+                        : engines
                      );
         }
 
@@ -151,11 +153,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{engineId}", Name = "GetEngine")]
         public IActionResult Get(int engineId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var engine = _engineService.GetEngineById(engineId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_engineService.GetEngineById(engineId))
+                   ? Ok(engine)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(engineId, _engineService.GetEngineById(engineId))
-                        : _engineService.GetEngineById(engineId)
+                        ? CreateLinks(engineId, engine)
+                        : engine
                      );
         }
 

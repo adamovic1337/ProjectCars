@@ -15,6 +15,7 @@ namespace ProjectCars.Model.Entities
         public Role Role { get; set; }
         public City City { get; set; }
         public ICollection<UserCar> UserCars { get; set; }
+        public ICollection<ServiceRequest> ServiceRequests { get; set; }
         public ICollection<CarService> CarServices { get; set; }
     }
 }

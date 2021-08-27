@@ -134,11 +134,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_roleService.PaginationData(searchRole));
 
+            var roles = _roleService.GetRoles(searchRole);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_roleService.GetRoles(searchRole))
+                   ? Ok(roles)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchRole, _roleService.GetRoles(searchRole))
-                        : _roleService.GetRoles(searchRole)
+                        ? CreateLinksForList(searchRole, roles)
+                        : roles
                      );
         }
 
@@ -147,11 +149,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{roleId}", Name = "GetRole")]
         public IActionResult Get(int roleId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var role = _roleService.GetRoleById(roleId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_roleService.GetRoleById(roleId))
+                   ? Ok(role)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(roleId, _roleService.GetRoleById(roleId))
-                        : _roleService.GetRoleById(roleId)
+                        ? CreateLinks(roleId, role)
+                        : role
                      );
         }
 

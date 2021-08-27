@@ -75,7 +75,7 @@ namespace ProjectCars.Service
 
         public void UpdateStatusPut(int statusId, UpdateStatusDto statusDto)
         {
-            var status = _statusRepository.GetForUpdate(statusId).EntityNotFoundCheck();
+            var status = _statusRepository.GetEntity(statusId).EntityNotFoundCheck();
 
             statusDto.Id = statusId;
 
@@ -87,7 +87,7 @@ namespace ProjectCars.Service
 
         public void UpdateStatusPatch(int statusId, JsonPatchDocument<UpdateStatusDto> patchDocument)
         {
-            var status = _statusRepository.GetForUpdate(statusId).EntityNotFoundCheck();
+            var status = _statusRepository.GetEntity(statusId).EntityNotFoundCheck();
 
             var statusDto = _mapper.Map<UpdateStatusDto>(status);
 
@@ -103,9 +103,9 @@ namespace ProjectCars.Service
 
         public void DeleteStatus(int statusId)
         {
-            _statusRepository.GetOne(statusId).EntityNotFoundCheck();
+            var status = _statusRepository.GetEntity(statusId).EntityNotFoundCheck();
 
-            _statusRepository.Delete(statusId);
+            _statusRepository.Delete(status);
             _unitOfWork.Commit();
         }
 

@@ -134,11 +134,13 @@ namespace ProjectCars.API.Controllers
         {
             this.PaginationMetadata(_cityService.PaginationData(searchCity));
 
+            var cities = _cityService.GetCities(searchCity);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_cityService.GetCities(searchCity))
+                   ? Ok(cities)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinksForList(searchCity, _cityService.GetCities(searchCity))
-                        : _cityService.GetCities(searchCity)
+                        ? CreateLinksForList(searchCity, cities)
+                        : cities
                      );
         }
 
@@ -147,11 +149,13 @@ namespace ProjectCars.API.Controllers
         [HttpGet("{cityId}", Name = "GetCity")]
         public IActionResult Get(int cityId, [FromHeader(Name = "Accept")] string mediaType)
         {
+            var city = _cityService.GetCityById(cityId);
+
             return !MediaTypeHeaderValue.TryParse(mediaType, out var parsedMediaType)
-                   ? Ok(_cityService.GetCityById(cityId))
+                   ? Ok(city)
                    : Ok(parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json"
-                        ? CreateLinks(cityId, _cityService.GetCityById(cityId))
-                        : _cityService.GetCityById(cityId)
+                        ? CreateLinks(cityId, city)
+                        : city
                      );
         }
 
