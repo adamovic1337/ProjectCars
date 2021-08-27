@@ -34,11 +34,6 @@ D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\n
 D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ref\ProjectCars.Repository.dll
 D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.pdb
 D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.genruntimeconfig.cache
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.csproj.AssemblyReference.cache
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.GeneratedMSBuildEditorConfig.editorconfig
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.AssemblyInfoInputs.cache
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.AssemblyInfo.cs
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.csproj.CoreCompileInputs.cache
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\bin\Debug\net5.0\ProjectCars.Repository.deps.json
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\bin\Debug\net5.0\ProjectCars.Repository.runtimeconfig.json
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\bin\Debug\net5.0\ProjectCars.Repository.runtimeconfig.dev.json
@@ -47,6 +42,11 @@ G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\bin\Debug\n
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\bin\Debug\net5.0\ProjectCars.Repository.pdb
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\bin\Debug\net5.0\ProjectCars.Model.dll
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\bin\Debug\net5.0\ProjectCars.Model.pdb
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.csproj.AssemblyReference.cache
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.GeneratedMSBuildEditorConfig.editorconfig
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.AssemblyInfoInputs.cache
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.AssemblyInfo.cs
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.csproj.CoreCompileInputs.cache
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.csproj.CopyComplete
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ProjectCars.Repository.dll
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.Repository\obj\Debug\net5.0\ref\ProjectCars.Repository.dll

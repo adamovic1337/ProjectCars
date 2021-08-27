@@ -115,6 +115,8 @@ namespace ProjectCars.API
             services.AddTransient<UpdateCarServiceValidator>();
             services.AddTransient<CreateServiceRequestValidator>();
             services.AddTransient<UpdateServiceRequestValidator>();
+            services.AddTransient<CreateCarValidator>();
+            services.AddTransient<UpdateCarValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

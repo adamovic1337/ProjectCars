@@ -11,7 +11,10 @@ namespace ProjectCars.Service.Profiles
         public CarProfile()
         {
             CreateMap<Car, CarDto>();
-            
+            CreateMap<CreateCarDto, Car>();
+            CreateMap<UpdateCarDto, Car>();
+            CreateMap<Car, UpdateCarDto>();
+
         }
     }
 }

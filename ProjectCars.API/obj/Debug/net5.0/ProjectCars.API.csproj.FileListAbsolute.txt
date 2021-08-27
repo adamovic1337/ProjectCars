@@ -146,12 +146,6 @@ D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\P
 D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ref\ProjectCars.API.dll
 D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.pdb
 D:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.genruntimeconfig.cache
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.csproj.AssemblyReference.cache
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.GeneratedMSBuildEditorConfig.editorconfig
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.AssemblyInfoInputs.cache
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.AssemblyInfo.cs
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.csproj.CoreCompileInputs.cache
-G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.MvcApplicationPartsAssemblyInfo.cache
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\bin\Debug\net5.0\appsettings.Development.json
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\bin\Debug\net5.0\appsettings.json
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\bin\Debug\net5.0\ProjectCars.API.exe
@@ -210,6 +204,13 @@ G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\bin\Debug\net5.0\P
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\bin\Debug\net5.0\ProjectCars.Model.pdb
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\bin\Debug\net5.0\ProjectCars.Repository.pdb
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\bin\Debug\net5.0\ProjectCars.Service.pdb
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.csproj.AssemblyReference.cache
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.GeneratedMSBuildEditorConfig.editorconfig
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.AssemblyInfoInputs.cache
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.AssemblyInfo.cs
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.csproj.CoreCompileInputs.cache
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.MvcApplicationPartsAssemblyInfo.cs
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.MvcApplicationPartsAssemblyInfo.cache
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\staticwebassets\ProjectCars.API.StaticWebAssets.Manifest.cache
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\staticwebassets\ProjectCars.API.StaticWebAssets.xml
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\scopedcss\bundle\ProjectCars.API.styles.css
