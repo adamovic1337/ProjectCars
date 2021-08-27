@@ -18,7 +18,7 @@ namespace ProjectCars.Repository.Configurations
             builder.HasMany(u => u.UserCars)
                    .WithOne(uc => uc.User)
                    .HasForeignKey(uc => uc.UserId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(u => u.CarServices)
                 .WithOne(cs => cs.User)
@@ -28,7 +28,7 @@ namespace ProjectCars.Repository.Configurations
             builder.HasMany(u => u.ServiceRequests)
                 .WithOne(sr => sr.User)
                 .HasForeignKey(cs => cs.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

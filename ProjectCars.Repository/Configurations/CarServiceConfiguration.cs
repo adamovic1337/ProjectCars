@@ -18,12 +18,12 @@ namespace ProjectCars.Repository.Configurations
             builder.HasMany(cs => cs.ServiceRequests)
                    .WithOne(sr => sr.CarService)
                    .HasForeignKey(sr => sr.CarServiceId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(cs => cs.Maintenance)
                    .WithOne(m => m.CarService)
                    .HasForeignKey(m => m.CarServiceId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

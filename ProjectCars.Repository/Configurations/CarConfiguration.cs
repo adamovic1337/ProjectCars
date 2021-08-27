@@ -15,17 +15,17 @@ namespace ProjectCars.Repository.Configurations
             builder.HasMany(c => c.UserCars)
                    .WithOne(uc => uc.Car)
                    .HasForeignKey(uc => uc.CarId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(c => c.Maintenance)
                    .WithOne(m => m.Car)
                    .HasForeignKey(m => m.CarId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(c => c.ServiceRequests)
                    .WithOne(sr =>sr.Car)
                    .HasForeignKey(sr => sr.CarId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
