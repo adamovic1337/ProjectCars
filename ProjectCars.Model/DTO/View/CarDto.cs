@@ -4,7 +4,6 @@ namespace ProjectCars.Model.DTO.View
 {
     public class CarDto : BaseViewDTO
     {
-        public int Id { get; set; }
         public string Vin { get; set; }
         public DateTime FirstRegistration { get; set; }
         public int Mileage { get; set; }
