@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private CountryDto CreateLinks(int countryId, CountryDto countryDto)
         {
+            var name = "Country";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetCountry", new {countryId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {countryId}),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateCountry", new {}),
-                    "create_country",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_{name}",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateCountryPut", new {countryId}),
-                    "update_country",
+                new LinkDto(Url.Link($"Update{name}Put", new {countryId}),
+                    $"Update_{name}",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateCountryPatch", new {countryId}),
-                    "update_country",
+                new LinkDto(Url.Link($"Update{name}Patch", new {countryId}),
+                    $"Update_{name}",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteCountry", new {countryId}),
-                    "delete_country",
+                new LinkDto(Url.Link($"Delete{name}", new {countryId}),
+                    $"Delete_{name}",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchCountryDto search, ResourceUriType type)
         {
+            var name = "Countries";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetCountries",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, countryName = search.CountryName }),
-                ResourceUriType.NextPage => Url.Link("GetCountries",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, countryName = search.CountryName }),
-                ResourceUriType.Current => Url.Link("GetCountries",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, countryName = search.CountryName }),
-                _ => Url.Link("GetCountries",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, countryName = search.CountryName })
             };
         }

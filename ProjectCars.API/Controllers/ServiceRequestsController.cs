@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private ServiceRequestDto CreateLinks(int serviceRequestId, ServiceRequestDto serviceRequestDto)
         {
+            var name = "ServiceRequest";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetServiceRequest", new {serviceRequestId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {serviceRequestId}),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateServiceRequest", new {}),
-                    "create_serviceRequest",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_{name}",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateServiceRequestPut", new {serviceRequestId}),
-                    "update_serviceRequest",
+                new LinkDto(Url.Link($"Update{name}Put", new {serviceRequestId}),
+                    $"Update_{name}",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateServiceRequestPatch", new {serviceRequestId}),
-                    "update_serviceRequest",
+                new LinkDto(Url.Link($"Update{name}Patch", new {serviceRequestId}),
+                    $"Update_{name}",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteServiceRequest", new {serviceRequestId}),
-                    "delete_serviceRequest",
+                new LinkDto(Url.Link($"Delete{name}", new {serviceRequestId}),
+                    $"Delete_{name}",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchServiceRequestDto search, ResourceUriType type)
         {
+            var name = "ServiceRequest";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetServiceRequests",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, status = search.StatusId }),
-                ResourceUriType.NextPage => Url.Link("GetServiceRequests",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, status = search.StatusId }),
-                ResourceUriType.Current => Url.Link("GetServiceRequests",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.StatusId }),
-                _ => Url.Link("GetServiceRequests",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.StatusId })
             };
         }

@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private ManufacturerDto CreateLinks(int manufacturerId, ManufacturerDto manufacturerDto)
         {
+            var name = "Manufacturer";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetManufacturer", new {manufacturerId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {manufacturerId}),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateManufacturer", new {}),
-                    "create_manufacturer",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_{name}",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateManufacturerPut", new {manufacturerId}),
-                    "update_manufacturer",
+                new LinkDto(Url.Link($"Update{name}Put", new {manufacturerId}),
+                    $"Update_{name}",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateManufacturerPatch", new {manufacturerId}),
-                    "update_manufacturer",
+                new LinkDto(Url.Link($"Update{name}Patch", new {manufacturerId}),
+                    $"Update_{name}",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteManufacturer", new {manufacturerId}),
-                    "delete_manufacturer",
+                new LinkDto(Url.Link($"Delete{name}", new {manufacturerId}),
+                    $"Delete_{name}",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchManufacturerDto search, ResourceUriType type)
         {
+            var name = "Manufacturers";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetManufacturers",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, manufacturerName = search.ManufacturerName }),
-                ResourceUriType.NextPage => Url.Link("GetManufacturers",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, manufacturerName = search.ManufacturerName }),
-                ResourceUriType.Current => Url.Link("GetManufacturers",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, manufacturerName = search.ManufacturerName }),
-                _ => Url.Link("GetManufacturers",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, manufacturerName = search.ManufacturerName })
             };
         }

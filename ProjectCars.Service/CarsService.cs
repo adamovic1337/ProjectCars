@@ -47,21 +47,29 @@ namespace ProjectCars.Service
 
         public List<CarDto> GetCars(int userId, SearchCarDto searchCar)
         {
+            _ = _userRepository.GetEntity(userId).EntityNotFoundCheck();
+
             return _carRepository.GetAll(userId, searchCar);
         }
 
         public PaginationData<Car> PaginationData(int userId, SearchCarDto searchCar)
         {
+            _ = _userRepository.GetEntity(userId).EntityNotFoundCheck();
+
             return _carRepository.GetPaginationData(userId, searchCar);
         }
 
         public CarDto GetCarById(int userId, int carId)
         {
+            _ = _userRepository.GetEntity(userId).EntityNotFoundCheck();
+
             return _carRepository.GetOne(userId, carId).EntityNotFoundCheck();
         }
 
         public CarDto CreateCar(int userId, CreateCarDto carDto)
         {
+            _ = _userRepository.GetEntity(userId).EntityNotFoundCheck();
+
             _createCarValidator.ValidateAndThrow(carDto);
 
             var carEntity = _mapper.Map<Car>(carDto);

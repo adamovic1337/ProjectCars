@@ -12,6 +12,7 @@ namespace ProjectCars.Repository.Contracts
         /// <summary>
         /// Returns all cars that match input filters
         /// </summary>
+        /// <param name="userId"></param>
         /// <param name="searchCar"></param>
         /// <returns></returns>
         List<CarDto> GetAll(int userId, SearchCarDto searchCar);
@@ -36,7 +37,7 @@ namespace ProjectCars.Repository.Contracts
         /// Get one record by id for update
         /// </summary>
         /// <param name="userId"></param>
-        /// <param name="userId"></param>
+        /// <param name="carId"></param>
         /// <returns></returns>
         Car GetEntity(int userId, int carId);
     }

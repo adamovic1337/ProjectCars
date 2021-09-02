@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Search;
+﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common;
@@ -31,7 +30,7 @@ namespace ProjectCars.Repository
             return (from cm in Context.CarModels
                     join e in Context.Engines on cm.EngineId equals e.Id
                     join m in Context.Manufacturers on cm.ManufacturerId equals m.Id
-                    where cm.Name.Contains(Strings.Trim(searchCarModel.CarModelName))
+                    where cm.Name.Contains(searchCarModel.CarModelName.Trim())
                     select new CarModelDto
                     {
                         Id = cm.Id,

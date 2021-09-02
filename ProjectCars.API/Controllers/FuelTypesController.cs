@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private FuelTypeDto CreateLinks(int fuelTypeId, FuelTypeDto fuelTypeDto)
         {
+            var name = "FuelType";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetFuelType", new {fuelTypeId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {fuelTypeId}),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateFuelType", new {}),
-                    "create_fuelType",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_{name}",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateFuelTypePut", new {fuelTypeId}),
-                    "update_fuelType",
+                new LinkDto(Url.Link($"Update{name}Put", new {fuelTypeId}),
+                    $"Update_{name}",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateFuelTypePatch", new {fuelTypeId}),
-                    "update_fuelType",
+                new LinkDto(Url.Link($"Update{name}Patch", new {fuelTypeId}),
+                    $"Update_{name}",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteFuelType", new {fuelTypeId}),
-                    "delete_fuelType",
+                new LinkDto(Url.Link($"Delete{name}Type", new {fuelTypeId}),
+                    $"Delete_{name}",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchFuelTypeDto search, ResourceUriType type)
         {
+            var name = "FuelTypes";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetFuelTypes",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, fuelTypeName = search.FuelTypeName }),
-                ResourceUriType.NextPage => Url.Link("GetFuelTypes",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, fuelTypeName = search.FuelTypeName }),
-                ResourceUriType.Current => Url.Link("GetFuelTypes",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, fuelTypeName = search.FuelTypeName }),
-                _ => Url.Link("GetFuelTypes",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, fuelTypeName = search.FuelTypeName })
             };
         }

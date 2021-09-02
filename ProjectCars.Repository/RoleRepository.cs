@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Search;
+﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common;
@@ -29,7 +28,7 @@ namespace ProjectCars.Repository
             var direction = searchRole.OrderBy?.Split(new[] { '-' })[1];
 
             return (from r in Context.Roles
-                    where r.Name.Contains(Strings.Trim(searchRole.RoleName))
+                    where r.Name.Contains(searchRole.RoleName.Trim())
                     select new RoleDto
                     {
                         Id = r.Id,

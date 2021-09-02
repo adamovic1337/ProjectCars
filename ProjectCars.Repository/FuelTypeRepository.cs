@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Search;
+﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common;
@@ -29,7 +28,7 @@ namespace ProjectCars.Repository
             var direction = searchFuelType.OrderBy?.Split(new[] { '-' })[1];
 
             return (from f in Context.FuelTypes
-                    where f.Name.Contains(Strings.Trim(searchFuelType.FuelTypeName))
+                    where f.Name.Contains(searchFuelType.FuelTypeName.Trim())
                     select new FuelTypeDto
                     {
                         Id = f.Id,

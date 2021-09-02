@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
         
         private StatusDto CreateLinks(int statusId, StatusDto statusDto)
         {
+            var name = "Status";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetStatus", new {statusId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {statusId}),
+                    $"Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateStatus", new {}),
-                    "create_status",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_{name}",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateStatusPut", new {statusId}),
-                    "update_status",
+                new LinkDto(Url.Link($"Update{name}Put", new {statusId}),
+                    $"Update_{name}",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateStatusPatch", new {statusId}),
-                    "update_status",
+                new LinkDto(Url.Link($"Update{name}Patch", new {statusId}),
+                    $"Update_{name}",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteStatus", new {statusId}),
-                    "delete_status",
+                new LinkDto(Url.Link($"Delete{name}", new {statusId}),
+                    $"Delete_{name}",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchStatusDto search, ResourceUriType type)
         {
+            var name = "Statuses";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetStatuses",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, statusName = search.StatusName }),
-                ResourceUriType.NextPage => Url.Link("GetStatuses",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, statusName = search.StatusName }),
-                ResourceUriType.Current => Url.Link("GetStatuses",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, statusName = search.StatusName }),
-                _ => Url.Link("GetStatuses",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, statusName = search.StatusName })
             };
         }

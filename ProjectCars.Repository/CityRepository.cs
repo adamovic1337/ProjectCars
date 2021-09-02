@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Search;
+﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common;
@@ -30,7 +29,7 @@ namespace ProjectCars.Repository
 
             return (from c in Context.Cities
                     join co in Context.Countries on c.CountryId equals co.Id
-                    where c.Name.Contains(Strings.Trim(searchCity.CityName))
+                    where c.Name.Contains(searchCity.CityName.Trim())
                     select new CityDto
                     {
                         Id = c.Id,

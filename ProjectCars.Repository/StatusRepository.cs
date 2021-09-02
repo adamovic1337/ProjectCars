@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Search;
+﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common;
@@ -29,7 +28,7 @@ namespace ProjectCars.Repository
             var direction = searchStatus.OrderBy?.Split(new[] { '-' })[1];
 
             return (from s in Context.Status
-                    where s.Name.Contains(Strings.Trim(searchStatus.StatusName))
+                    where s.Name.Contains(searchStatus.StatusName.Trim())
                     select new StatusDto
                     {
                         Id = s.Id,

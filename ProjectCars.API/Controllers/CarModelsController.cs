@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private CarModelDto CreateLinks(int carModelId, CarModelDto carModelDto)
         {
+            var name = "CarModel";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetCarModel", new {carModelId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {carModelId}),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateCarModel", new {}),
-                    "create_carModel",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_{name}",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateCarModelPut", new {carModelId}),
-                    "update_carModel",
+                new LinkDto(Url.Link($"Update{name}Put", new {carModelId}),
+                    $"Update_{name}",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateCarModelPatch", new {carModelId}),
-                    "update_carModel",
+                new LinkDto(Url.Link($"Update{name}Patch", new {carModelId}),
+                    $"Update_{name}",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteCarModel", new {carModelId}),
-                    "delete_carModel",
+                new LinkDto(Url.Link($"Delete{name}", new {carModelId}),
+                    $"Delete_{name}",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchCarModelDto search, ResourceUriType type)
         {
+            var name = "CarModels";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetCarModels",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, carModelName = search.CarModelName }),
-                ResourceUriType.NextPage => Url.Link("GetCarModels",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, carModelName = search.CarModelName }),
-                ResourceUriType.Current => Url.Link("GetCarModels",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, carModelName = search.CarModelName }),
-                _ => Url.Link("GetCarModels",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, carModelName = search.CarModelName })
             };
         }

@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private CarDto CreateLinks(int userId, int carId, CarDto carDto)
         {
+            var name = "Car";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetCar", new { userId, carId }),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new { userId, carId }),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateCar", new {userId}),
-                    "create_car",
+                new LinkDto(Url.Link($"Create{name}", new {userId}),
+                    $"Create_car",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateCarPut", new { userId, carId }),
-                    "update_car",
+                new LinkDto(Url.Link($"Update{name}Put", new { userId, carId }),
+                    $"Update_car",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateCarPatch", new { userId, carId }),
-                    "update_car",
+                new LinkDto(Url.Link($"Update{name}Patch", new { userId, carId }),
+                    $"Update_car",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteCar", new { userId, carId }),
-                    "delete_car",
+                new LinkDto(Url.Link($"Delete{name}", new { userId, carId }),
+                    $"Delete_car",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchCarDto search, ResourceUriType type)
         {
+            var name = "Cars";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetCars",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, modelName = search.ModelName }),
-                ResourceUriType.NextPage => Url.Link("GetCars",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, modelName = search.ModelName }),
-                ResourceUriType.Current => Url.Link("GetCars",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, modelName = search.ModelName }),
-                _ => Url.Link("GetCars",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, modelName = search.ModelName })
             };
         }

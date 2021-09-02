@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private RoleDto CreateLinks(int roleId, RoleDto roleDto)
         {
+            var name = "Role";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetRole", new {roleId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {roleId}),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateRole", new {}),
-                    "create_role",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_{name}",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateRolePut", new {roleId}),
-                    "update_role",
+                new LinkDto(Url.Link($"Update{name}Put", new {roleId}),
+                    $"Update_{name}",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateRolePatch", new {roleId}),
-                    "update_role",
+                new LinkDto(Url.Link($"Update{name}Patch", new {roleId}),
+                    $"Update_{name}",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteRole", new {roleId}),
-                    "delete_role",
+                new LinkDto(Url.Link($"Delete{name}", new {roleId}),
+                    $"Delete_{name}",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchRoleDto search, ResourceUriType type)
         {
+            var name = "Roles";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetRoles",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, roleName = search.RoleName }),
-                ResourceUriType.NextPage => Url.Link("GetRoles",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, roleName = search.RoleName }),
-                ResourceUriType.Current => Url.Link("GetRoles",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, roleName = search.RoleName }),
-                _ => Url.Link("GetRoles",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, roleName = search.RoleName })
             };
         }

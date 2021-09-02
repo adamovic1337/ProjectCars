@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private CityDto CreateLinks(int cityId, CityDto cityDto)
         {
+            var name = "City";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetCity", new {cityId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {cityId}),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateCity", new {}),
-                    "create_city",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_city",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateCityPut", new {cityId}),
-                    "update_city",
+                new LinkDto(Url.Link($"Update{name}Put", new {cityId}),
+                    $"Update_city",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateCityPatch", new {cityId}),
-                    "update_city",
+                new LinkDto(Url.Link($"Update{name}Patch", new {cityId}),
+                    $"Update_city",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteCity", new {cityId}),
-                    "delete_city",
+                new LinkDto(Url.Link($"Delete{name}", new {cityId}),
+                    $"Delete_city",
                     "DELETE"
                 )
             };
@@ -67,15 +69,17 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchCityDto search, ResourceUriType type)
         {
+            var name = "Cities";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetCities",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, cityName = search.CityName }),
-                ResourceUriType.NextPage => Url.Link("GetCities",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, cityName = search.CityName }),
-                ResourceUriType.Current => Url.Link("GetCities",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, cityName = search.CityName }),
-                _ => Url.Link("GetCities",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, cityName = search.CityName })
             };
         }

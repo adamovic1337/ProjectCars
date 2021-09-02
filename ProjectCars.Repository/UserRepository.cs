@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Search;
+﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common;
@@ -31,8 +30,8 @@ namespace ProjectCars.Repository
             return (from u in Context.Users
                     join c in Context.Cities on u.CityId equals c.Id
                     join r in Context.Roles on u.RoleId equals r.Id
-                    where u.FirstName.Contains(Strings.Trim(searchUser.FirstName))
-                       && u.LastName.Contains(Strings.Trim(searchUser.LastName))
+                    where u.FirstName.Contains(searchUser.FirstName.Trim())
+                       && u.LastName.Contains(searchUser.LastName.Trim())
                     select new UserDto
                     {
                         Id = u.Id,

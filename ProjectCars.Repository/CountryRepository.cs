@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Search;
+﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common;
@@ -29,7 +28,7 @@ namespace ProjectCars.Repository
             var direction = searchCountry.OrderBy?.Split(new[] { '-' })[1];
 
             return (from c in Context.Countries
-                    where c.Name.Contains(Strings.Trim(searchCountry.CountryName))
+                    where c.Name.Contains(searchCountry.CountryName.Trim())
                     select new CountryDto
                     {
                         Id = c.Id,

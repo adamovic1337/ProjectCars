@@ -36,26 +36,28 @@ namespace ProjectCars.API.Controllers
 
         private EngineDto CreateLinks(int engineId, EngineDto engineDto)
         {
+            var name = "Engine";
+
             var links = new List<LinkDto>
             {
-                new LinkDto(Url.Link("GetEngine", new {engineId}),
-                    "self",
+                new LinkDto(Url.Link($"Get{name}", new {engineId}),
+                    "Self",
                     "GET"
                 ),
-                new LinkDto(Url.Link("CreateEngine", new {}),
-                    "create_engine",
+                new LinkDto(Url.Link($"Create{name}", new {}),
+                    $"Create_{name}",
                     "POST"
                 ),
-                new LinkDto(Url.Link("UpdateEnginePut", new {engineId}),
-                    "update_engine",
+                new LinkDto(Url.Link($"Update{name}Put", new {engineId}),
+                    $"Update_{name}",
                     "PUT"
                 ),
-                new LinkDto(Url.Link("UpdateEnginePatch", new {engineId}),
-                    "update_engine",
+                new LinkDto(Url.Link($"Update{name}Patch", new {engineId}),
+                    $"Update_{name}",
                     "PATCH"
                 ),
-                new LinkDto(Url.Link("DeleteEngine", new {engineId}),
-                    "delete_engine",
+                new LinkDto(Url.Link($"Delete{name}", new {engineId}),
+                    $"Delete_{name}",
                     "DELETE"
                 )
             };
@@ -67,18 +69,20 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchEngineDto search, ResourceUriType type)
         {
+            var name = "Engines";
+
             return type switch
             {
-                ResourceUriType.PreviousPage => Url.Link("GetEngines",
+                ResourceUriType.PreviousPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, cubicCapacityMax = search.CubicCapacityMax, 
                                                                                                                     cubicCapacityMin = search.CubicCapacityMin }),
-                ResourceUriType.NextPage => Url.Link("GetEngines",
+                ResourceUriType.NextPage => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, cubicCapacityMax = search.CubicCapacityMax, 
                                                                                                                     cubicCapacityMin = search.CubicCapacityMin }),
-                ResourceUriType.Current => Url.Link("GetEngines",
+                ResourceUriType.Current => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, cubicCapacityMax = search.CubicCapacityMax, 
                                                                                                                 cubicCapacityMin = search.CubicCapacityMin }),
-                _ => Url.Link("GetEngines",
+                _ => Url.Link($"Get{name}",
                     new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, cubicCapacityMax = search.CubicCapacityMax, 
                                                                                                                 cubicCapacityMin = search.CubicCapacityMin })
             };
