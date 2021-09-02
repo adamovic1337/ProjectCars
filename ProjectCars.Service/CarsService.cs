@@ -68,7 +68,6 @@ namespace ProjectCars.Service
 
         public CarDto CreateCar(int userId, CreateCarDto carDto)
         {
-            _ = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
             _createCarValidator.ValidateAndThrow(carDto);
 
