@@ -166,6 +166,7 @@ namespace ProjectCars.API.Helpers
             services.AddTransient<UpdateCarValidator>();
             services.AddTransient<CreateMaintenanceValidator>();
             services.AddTransient<UpdateMaintenanceValidator>();
+            services.AddTransient<LoginValidator>();
         }
 
         #endregion STARTUP EXTENSIONS

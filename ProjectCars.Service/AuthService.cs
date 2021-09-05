@@ -29,18 +29,20 @@ namespace ProjectCars.Service
         private readonly CreateUserValidator _createUserValidator;
         private readonly IMapper _mapper;
         private readonly ICityRepository _cityRepository;
+        private readonly LoginValidator _loginValidator;
 
         #endregion FIELDS
 
         #region CONSTRUCTORS
 
-        public AuthService(UserManager<AppUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, CreateUserValidator createUserValidator, IMapper mapper, ICityRepository cityRepository)
+        public AuthService(UserManager<AppUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, CreateUserValidator createUserValidator, IMapper mapper, ICityRepository cityRepository, LoginValidator loginValidator)
         {
             _userManager = userManager;
             _jwtConfig = optionsMonitor.CurrentValue;
             _createUserValidator = createUserValidator;
             _mapper = mapper;
             _cityRepository = cityRepository;
+            _loginValidator = loginValidator;
         }
 
         #endregion CONSTRUCTORS
@@ -71,7 +73,7 @@ namespace ProjectCars.Service
 
         public async Task<RegistrationResponseDto> Login(UserLoginDto userDto)
         {
-            //validate
+            _loginValidator.ValidateAndThrow(userDto);
 
             var user = await _userManager.FindByEmailAsync(userDto.Email).EntityNotFoundCheck();
 
