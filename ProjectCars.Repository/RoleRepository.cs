@@ -10,7 +10,7 @@ using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Repository
 {
-    public class RoleRepository : GenericRepository<Role>, IRoleRepository
+    public class RoleRepository : GenericRepository<AppRole>, IRoleRepository
     {
         #region CONSTRUCTORS
 

@@ -6,6 +6,7 @@ using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Helpers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProjectCars.Service.Contract
 {
@@ -15,7 +16,7 @@ namespace ProjectCars.Service.Contract
         /// Returns all Users based on user filters
         /// </summary>
         /// <param name="searchUser"></param>
-        /// <returns>Returns collection of User></returns>
+        /// <returns>Returns collection of AppUser></returns>
         List<UserDto> GetUsers(SearchUserDto searchUser);
 
         /// <summary>
@@ -23,39 +24,32 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchUser"></param>
         /// <returns>Returns PagedList of Users</returns>
-        PaginationData<User> PaginationData(SearchUserDto searchUser);
+        PaginationData<AppUser> PaginationData(SearchUserDto searchUser);
         /// <summary>
-        /// Returns one User
+        /// Returns one AppUser
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>Returns one User object</returns>
+        /// <returns>Returns one AppUser object</returns>
         UserDto GetUserById(int userId);
 
         /// <summary>
-        /// Creates User entity
-        /// </summary>
-        /// <param name="userDto"></param>
-        /// <returns>Created User for Location header</returns>
-        UserDto CreateUser(CreateUserDto userDto);
-
-        /// <summary>
-        /// Update User using PUT method entity
+        /// Update AppUser using PUT method entity
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="userDto"></param>
-        void UpdateUserPut(int userId, UpdateUserDto userDto);
+        Task<bool> UpdateUserPut(int userId, UpdateUserDto userDto);
 
         /// <summary>
-        /// Update User using PATCH method entity
+        /// Update AppUser using PATCH method entity
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="patchDocument"></param>
-        void UpdateUserPatch(int userId, JsonPatchDocument<UpdateUserDto> patchDocument);
+        Task<bool> UpdateUserPatch(int userId, JsonPatchDocument<UpdateUserDto> patchDocument);
 
         /// <summary>
-        /// Delete User
+        /// Delete AppUser
         /// </summary>
         /// <param name="userId"></param>
-        void DeleteUser(int userId);
+        Task<bool> DeleteUser(int userId);
     }
 }

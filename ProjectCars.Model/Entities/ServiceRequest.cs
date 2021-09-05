@@ -13,7 +13,7 @@ namespace ProjectCars.Model.Entities
         public int CarId { get; set; }
         public int StatusId { get; set; }
 
-        public User User { get; set; }
+        public AppUser User { get; set; }
         public Car Car { get; set; }
         public CarService CarService { get; set; }
         public UserCar UserCars { get; set; }

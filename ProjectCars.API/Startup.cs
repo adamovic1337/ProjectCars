@@ -22,6 +22,7 @@ namespace ProjectCars.API
         {
             services.AddFormaters();
             services.AddDependencies(Configuration);
+            services.AddJwt(Configuration);
             services.AddRepositories();
             services.AddServices();
             services.AddValidators();
@@ -40,6 +41,8 @@ namespace ProjectCars.API
             app.UseRouting();
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

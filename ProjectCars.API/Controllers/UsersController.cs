@@ -10,6 +10,7 @@ using ProjectCars.Model.DTO.View;
 using ProjectCars.Service.Contract;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProjectCars.API.Controllers
 {
@@ -171,42 +172,29 @@ namespace ProjectCars.API.Controllers
             return Ok();
         }
 
-        // POST api/users
-        [Consumes("application/json", "application/xml")]
-        [HttpPost(Name = "CreateUser")]
-        public IActionResult Post([FromBody] CreateUserDto userDto)
-        {
-            var userToReturn = _userService.CreateUser(userDto);
-            var user = CreateLinks(userToReturn.Id, userToReturn);
-
-            return CreatedAtRoute("GetUser",
-                                  new { userId = user.Id },
-                                  user);
-        }
-
         // PUT api/users/5
         [Consumes("application/json", "application/xml")]
         [HttpPut("{userId}", Name = "UpdateUserPut")]
-        public IActionResult Put(int userId, [FromBody] UpdateUserDto userDto)
+        public async Task<IActionResult> Put(int userId, [FromBody] UpdateUserDto userDto)
         {
-            _userService.UpdateUserPut(userId, userDto);
+            _ = await _userService.UpdateUserPut(userId, userDto);
             return NoContent();
         }
 
         // PATCH api/users/5
         [Consumes("application/json-patch+json")]
         [HttpPatch("{userId}", Name = "UpdateUserPatch")]
-        public IActionResult Patch(int userId, [FromBody] JsonPatchDocument<UpdateUserDto> patchDocument)
+        public async Task<IActionResult> Patch(int userId, [FromBody] JsonPatchDocument<UpdateUserDto> patchDocument)
         {
-            _userService.UpdateUserPatch(userId, patchDocument);
+            _ = await _userService.UpdateUserPatch(userId, patchDocument);
             return NoContent();
         }
 
         // DELETE api/users/5
         [HttpDelete("{userId}", Name = "DeleteUser")]
-        public IActionResult Delete(int userId)
+        public async Task<IActionResult> Delete(int userId)
         {
-            _userService.DeleteUser(userId);
+            _ = await _userService.DeleteUser(userId);
             return NoContent();
         }
     }

@@ -17,12 +17,12 @@ namespace ProjectCars.Service.Validation
                 .Must(email => !context.Users.Any(u => u.Email == email))
                 .WithMessage("Email must be unique");
 
-            RuleFor(u => u.Username)
+            RuleFor(u => u.UserName)
                 .NotEmpty()
                 .WithMessage("Username is required parameter")
                 .MaximumLength(30)
                 .WithMessage("Maximum length is 30 characters")
-                .Must(username => !context.Users.Any(u => u.Username == username))
+                .Must(username => !context.Users.Any(u => u.UserName == username))
                 .WithMessage("Username must be unique");
 
             RuleFor(u => u.Password)

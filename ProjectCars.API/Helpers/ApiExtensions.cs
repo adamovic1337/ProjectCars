@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using ProjectCars.Model.Entities;
 using ProjectCars.Repository;
 using ProjectCars.Repository.Common;
 using ProjectCars.Repository.Common.Contract;
@@ -13,26 +17,18 @@ using ProjectCars.Repository.DbContexts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service;
 using ProjectCars.Service.Contract;
+using ProjectCars.Service.JWT;
 using ProjectCars.Service.Profiles;
 using ProjectCars.Service.Validation;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 
 namespace ProjectCars.API.Helpers
 {
-    public static class ApiHelper
+    public static class ApiExtensions
     {
         #region STARTUP EXTENSIONS
-
-        public static void AddDependencies(this IServiceCollection services, IConfiguration Configuration)
-        {
-            services.AddAutoMapper(typeof(RoleProfile).Assembly);
-            services.AddDbContext<ProjectCarsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectCars")));
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectCars.API", Version = "v1" });
-            });
-        }
 
         public static void AddFormaters(this IServiceCollection services)
         {
@@ -52,6 +48,54 @@ namespace ProjectCars.API.Helpers
                     .FirstOrDefault();
 
                 newtonsoftJsonOutputFormatter?.SupportedMediaTypes.Add("application/vnd.marvin.hateoas+json");
+            });
+        }
+
+        public static void AddDependencies(this IServiceCollection services, IConfiguration Configuration)
+        {
+            services.AddAutoMapper(typeof(RoleProfile).Assembly);
+            services.AddDbContext<ProjectCarsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectCars")));
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectCars.API", Version = "v1" });
+            });
+        }
+
+        public static void AddJwt(this IServiceCollection services, IConfiguration Configuration)
+        {
+            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+
+            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(jwt =>
+            {
+                jwt.RequireHttpsMetadata = false;
+                jwt.SaveToken = true;
+                jwt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidIssuer = Configuration["JwtConfig:Issuer"],
+                    ValidateIssuer = false,
+                    ValidAudience = Configuration["JwtConfig:Audiance"],
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = false
+                };
+            });
+            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddRoles<AppRole>()
+                    .AddEntityFrameworkStores<ProjectCarsContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Roles", "Admin"));
+                options.AddPolicy("User", policy => policy.RequireClaim("Roles", "User"));
+                options.AddPolicy("ServiceOwner", policy => policy.RequireClaim("Roles", "ServiceOwner"));
             });
         }
 
@@ -91,6 +135,7 @@ namespace ProjectCars.API.Helpers
             services.AddScoped<IServiceRequestService, ServiceRequestService>();
             services.AddScoped<ICarsService, CarsService>();
             services.AddScoped<IMaintenanceService, MaintenanceService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
 
         public static void AddValidators(this IServiceCollection services)

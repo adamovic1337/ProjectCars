@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
@@ -6,6 +7,7 @@ using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Helpers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProjectCars.Service.Contract
 {
@@ -15,7 +17,7 @@ namespace ProjectCars.Service.Contract
         /// Returns all Roles based on user filters
         /// </summary>
         /// <param name="searchRole"></param>
-        /// <returns>Returns collection of Role></returns>
+        /// <returns>Returns collection of AppRole></returns>
         List<RoleDto> GetRoles(SearchRoleDto searchRole);
 
         /// <summary>
@@ -23,40 +25,40 @@ namespace ProjectCars.Service.Contract
         /// </summary>
         /// <param name="searchRole"></param>
         /// <returns>Returns PagedList of Roles</returns>
-        PaginationData<Role> PaginationData(SearchRoleDto searchRole);
+        PaginationData<AppRole> PaginationData(SearchRoleDto searchRole);
 
         /// <summary>
-        /// Returns one Role
+        /// Returns one AppRole
         /// </summary>
         /// <param name="roleId"></param>
-        /// <returns>Returns one Role object</returns>
+        /// <returns>Returns one AppRole object</returns>
         RoleDto GetRoleById(int roleId);
 
         /// <summary>
-        /// Creates Role entity
+        /// Creates AppRole entity
         /// </summary>
         /// <param name="roleDto"></param>
-        /// <returns>Created Role for Location header</returns>
-        RoleDto CreateRole(CreateRoleDto roleDto);
+        /// <returns>Created AppRole for Location header</returns>
+        Task<RoleDto> CreateRole(CreateRoleDto roleDto);
 
         /// <summary>
-        /// Update Role using PUT method entity
+        /// Update AppRole using PUT method entity
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="roleDto"></param>
-        void UpdateRolePut(int roleId, UpdateRoleDto roleDto);
+        Task<bool> UpdateRolePut(int roleId, UpdateRoleDto roleDto);
 
         /// <summary>
-        /// Update Role using PATCH method entity
+        /// Update AppRole using PATCH method entity
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="patchDocument"></param>
-        void UpdateRolePatch(int roleId, JsonPatchDocument<UpdateRoleDto> patchDocument);
+        Task<bool> UpdateRolePatch(int roleId, JsonPatchDocument<UpdateRoleDto> patchDocument);
 
         /// <summary>
-        /// Delete Role
+        /// Delete AppRole
         /// </summary>
         /// <param name="roleId"></param>
-        void DeleteRole(int roleId);
+        Task<bool> DeleteRole(int roleId);
     }
 }

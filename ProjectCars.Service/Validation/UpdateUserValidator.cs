@@ -50,13 +50,13 @@ namespace ProjectCars.Service.Validation
 
         private bool UniqueName(UpdateUserDto user, string username)
         {
-            var sameRecord = _context.Users.Where(u => u.Id == user.Id && u.Username == username).SingleOrDefault();
+            var sameRecord = _context.Users.Where(u => u.Id == user.Id && u.UserName == username).SingleOrDefault();
 
             if (sameRecord != null)
             {
                 return true;
             }
-            var differentRecord = _context.Users.Where(u => u.Username == username).SingleOrDefault();
+            var differentRecord = _context.Users.Where(u => u.UserName == username).SingleOrDefault();
 
             return differentRecord == null;
         }

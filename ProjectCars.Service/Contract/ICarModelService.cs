@@ -36,7 +36,7 @@ namespace ProjectCars.Service.Contract
         /// Creates Car Model entity
         /// </summary>
         /// <param name="carModelDto"></param>
-        /// <returns>Created Role for Location header</returns>
+        /// <returns>Created AppRole for Location header</returns>
         CarModelDto CreateCarModel(CreateCarModelDto carModelDto);
 
         /// <summary>

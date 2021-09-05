@@ -10,7 +10,7 @@ using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Repository
 {
-    public class UserRepository : GenericRepository<User>, IUserRepository
+    public class UserRepository : GenericRepository<AppUser>, IUserRepository
     {
         #region CONSTRUCTORS
 
@@ -29,7 +29,8 @@ namespace ProjectCars.Repository
 
             return (from u in Context.Users
                     join c in Context.Cities on u.CityId equals c.Id
-                    join r in Context.Roles on u.RoleId equals r.Id
+                    join ur in Context.UserRoles on u.Id equals ur.UserId
+                    join r in Context.Roles on ur.RoleId equals r.Id
                     where u.FirstName.Contains(searchUser.FirstName.Trim())
                        && u.LastName.Contains(searchUser.LastName.Trim())
                     select new UserDto
@@ -38,9 +39,9 @@ namespace ProjectCars.Repository
                         FirstName = u.FirstName,
                         LastName = u.LastName,
                         Email = u.Email,
-                        Username = u.Username,
-                        Password = u.Password,
-                        RoleId = u.RoleId,
+                        Username = u.UserName,
+                        Password = u.PasswordHash,
+                        RoleId = r.Id,
                         RoleName = r.Name,
                         CityId = u.CityId,
                         CityName = c.Name,
@@ -53,7 +54,8 @@ namespace ProjectCars.Repository
         {
             return (from u in Context.Users
                     join c in Context.Cities on u.CityId equals c.Id
-                    join r in Context.Roles on u.RoleId equals r.Id
+                    join ur in Context.UserRoles on u.Id equals ur.UserId
+                    join r in Context.Roles on ur.RoleId equals r.Id
                     where u.Id == id
                     select new UserDto
                     {
@@ -61,9 +63,9 @@ namespace ProjectCars.Repository
                         FirstName = u.FirstName,
                         LastName = u.LastName,
                         Email = u.Email,
-                        Username = u.Username,
-                        Password = u.Password,
-                        RoleId = u.RoleId,
+                        Username = u.UserName,
+                        Password = u.PasswordHash,
+                        RoleId = r.Id,
                         RoleName = r.Name,
                         CityId = u.CityId,
                         CityName = c.Name,

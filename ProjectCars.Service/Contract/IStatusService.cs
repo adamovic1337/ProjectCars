@@ -36,7 +36,7 @@ namespace ProjectCars.Service.Contract
         /// Creates Status entity
         /// </summary>
         /// <param name="statusDto"></param>
-        /// <returns>Created Role for Location header</returns>
+        /// <returns>Created AppRole for Location header</returns>
         StatusDto CreateStatus(CreateStatusDto statusDto);
 
         /// <summary>

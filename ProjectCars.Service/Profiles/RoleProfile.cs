@@ -10,10 +10,10 @@ namespace ProjectCars.Service.Profiles
     {
         public RoleProfile()
         {
-            CreateMap<Role, RoleDto>();
-            CreateMap<CreateRoleDto, Role>();
-            CreateMap<UpdateRoleDto, Role>();
-            CreateMap<Role, UpdateRoleDto>();
+            CreateMap<AppRole, RoleDto>();
+            CreateMap<CreateRoleDto, AppRole>();
+            CreateMap<UpdateRoleDto, AppRole>();
+            CreateMap<AppRole, UpdateRoleDto>();
         }
     }
 }

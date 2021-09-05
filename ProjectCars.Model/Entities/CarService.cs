@@ -13,7 +13,7 @@ namespace ProjectCars.Model.Entities
         public int OwnerId { get; set; }
 
         public City City { get; set; }
-        public User User { get; set; }
+        public AppUser User { get; set; }
         public ICollection<ServiceRequest> ServiceRequests { get; set; }
         public ICollection<Maintenance> Maintenance { get; set; }
     }

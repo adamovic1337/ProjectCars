@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ProjectCars.Repository.Contracts
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface IUserRepository : IGenericRepository<AppUser>
     {
         /// <summary>
         /// Returns all users that match input filters

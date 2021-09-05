@@ -9,6 +9,6 @@ namespace ProjectCars.Model.Entities
 
         public Country Country { get; set; }
         public ICollection<CarService> CarServices { get; set; }
-        public ICollection<User> Users { get; set; }
+        public ICollection<AppUser> Users { get; set; }
     }
 }

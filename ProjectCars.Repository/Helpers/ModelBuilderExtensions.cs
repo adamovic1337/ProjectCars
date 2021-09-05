@@ -1,7 +1,9 @@
 ﻿using Bogus;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MoreLinq;
 using ProjectCars.Model.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ProjectCars.Repository.Helpers
@@ -49,18 +51,18 @@ namespace ProjectCars.Repository.Helpers
 
             #region ROLES
 
-            modelBuilder.Entity<Role>().HasData(
-                new Role
+            modelBuilder.Entity<AppRole>().HasData(
+                new AppRole
                 {
                     Id = 1,
                     Name = "Admin"
                 },
-                new Role
+                new AppRole
                 {
                     Id = 2,
-                    Name = "User"
+                    Name = "AppUser"
                 },
-                new Role
+                new AppRole
                 {
                     Id = 3,
                     Name = "ServiceOwner"
@@ -71,25 +73,39 @@ namespace ProjectCars.Repository.Helpers
             #region USERS
 
             var userId = 1;
-            var user = new Faker<User>()
+            var user = new Faker<AppUser>()
                 .RuleFor(u => u.Id, _ => userId++)
                 .RuleFor(u => u.FirstName, f => f.Name.FirstName())
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
                 .RuleFor(u => u.Email, (f) => f.Internet.Email())
-                .RuleFor(u => u.Username, f => f.Internet.UserName())
-                .RuleFor(u => u.Password, f => "password123")
-                .RuleFor(u => u.CityId, f => f.PickRandom(citiesIds))
-                .RuleFor(u => u.RoleId, f => f.PickRandom(1, 2, 3));
+                .RuleFor(u => u.UserName, f => f.Internet.UserName())
+                .RuleFor(u => u.PasswordHash, f => "password123")
+                .RuleFor(u => u.CityId, f => f.PickRandom(citiesIds));
 
-            var generateUsers = user.Generate(300);
+            var generateUsers = user.Generate(500);
             var uniqueUsersByEmail = generateUsers.DistinctBy(u => u.Email).ToList();
-            var uniqueUsers = uniqueUsersByEmail.DistinctBy(u => u.Username).ToList();
-            var carOwnersIds = uniqueUsers.Where(u => u.RoleId == 2).Select(u => u.Id).ToList();
-            var carServiceOwnersIds = uniqueUsers.Where(u => u.RoleId == 3).Select(u => u.Id).ToList();
+            var uniqueUsers = uniqueUsersByEmail.DistinctBy(u => u.UserName).ToList();
+            var uniqueUsersIds = uniqueUsers.Select(u => u.Id).ToList();
 
-            modelBuilder.Entity<User>().HasData(uniqueUsers);
+            modelBuilder.Entity<AppUser>().HasData(uniqueUsers);
 
             #endregion USERS
+
+            #region USER ROLES
+
+            var userRole = new Faker<IdentityUserRole<int>>()
+                .RuleFor(ur => ur.UserId, f => f.PickRandom(1,2,3))
+                .RuleFor(ur => ur.RoleId, f => f.PickRandom(uniqueUsersIds));
+
+            var generateUserRoles = userRole.Generate(uniqueUsersIds.Count);
+            var uniqueUR = generateUserRoles.DistinctBy(u => u.RoleId);
+            var uniqueUserRoles = uniqueUR.DistinctBy(u => u.UserId);
+            var carOwnersIds = generateUserRoles.Where(u => u.RoleId == 2).Select(u => u.UserId).ToList();
+            var carServiceOwnersIds = generateUserRoles.Where(u => u.RoleId == 3).Select(u => u.UserId).ToList();
+
+            modelBuilder.Entity<IdentityUserRole<int>>().HasData(uniqueUserRoles);
+
+            #endregion
 
             #region CAR SERVICES
 
@@ -102,7 +118,7 @@ namespace ProjectCars.Repository.Helpers
                 .RuleFor(cs => cs.Email, f => f.Internet.Email())
                 .RuleFor(cs => cs.Website, (_, cs) => $"www.{cs.Name}.com")
                 .RuleFor(cs => cs.CityId, f => f.PickRandom(citiesIds))
-                .RuleFor(cs => cs.OwnerId, f => f.PickRandom(carServiceOwnersIds));
+                .RuleFor(cs => cs.OwnerId, f => f.PickRandom(1, 2, 3, 4));
 
             var generateCarServices = carService.Generate(150);
             var uniqueCarServicesByEmail = generateCarServices.DistinctBy(cs => cs.Email).ToList();
@@ -133,22 +149,22 @@ namespace ProjectCars.Repository.Helpers
             #region FUEL TYPES
 
             modelBuilder.Entity<FuelType>().HasData(
-                new Role
+                new AppRole
                 {
                     Id = 1,
                     Name = "Diesel"
                 },
-                new Role
+                new AppRole
                 {
                     Id = 2,
                     Name = "Petrol"
                 },
-                new Role
+                new AppRole
                 {
                     Id = 3,
                     Name = "Petrol + LPG"
                 },
-                new Role
+                new AppRole
                 {
                     Id = 4,
                     Name = "Electric"

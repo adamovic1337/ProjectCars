@@ -10,6 +10,7 @@ using ProjectCars.Model.DTO.View;
 using ProjectCars.Service.Contract;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProjectCars.API.Controllers
 {
@@ -174,9 +175,9 @@ namespace ProjectCars.API.Controllers
         // POST api/roles
         [Consumes("application/json", "application/xml")]
         [HttpPost(Name = "CreateRole")]
-        public IActionResult Post([FromBody] CreateRoleDto roleDto)
+        public async Task<IActionResult> Post([FromBody] CreateRoleDto roleDto)
         {
-            var roleToReturn = _roleService.CreateRole(roleDto);
+            var roleToReturn = await _roleService.CreateRole(roleDto);
             var role = CreateLinks(roleToReturn.Id, roleToReturn);
 
             return CreatedAtRoute("GetRole",
@@ -187,26 +188,26 @@ namespace ProjectCars.API.Controllers
         // PUT api/roles/5
         [Consumes("application/json", "application/xml")]
         [HttpPut("{roleId}", Name = "UpdateRolePut")]
-        public IActionResult Put(int roleId, [FromBody] UpdateRoleDto roleDto)
+        public async Task<IActionResult> Put(int roleId, [FromBody] UpdateRoleDto roleDto)
         {
-            _roleService.UpdateRolePut(roleId, roleDto);
+            _ = await _roleService.UpdateRolePut(roleId, roleDto);
             return NoContent();
         }
 
         // PATCH api/roles/5
         [Consumes("application/json-patch+json")]
         [HttpPatch("{roleId}", Name = "UpdateRolePatch")]
-        public IActionResult Patch(int roleId, [FromBody] JsonPatchDocument<UpdateRoleDto> patchDocument)
+        public async Task<IActionResult> Patch(int roleId, [FromBody] JsonPatchDocument<UpdateRoleDto> patchDocument)
         {
-            _roleService.UpdateRolePatch(roleId, patchDocument);
+            _ = await _roleService.UpdateRolePatch(roleId, patchDocument);
             return NoContent();
         }
 
         // DELETE api/roles/5
         [HttpDelete("{roleId}", Name = "DeleteRole")]
-        public IActionResult Delete(int roleId)
+        public async Task<IActionResult> Delete(int roleId)
         {
-            _roleService.DeleteRole(roleId);
+            _ = await _roleService.DeleteRole(roleId);
             return NoContent();
         }
     }

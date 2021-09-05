@@ -10,10 +10,10 @@ namespace ProjectCars.Service.Profiles
     {
         public UserProfile()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<CreateUserDto, User>();
-            CreateMap<UpdateUserDto, User>();
-            CreateMap<User, UpdateUserDto>();
+            CreateMap<AppUser, UserDto>();
+            CreateMap<CreateUserDto, AppUser>();
+            CreateMap<UpdateUserDto, AppUser>();
+            CreateMap<AppUser, UpdateUserDto>();
         }
     }
 }

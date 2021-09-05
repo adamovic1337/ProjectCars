@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
@@ -14,6 +14,7 @@ using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProjectCars.Service
 {
@@ -24,20 +25,20 @@ namespace ProjectCars.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly CreateUserValidator _createUserValidator;
         private readonly UpdateUserValidator _updateUserValidator;
+        private readonly UserManager<AppUser> _userManager;
 
         #endregion FIELDS
 
         #region CONSTRUCTORS
 
-        public UserService(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper, CreateUserValidator createUserValidator, UpdateUserValidator updateUserValidator)
+        public UserService(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper, UpdateUserValidator updateUserValidator, UserManager<AppUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _mapper = mapper;
-            _createUserValidator = createUserValidator;
             _updateUserValidator = updateUserValidator;
+            _userManager = userManager;
         }
 
         #endregion CONSTRUCTORS
@@ -49,7 +50,7 @@ namespace ProjectCars.Service
             return _userRepository.GetAll(searchUser);
         }
 
-        public PaginationData<User> PaginationData(SearchUserDto searchUser)
+        public PaginationData<AppUser> PaginationData(SearchUserDto searchUser)
         {
             return _userRepository.GetPaginationData(searchUser,
                                                       u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)));
@@ -60,31 +61,22 @@ namespace ProjectCars.Service
             return _userRepository.GetOne(userId).EntityNotFoundCheck();
         }
 
-        public UserDto CreateUser(CreateUserDto userDto)
-        {
-            _createUserValidator.ValidateAndThrow(userDto);
-
-            var userEntity = _mapper.Map<User>(userDto);
-            _userRepository.Create(userEntity);
-            _unitOfWork.Commit();
-
-            var userToReturn = _mapper.Map<UserDto>(userEntity);
-            return userToReturn;
-        }
-
-        public void UpdateUserPut(int userId, UpdateUserDto userDto)
+        public async Task<bool> UpdateUserPut(int userId, UpdateUserDto userDto)
         {
             var user = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
             userDto.Id = userId;
 
             _updateUserValidator.ValidateAndThrow(userDto);
-            _userRepository.Update(user);
             _mapper.Map(userDto, user);
+
+            var update = await _userManager.UpdateAsync(user);
             _unitOfWork.Commit();
+
+            return update.Succeeded;
         }
 
-        public void UpdateUserPatch(int userId, JsonPatchDocument<UpdateUserDto> patchDocument)
+        public async Task<bool> UpdateUserPatch(int userId, JsonPatchDocument<UpdateUserDto> patchDocument)
         {
             var user = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
@@ -95,17 +87,22 @@ namespace ProjectCars.Service
             userDto.Id = userId;
 
             _updateUserValidator.ValidateAndThrow(userDto);
-            _userRepository.Update(user);
             _mapper.Map(userDto, user);
+
+            var update = await _userManager.UpdateAsync(user);
             _unitOfWork.Commit();
+
+            return update.Succeeded;
         }
 
-        public void DeleteUser(int userId)
+        public async Task<bool> DeleteUser(int userId)
         {
             var user = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
-            _userRepository.Delete(user);
+            var delete = await _userManager.DeleteAsync(user);
             _unitOfWork.Commit();
+
+            return delete.Succeeded;
         }
 
         #endregion METHODS

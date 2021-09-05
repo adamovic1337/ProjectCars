@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ProjectCars.Repository.Contracts
 {
-    public interface IRoleRepository : IGenericRepository<Role>
+    public interface IRoleRepository : IGenericRepository<AppRole>
     {
         /// <summary>
         /// Returns all roles that match input filters
