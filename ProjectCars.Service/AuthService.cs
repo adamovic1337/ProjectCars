@@ -61,10 +61,9 @@ namespace ProjectCars.Service
 
             if (!isCreated.Succeeded)
             {
-                _ = await _userManager.AddToRoleAsync(newUser, userDto.Role);
-
                 return new RegistrationResponseDto { Error = "Unable to create user", Success = false };
             }
+            var result = await _userManager.AddToRoleAsync(newUser, userDto.Role);
 
             var roles = await _userManager.GetRolesAsync(newUser);
 
@@ -100,17 +99,15 @@ namespace ProjectCars.Service
                 {
                     // JWT Claims: https://datatracker.ietf.org/doc/html/rfc7519#section-4.1
 
-                    new Claim("Id", user.Id.ToString(), ClaimValueTypes.String, _jwtConfig.Issuer),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email, ClaimValueTypes.String, _jwtConfig.Issuer),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Email, ClaimValueTypes.String, _jwtConfig.Issuer),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString(), ClaimValueTypes.String, _jwtConfig.Issuer),
-                    new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.String, _jwtConfig.Issuer),
-                    new Claim("Roles", roles[0].ToString(), ClaimValueTypes.String, _jwtConfig.Issuer),
+                    new Claim("Id", user.Id.ToString(), ClaimValueTypes.String),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email, ClaimValueTypes.String),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email, ClaimValueTypes.String),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString(), ClaimValueTypes.String),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.String),
+                    new Claim("Roles", roles[0].ToString(), ClaimValueTypes.String),
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                Issuer = _jwtConfig.Issuer,
-                Audience = _jwtConfig.Audiance
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = jwtTokenhandler.CreateToken(tokenDescriptor);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using ProjectCars.API.Helpers;
@@ -151,6 +152,7 @@ namespace ProjectCars.API.Controllers
         // GET api/cities/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet("{cityId}", Name = "GetCity")]
+        [Authorize(Policy = "AdminUser")]
         public IActionResult Get(int cityId, [FromHeader(Name = "Accept")] string mediaType)
         {
             var city = _cityService.GetCityById(cityId);

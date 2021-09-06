@@ -79,9 +79,7 @@ namespace ProjectCars.API.Helpers
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidIssuer = Configuration["JwtConfig:Issuer"],
                     ValidateIssuer = false,
-                    ValidAudience = Configuration["JwtConfig:Audiance"],
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     RequireExpirationTime = false
@@ -93,9 +91,7 @@ namespace ProjectCars.API.Helpers
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy => policy.RequireClaim("Roles", "Admin"));
-                options.AddPolicy("User", policy => policy.RequireClaim("Roles", "User"));
-                options.AddPolicy("ServiceOwner", policy => policy.RequireClaim("Roles", "ServiceOwner"));
+                options.AddPolicy("AdminUser", policy => policy.RequireClaim("Roles", "Admin", "User"));
             });
         }
 

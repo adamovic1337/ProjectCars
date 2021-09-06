@@ -79,11 +79,11 @@ namespace ProjectCars.Repository.Helpers
             var totalRoles = 3;
             var SQL3 = $"--------------------< Total count: {totalRoles} >--------------------{Environment.NewLine}" +                       
                        $"INSERT INTO dbo.AspNetRoles{Environment.NewLine}" +
-                       $"(Name)" +
+                       $"(Name,NormalizedName){Environment.NewLine}" +
                        $"VALUES{Environment.NewLine}" +
-                       $"('Admin'),{Environment.NewLine}" +
-                       $"('User'),{Environment.NewLine}" +
-                       $"('ServiceOwner');{Environment.NewLine}";
+                       $"('Admin','ADMIN'),{Environment.NewLine}" +
+                       $"('User','USER'),{Environment.NewLine}" +
+                       $"('ServiceOwner','SERVICEOWNER');{Environment.NewLine}";
 
             File.AppendAllText("../SQL/SqlData.sql", SQL3);
 
@@ -105,7 +105,7 @@ namespace ProjectCars.Repository.Helpers
             var totalUsers = uniqueUsers.Count;
 
             var SQL4 = $"--------------------< Total count: {totalUsers} >--------------------{Environment.NewLine}INSERT INTO dbo.AspNetUsers{Environment.NewLine}" +
-                       $"(FirstName,LastName,Email,UserName,PasswordHash,CityId)" +
+                       $"(FirstName,LastName,Email,UserName,PasswordHash,CityId,EmailConfirmed,PhoneNumberConfirmed,AccessFailedCount,TwoFactorEnabled,LockoutEnabled){Environment.NewLine}" +
                        $"VALUES{Environment.NewLine}";
                        
             var lastUser = uniqueUsers.Last();
@@ -113,11 +113,11 @@ namespace ProjectCars.Repository.Helpers
             {
                 if (item.Equals(lastUser))
                 {
-                    SQL4 += $"('{item.FirstName.Replace("'", " ")}','{item.LastName.Replace("'", " ")}','{item.Email}','{item.UserName}','{item.PasswordHash}','{item.CityId}');{Environment.NewLine}";
+                    SQL4 += $"('{item.FirstName.Replace("'", " ")}','{item.LastName.Replace("'", " ")}','{item.Email}','{item.UserName}','{item.PasswordHash}','{item.CityId}','{item.EmailConfirmed = false}','{item.PhoneNumberConfirmed = false}','{item.AccessFailedCount = 0}','{item.TwoFactorEnabled = false}','{item.LockoutEnabled = false}');{Environment.NewLine}";
                 }
                 else
                 {
-                    SQL4 += $"('{item.FirstName.Replace("'", " ")}','{item.LastName.Replace("'", " ")}','{item.Email}','{item.UserName}','{item.PasswordHash}','{item.CityId}'),{Environment.NewLine}";
+                    SQL4 += $"('{item.FirstName.Replace("'", " ")}','{item.LastName.Replace("'", " ")}','{item.Email}','{item.UserName}','{item.PasswordHash}','{item.CityId}','{item.EmailConfirmed = false}','{item.PhoneNumberConfirmed = false}','{item.AccessFailedCount = 0}','{item.TwoFactorEnabled = false}','{item.LockoutEnabled = false}'),{Environment.NewLine}";
                 }
             }
 
@@ -316,11 +316,11 @@ namespace ProjectCars.Repository.Helpers
             {
                 if (item.Equals(lastCar))
                 {
-                    SQL11 += $"('{item.Vin}','{item.FirstRegistration}','{item.Mileage}','{item.ModelId}');{Environment.NewLine}";
+                    SQL11 += $"('{item.Vin}','{item.FirstRegistration.ToString("yyyy-MM-dd")}','{item.Mileage}','{item.ModelId}');{Environment.NewLine}";
                 }
                 else
                 {
-                    SQL11 += $"('{item.Vin}','{item.FirstRegistration}','{item.Mileage}','{item.ModelId}'),{Environment.NewLine}";
+                    SQL11 += $"('{item.Vin}','{item.FirstRegistration.ToString("yyyy-MM-dd")}','{item.Mileage}','{item.ModelId}'),{Environment.NewLine}";
                 }
             }
 
@@ -335,7 +335,7 @@ namespace ProjectCars.Repository.Helpers
                 .RuleFor(uc => uc.UserId, f => f.Random.Int(1, totalUsers));
 
             var generateUserCars = userCar.Generate(totalUsers);
-            var uniqueUserCars = generateUserCars.DistinctBy(c => c.CarId).ToList();
+            var uniqueUserCars = generateUserCars.DistinctBy(u=>u.UserId).ToList();
             var totalUserCars = uniqueUserCars.Count;
 
             var SQL12 = $"--------------------< Total count: {totalUserCars} >--------------------{Environment.NewLine}INSERT INTO dbo.UserCars{Environment.NewLine}VALUES{Environment.NewLine}";
@@ -345,11 +345,11 @@ namespace ProjectCars.Repository.Helpers
             {
                 if (item.Equals(lastUserCar))
                 {
-                    SQL12 += $"('{item.CarId}','{item.UserId}');{Environment.NewLine}";
+                    SQL12 += $"('{item.UserId}','{item.CarId}');{Environment.NewLine}";
                 }
                 else
                 {
-                    SQL12 += $"('{item.CarId}','{item.UserId}'),{Environment.NewLine}";
+                    SQL12 += $"('{item.UserId}','{item.CarId}'),{Environment.NewLine}";
                 }
             }
 
@@ -361,8 +361,8 @@ namespace ProjectCars.Repository.Helpers
 
             var maintenance = new Faker<Maintenance>()
                 .RuleFor(m => m.Repairs, f => f.Lorem.Text())
-                .RuleFor(m => m.RepairDate, f => f.Date.Past())
                 .RuleFor(m => m.Mileage, f => f.Random.Int(0, 999999))
+                .RuleFor(m => m.RepairDate, f => f.Date.Past())                
                 .RuleFor(m => m.CarId, f => f.Random.Int(1,totalCars))
                 .RuleFor(m => m.CarServiceId, f => f.Random.Int(1, totalCarServices));
 
@@ -376,11 +376,11 @@ namespace ProjectCars.Repository.Helpers
             {
                 if (item.Equals(lastMaintenance))
                 {
-                    SQL13 += $"('{item.Repairs}','{item.RepairDate}','{item.Mileage}','{item.CarId}','{item.CarServiceId}');{Environment.NewLine}";
+                    SQL13 += $"('{item.Repairs}','{item.Mileage}','{item.RepairDate.ToString("yyyy-MM-dd")}','{item.CarId}','{item.CarServiceId}');{Environment.NewLine}";
                 }
                 else
                 {
-                    SQL13 += $"('{item.Repairs}','{item.RepairDate}','{item.Mileage}','{item.CarId}','{item.CarServiceId}'),{Environment.NewLine}";
+                    SQL13 += $"('{item.Repairs}','{item.Mileage}','{item.RepairDate.ToString("yyyy-MM-dd")}','{item.CarId}','{item.CarServiceId}'),{Environment.NewLine}";
                 }
             }
 
@@ -428,11 +428,11 @@ namespace ProjectCars.Repository.Helpers
             {
                 if (item.Equals(lastServiceRequest))
                 {
-                    SQL15 += $"('{item.UserDescription}','{item.Appointment}','{item.RepairStart}','{item.RepairEnd}','{item.CarServiceId}','{item.UserId}','{item.CarId}','{item.StatusId}');{Environment.NewLine}";
+                    SQL15 += $"('{item.UserDescription}','{item.Appointment?.ToString("yyyy-MM-dd")}','{item.RepairStart?.ToString("yyyy-MM-dd")}','{item.RepairEnd?.ToString("yyyy-MM-dd")}','{item.CarServiceId}','{item.UserId}','{item.CarId}','{item.StatusId}');{Environment.NewLine}";
                 }
                 else
                 {
-                    SQL15 += $"('{item.UserDescription}','{item.Appointment}','{item.RepairStart}','{item.RepairEnd}','{item.CarServiceId}','{item.UserId}','{item.CarId}','{item.StatusId}'),{Environment.NewLine}";
+                    SQL15 += $"('{item.UserDescription}','{item.Appointment?.ToString("yyyy-MM-dd")}','{item.RepairStart?.ToString("yyyy-MM-dd")}','{item.RepairEnd?.ToString("yyyy-MM-dd")}','{item.CarServiceId}','{item.UserId}','{item.CarId}','{item.StatusId}'),{Environment.NewLine}";
                 }
             }
 
