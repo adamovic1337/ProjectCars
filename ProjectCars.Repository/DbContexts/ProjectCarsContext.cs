@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Configurations;
+using ProjectCars.Repository.Helpers;
 
 namespace ProjectCars.Repository.DbContexts
 {
@@ -49,7 +50,7 @@ namespace ProjectCars.Repository.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CarConfiguration).Assembly);
-            //modelBuilder.SeedDatabaseWithFakeData();
+            modelBuilder.CreateScriptWithFakeData();
             base.OnModelCreating(modelBuilder);
         }
 

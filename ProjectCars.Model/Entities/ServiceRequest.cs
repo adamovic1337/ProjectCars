@@ -16,7 +16,6 @@ namespace ProjectCars.Model.Entities
         public AppUser User { get; set; }
         public Car Car { get; set; }
         public CarService CarService { get; set; }
-        public UserCar UserCars { get; set; }
         public Status Status { get; set; }
     }
 }
