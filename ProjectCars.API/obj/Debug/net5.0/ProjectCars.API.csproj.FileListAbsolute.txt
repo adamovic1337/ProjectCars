@@ -229,3 +229,4 @@ G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\P
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ref\ProjectCars.API.dll
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.pdb
 G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.genruntimeconfig.cache
+G:\3.Projects\2. Programming\2.C#\ProjectCars\ProjectCars.API\obj\Debug\net5.0\ProjectCars.API.MvcApplicationPartsAssemblyInfo.cs

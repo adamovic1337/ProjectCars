@@ -89,10 +89,10 @@ namespace ProjectCars.API.Helpers
                     .AddRoles<AppRole>()
                     .AddEntityFrameworkStores<ProjectCarsContext>();
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AdminUser", policy => policy.RequireClaim("Roles", "Admin", "User"));
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+            //});
         }
 
         public static void AddRepositories(this IServiceCollection services)
