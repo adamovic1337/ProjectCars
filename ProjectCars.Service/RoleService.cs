@@ -2,7 +2,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.VisualBasic;
 using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
@@ -56,7 +55,7 @@ namespace ProjectCars.Service
         public PaginationData<AppRole> PaginationData(SearchRoleDto searchRole)
         {
             return _roleRepository.GetPaginationData(searchRole, 
-                                                     r => r.Name.Contains(Strings.Trim(searchRole.RoleName)));
+                                                     r => r.Name.Contains(searchRole.RoleName.Trim()));
         }
 
         public RoleDto GetRoleById(int roleId)

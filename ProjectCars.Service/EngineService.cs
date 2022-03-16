@@ -13,7 +13,6 @@ using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -51,8 +50,8 @@ namespace ProjectCars.Service
 
         public PaginationData<Engine> PaginationData(SearchEngineDto searchEngine)
         {
-            return _engineRepository.GetPaginationData(searchEngine, 
-                                                       e => e.CubicCapacity <= searchEngine.CubicCapacityMax && e.CubicCapacity >= searchEngine.CubicCapacityMin);
+            return _engineRepository.GetPaginationData(searchEngine,
+                                                       e => e.Name.Contains(searchEngine.EngineName.Trim()));
         }
 
         public EngineDto GetEngineById(int engineId)

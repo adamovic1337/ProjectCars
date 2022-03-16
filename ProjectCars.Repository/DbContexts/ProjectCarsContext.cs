@@ -40,17 +40,19 @@ namespace ProjectCars.Repository.DbContexts
 
         #region METHODS
 
-        //This method should only be used when seeding database, connection string should be in appsettings.json
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data Source =localhost; Initial Catalog = ProjectCars; Integrated Security = True");
-            base.OnConfiguring(optionsBuilder);
-        }
+        ////This method should only be used when seeding database, connection string should be in appsettings.json
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Data Source = .\SQLEXPRESS; Initial Catalog = ProjectCars; Integrated Security = True");
+        //    base.OnConfiguring(optionsBuilder);
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CarConfiguration).Assembly);
-            modelBuilder.CreateScriptWithFakeData();
+            
+            //modelBuilder.CreateScriptWithFakeData(); //Create script with fake data for dev purposes. Make "SQL" folder in root directory.
+
             base.OnModelCreating(modelBuilder);
         }
 

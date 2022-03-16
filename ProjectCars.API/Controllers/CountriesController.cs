@@ -173,7 +173,7 @@ namespace ProjectCars.API.Controllers
 
         // POST api/countries
         [Consumes("application/json", "application/xml")]
-        [HttpPost(Name = "CreateCountries")]
+        [HttpPost(Name = "CreateCountry")]
         public IActionResult Post([FromBody] CreateCountryDto countryDto)
         {
             var countryToReturn = _countryService.CreateCountry(countryDto);

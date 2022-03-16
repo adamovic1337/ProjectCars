@@ -2,7 +2,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.VisualBasic;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
@@ -53,7 +52,7 @@ namespace ProjectCars.Service
         public PaginationData<AppUser> PaginationData(SearchUserDto searchUser)
         {
             return _userRepository.GetPaginationData(searchUser,
-                                                      u => u.FirstName.Contains(Strings.Trim(searchUser.FirstName)) && u.LastName.Contains(Strings.Trim(searchUser.LastName)));
+                                                      u => u.FirstName.Contains(searchUser.FirstName.Trim()) && u.LastName.Contains(searchUser.LastName.Trim()));
         }
 
         public UserDto GetUserById(int userId)

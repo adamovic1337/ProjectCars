@@ -42,6 +42,10 @@ namespace ProjectCars.Service.Validation
                 .WithMessage("Last Name is required parameter")
                 .MaximumLength(50)
                 .WithMessage("Maximum length is 50 characters");
+
+            RuleFor(u => u.CityId)
+                .NotEmpty()
+                .WithMessage("City is required parameter");
         }
     }
 }

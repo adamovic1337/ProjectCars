@@ -77,7 +77,7 @@ namespace ProjectCars.Repository.Helpers
 
             #region ROLES
             var totalRoles = 3;
-            var SQL3 = $"--------------------< Total count: {totalRoles} >--------------------{Environment.NewLine}" +                       
+            var SQL3 = $"--------------------< Total count: {totalRoles} >--------------------{Environment.NewLine}" +
                        $"INSERT INTO dbo.AspNetRoles{Environment.NewLine}" +
                        $"(Name,NormalizedName){Environment.NewLine}" +
                        $"VALUES{Environment.NewLine}" +
@@ -107,7 +107,7 @@ namespace ProjectCars.Repository.Helpers
             var SQL4 = $"--------------------< Total count: {totalUsers} >--------------------{Environment.NewLine}INSERT INTO dbo.AspNetUsers{Environment.NewLine}" +
                        $"(FirstName,LastName,Email,UserName,PasswordHash,CityId,EmailConfirmed,PhoneNumberConfirmed,AccessFailedCount,TwoFactorEnabled,LockoutEnabled){Environment.NewLine}" +
                        $"VALUES{Environment.NewLine}";
-                       
+
             var lastUser = uniqueUsers.Last();
             foreach (var item in uniqueUsers)
             {
@@ -128,7 +128,7 @@ namespace ProjectCars.Repository.Helpers
             #region USER ROLES
 
             var userRole = new Faker<IdentityUserRole<int>>()
-                .RuleFor(ur => ur.UserId, f => f.Random.Int(1,totalUsers))
+                .RuleFor(ur => ur.UserId, f => f.Random.Int(1, totalUsers))
                 .RuleFor(ur => ur.RoleId, f => f.Random.Int(1, totalRoles));
 
             var generateUserRoles = userRole.Generate(totalUsers);
@@ -165,7 +165,7 @@ namespace ProjectCars.Repository.Helpers
                 .RuleFor(cs => cs.Address, f => f.Address.StreetName())
                 .RuleFor(cs => cs.Email, f => f.Internet.Email())
                 .RuleFor(cs => cs.Website, (_, cs) => $"www.{cs.Name}.com")
-                .RuleFor(cs => cs.CityId, f => f.Random.Int(1,totalCities))
+                .RuleFor(cs => cs.CityId, f => f.Random.Int(1, totalCities))
                 .RuleFor(cs => cs.OwnerId, f => f.PickRandom(carServiceOwnersIds));
 
             var generateCarServices = carService.Generate(150);
@@ -230,7 +230,7 @@ namespace ProjectCars.Repository.Helpers
                        $"('Diesel'),{Environment.NewLine}" +
                        $"('Petrol'),{Environment.NewLine}" +
                        $"('Petrol + LPG'),{Environment.NewLine}" +
-                       $"('Electric');{Environment.NewLine}";
+                       $"('Hybrid');{Environment.NewLine}";
 
             File.AppendAllText("../SQL/SqlData.sql", SQL8);
 
@@ -271,7 +271,7 @@ namespace ProjectCars.Repository.Helpers
 
             var model = new Faker<CarModel>()
                 .RuleFor(m => m.Name, f => f.Lorem.Word())
-                .RuleFor(m => m.ManufacturerId, f => f.Random.Int(1,totalManufacturers))
+                .RuleFor(m => m.ManufacturerId, f => f.Random.Int(1, totalManufacturers))
                 .RuleFor(m => m.EngineId, f => f.Random.Int(1, totalEngines));
 
             var generateModels = model.Generate(100);
@@ -335,7 +335,7 @@ namespace ProjectCars.Repository.Helpers
                 .RuleFor(uc => uc.UserId, f => f.Random.Int(1, totalUsers));
 
             var generateUserCars = userCar.Generate(totalUsers);
-            var uniqueUserCars = generateUserCars.DistinctBy(u=>u.UserId).ToList();
+            var uniqueUserCars = generateUserCars.DistinctBy(u => u.UserId).ToList();
             var totalUserCars = uniqueUserCars.Count;
 
             var SQL12 = $"--------------------< Total count: {totalUserCars} >--------------------{Environment.NewLine}INSERT INTO dbo.UserCars{Environment.NewLine}VALUES{Environment.NewLine}";
@@ -362,8 +362,8 @@ namespace ProjectCars.Repository.Helpers
             var maintenance = new Faker<Maintenance>()
                 .RuleFor(m => m.Repairs, f => f.Lorem.Text())
                 .RuleFor(m => m.Mileage, f => f.Random.Int(0, 999999))
-                .RuleFor(m => m.RepairDate, f => f.Date.Past())                
-                .RuleFor(m => m.CarId, f => f.Random.Int(1,totalCars))
+                .RuleFor(m => m.RepairDate, f => f.Date.Past())
+                .RuleFor(m => m.CarId, f => f.Random.Int(1, totalCars))
                 .RuleFor(m => m.CarServiceId, f => f.Random.Int(1, totalCarServices));
 
             var generateMaintenance = maintenance.Generate(600);

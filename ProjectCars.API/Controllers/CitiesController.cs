@@ -152,7 +152,7 @@ namespace ProjectCars.API.Controllers
         // GET api/cities/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet("{cityId}", Name = "GetCity")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Get(int cityId, [FromHeader(Name = "Accept")] string mediaType)
         {
             var city = _cityService.GetCityById(cityId);

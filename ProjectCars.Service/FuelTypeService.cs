@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.VisualBasic;
 using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
@@ -53,7 +52,7 @@ namespace ProjectCars.Service
         public PaginationData<FuelType> PaginationData(SearchFuelTypeDto searchFuelType)
         {
             return _fuelTypeRepository.GetPaginationData(searchFuelType, 
-                                                         r => r.Name.Contains(Strings.Trim(searchFuelType.FuelTypeName)));
+                                                         r => r.Name.Contains(searchFuelType.FuelTypeName.Trim()));
         }
 
         public FuelTypeDto GetFuelTypeById(int fuelTypeId)

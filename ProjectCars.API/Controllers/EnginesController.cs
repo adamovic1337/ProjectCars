@@ -74,17 +74,13 @@ namespace ProjectCars.API.Controllers
             return type switch
             {
                 ResourceUriType.PreviousPage => Url.Link($"Get{name}",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, cubicCapacityMax = search.CubicCapacityMax, 
-                                                                                                                    cubicCapacityMin = search.CubicCapacityMin }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, engineName = search.EngineName }),
                 ResourceUriType.NextPage => Url.Link($"Get{name}",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, cubicCapacityMax = search.CubicCapacityMax, 
-                                                                                                                    cubicCapacityMin = search.CubicCapacityMin }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, engineName = search.EngineName }),
                 ResourceUriType.Current => Url.Link($"Get{name}",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, cubicCapacityMax = search.CubicCapacityMax, 
-                                                                                                                cubicCapacityMin = search.CubicCapacityMin }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, engineName = search.EngineName }),
                 _ => Url.Link($"Get{name}",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, cubicCapacityMax = search.CubicCapacityMax, 
-                                                                                                                cubicCapacityMin = search.CubicCapacityMin })
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, engineName = search.EngineName })
             };
         }
 

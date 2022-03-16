@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ProjectCars.Model.DTO.Search;
+﻿using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Common;
@@ -37,7 +36,7 @@ namespace ProjectCars.Repository
                     join f in Context.FuelTypes on e.FuelTypeId equals f.Id
                     join m in Context.Manufacturers on cm.ManufacturerId equals m.Id
 
-                    where u.Id == userId && cm.Name.Contains(Strings.Trim(searchCar.ModelName))
+                    where u.Id == userId && cm.Name.Contains(searchCar.ModelName.Trim())
 
                     select new CarDto
                     {
@@ -66,7 +65,7 @@ namespace ProjectCars.Repository
                          join uc in Context.UserCars on c.Id equals uc.CarId
                          join u in Context.Users on uc.UserId equals u.Id
                          join cm in Context.CarModels on c.ModelId equals cm.Id
-                         where u.Id == userId && cm.Name.Contains(Strings.Trim(searchCar.ModelName))
+                         where u.Id == userId && cm.Name.Contains(searchCar.ModelName.Trim())
                          select new Car
                          {
                              Id = c.Id,

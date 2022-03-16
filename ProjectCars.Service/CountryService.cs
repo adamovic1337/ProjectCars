@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.VisualBasic;
 using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
@@ -14,7 +13,6 @@ using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -53,7 +51,7 @@ namespace ProjectCars.Service
         public PaginationData<Country> PaginationData(SearchCountryDto searchCountry)
         {
             return _countryRepository.GetPaginationData(searchCountry, 
-                                                        r => r.Name.Contains(Strings.Trim(searchCountry.CountryName)));
+                                                        r => r.Name.Contains(searchCountry.CountryName.Trim()));
         }
 
         public CountryDto GetCountryById(int countryId)

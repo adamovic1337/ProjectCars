@@ -20,14 +20,14 @@ namespace ProjectCars.Service.Validation
                 .WithMessage("Maximum length is 30 characters")
                 .Must(UniqueName)
                 .WithMessage("Name must be unique");
-            RuleFor(e => e.CubicCapacity)
-                .LessThan(9999)
-                .WithMessage("Maximum number is 9999")
-                .GreaterThan(600)
-                .WithMessage("Minimum number is 600");
+
             RuleFor(e => e.FuelTypeId)
                 .NotEmpty()
                 .WithMessage("Fuel Type is required parameter");
+
+            RuleFor(e => e.Power)
+                .NotEmpty()
+                .WithMessage("Power is required parameter");
         }
 
         private bool UniqueName(UpdateEngineDto engine, string name)

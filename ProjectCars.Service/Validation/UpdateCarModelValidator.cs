@@ -20,6 +20,14 @@ namespace ProjectCars.Service.Validation
                 .WithMessage("Maximum length is 100 characters")
                 .Must(UniqueName)
                 .WithMessage("Name must be unique");
+
+            RuleFor(c => c.ManufacturerId)
+                .NotEmpty()
+                .WithMessage("Manufacturer is required parameter");
+
+            RuleFor(c => c.EngineId)
+                .NotEmpty()
+                .WithMessage("Engine is required parameter");
         }
 
         private bool UniqueName(UpdateCarModelDto carModel, string name)

@@ -29,7 +29,7 @@ namespace ProjectCars.Repository
 
             return (from e in Context.Engines
                     join f in Context.FuelTypes on e.FuelTypeId equals f.Id
-                    where e.CubicCapacity <= searchEngine.CubicCapacityMax && e.CubicCapacity >= searchEngine.CubicCapacityMin
+                    where e.Name.Contains(searchEngine.EngineName.Trim())
                     select new EngineDto
                     {
                         Id = e.Id,

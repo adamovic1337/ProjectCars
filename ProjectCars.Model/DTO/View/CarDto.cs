@@ -11,7 +11,7 @@ namespace ProjectCars.Model.DTO.View
         public string ModelName { get; set; }
         public int EngineId { get; set; }
         public string EngineName { get; set; }
-        public int CubicCapacity { get; set; }
+        public int? CubicCapacity { get; set; }
         public int Power { get; set; }
         public int FuelTypeId { get; set; }
         public string FuelTypeName { get; set; }

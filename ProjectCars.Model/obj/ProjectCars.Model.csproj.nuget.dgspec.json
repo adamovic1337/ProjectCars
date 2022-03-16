@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj": {}
+    "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj": {}
   },
   "projects": {
-    "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj": {
+    "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj",
+        "projectUniqueName": "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj",
         "projectName": "ProjectCars.Model",
-        "projectPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj",
-        "packagesPath": "C:\\Users\\Stefan\\.nuget\\packages\\",
-        "outputPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\obj\\",
+        "projectPath": "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj",
+        "packagesPath": "C:\\Users\\Adam\\.nuget\\packages\\",
+        "outputPath": "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Stefan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Adam\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,12 +59,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

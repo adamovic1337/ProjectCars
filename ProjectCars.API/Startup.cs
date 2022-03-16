@@ -20,6 +20,7 @@ namespace ProjectCars.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddFormaters();
             services.AddDependencies(Configuration);
             services.AddJwt(Configuration);
@@ -40,7 +41,16 @@ namespace ProjectCars.API
 
             app.UseRouting();
 
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("X-Pagination")
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
+
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();            
 
             app.UseAuthentication();
 

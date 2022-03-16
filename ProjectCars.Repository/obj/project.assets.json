@@ -6082,19 +6082,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Stefan\\.nuget\\packages\\": {}
+    "C:\\Users\\Adam\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj",
+      "projectUniqueName": "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj",
       "projectName": "ProjectCars.Repository",
-      "projectPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj",
-      "packagesPath": "C:\\Users\\Stefan\\.nuget\\packages\\",
-      "outputPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\obj\\",
+      "projectPath": "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\ProjectCars.Repository.csproj",
+      "packagesPath": "C:\\Users\\Adam\\.nuget\\packages\\",
+      "outputPath": "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Repository\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Stefan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Adam\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6108,8 +6113,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj": {
-              "projectPath": "G:\\3.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj"
+            "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj": {
+              "projectPath": "D:\\2.Projects\\2. Programming\\2.C#\\ProjectCars\\ProjectCars.Model\\ProjectCars.Model.csproj"
             }
           }
         }
@@ -6172,7 +6177,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

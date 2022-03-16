@@ -387,7 +387,7 @@ namespace ProjectCars.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CubicCapacity")
+                    b.Property<int?>("CubicCapacity")
                         .HasMaxLength(4)
                         .HasColumnType("int");
 

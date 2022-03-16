@@ -80,7 +80,7 @@ namespace ProjectCars.API.Middleware
                         statusCode = StatusCodes.Status400BadRequest;
                         response = new
                         {
-                            title = "Not Found",
+                            title = "Bad Request",
                             errors = parseException.Message,
                             status = statusCode,
                             traceId = Activity.Current?.Id ?? context?.TraceIdentifier

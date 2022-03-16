@@ -7,11 +7,17 @@ namespace ProjectCars.Service.Validation
     {
         public CreateEngineValidator()
         {
-            RuleFor(e => e.CubicCapacity)
-                .LessThan(9999)
-                .WithMessage("Maximum number is 9999 characters")
-                .GreaterThan(600)
-                .WithMessage("Maximum number is 600 characters");
+            RuleFor(e => e.Name)
+                .NotEmpty()
+                .WithMessage("Name is required parameter");
+
+            RuleFor(e => e.FuelTypeId)
+                .NotEmpty()
+                .WithMessage("Fuel Type is required parameter");
+
+            RuleFor(e => e.Power)
+                .NotEmpty()
+                .WithMessage("Power is required parameter");
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.VisualBasic;
 using ProjectCars.Model.DTO.Create;
 using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
@@ -52,7 +51,7 @@ namespace ProjectCars.Service
         public PaginationData<CarService> PaginationData(SearchCarServiceDto searchCarService)
         {
             return _carServiceRepository.GetPaginationData(searchCarService,
-                                                           r => r.Name.Contains(Strings.Trim(searchCarService.CarServiceName)));
+                                                           r => r.Name.Contains(searchCarService.CarServiceName.Trim()));
         }
 
         public CarServiceDto GetCarServiceById(int carServiceId)
