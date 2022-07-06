@@ -94,7 +94,8 @@
 import Preloader from "../../../components/Preloader.vue";
 import toastr from "toastr/build/toastr.min.js";
 import axios from "axios";
-import $ from 'jquery'
+import $ from 'jquery';
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {
@@ -113,8 +114,10 @@ export default {
     getData() {
       let self = this;
       axios
-        .get(`/cities/${self.cityId}`, {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+        .get(`/cities/${self.cityId}`, { headers: { 
+          Accept: "application/vnd.marvin.hateoas+json",
+          Authorization: "Bearer " + localStorage.getItem('token') 
+          },          
         })
         .then((response) => {
           self.cityData = response.data;
@@ -122,7 +125,7 @@ export default {
           self.getCountries();
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },    
     getCountries() {
@@ -134,7 +137,10 @@ export default {
 
       axios
         .get("/countries", {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { 
+            Accept: "application/vnd.marvin.hateoas+json",
+            Authorization: "Bearer " + localStorage.getItem('token') 
+          },
           params: {
             countryName: self.countryName,
             orderBy: "name-asc",
@@ -146,7 +152,7 @@ export default {
           this.countries = response.data.collection;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     saveData() {
@@ -157,36 +163,35 @@ export default {
         .put(`/cities/${self.cityId}`, { 
           name: self.cityData.name,
           countryId: countryId 
+        }, 
+        { 
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('token')
+          }
         })
         .then((response) => {
           toastr.success("Saved", "Success");
         })
         .catch((error) => {
-          if (error.response.status === 422) {
-            let message = "";
-
-            error.response.data.errors.forEach((e) => {
-              message += `<li>${e.ErrorMessage} </li>`;
-            });
-            toastr.error(message, error.response.data.title);
-          } else {
-            toastr.error("Some error occured", "Error");
-          }
+          validationErrorResponse(error, this.$router);
         });
     },
     deleteData(event) {
       let cityId = event.currentTarget.id;
 
       axios
-        .delete(`/cities/${cityId}`)
+        .delete(`/cities/${cityId}`, { headers: {
+          Authorization: "Bearer " + localStorage.getItem('token')
+        }
+        })
         .then((response) => {
           toastr.success("Deleted", "Success");
           this.$router.push({ name: "CityList" });
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          validationErrorResponse(error, this.$router);
         });
-    },
+    }
   },
 };
 </script>

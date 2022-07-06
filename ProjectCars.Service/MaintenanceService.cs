@@ -20,7 +20,7 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
+        
         private readonly IMaintenanceRepository _maintenanceRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICarServiceRepository _carServiceRepository;
@@ -32,9 +32,9 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public MaintenanceService(IUnitOfWork unitOfWork, IMaintenanceRepository maintenanceRepository, IUserRepository userRepository, ICarServiceRepository carServiceRepository, IMapper mapper, UpdateMaintenanceValidator updateMaintenanceValidator, CreateMaintenanceValidator createMaintenanceValidator)
+        public MaintenanceService( IMaintenanceRepository maintenanceRepository, IUserRepository userRepository, ICarServiceRepository carServiceRepository, IMapper mapper, UpdateMaintenanceValidator updateMaintenanceValidator, CreateMaintenanceValidator createMaintenanceValidator)
         {
-            _unitOfWork = unitOfWork;
+            
             _maintenanceRepository = maintenanceRepository;
             _userRepository = userRepository;
             _carServiceRepository = carServiceRepository;
@@ -92,7 +92,7 @@ namespace ProjectCars.Service
             maintenanceEntity.CarServiceId = carServiceId;
 
             _maintenanceRepository.Create(maintenanceEntity);
-            _unitOfWork.Commit();
+            _maintenanceRepository.Save();
 
             var maintenanceToReturn = _maintenanceRepository.GetOne(carServiceId, maintenanceEntity.Id);
 
@@ -111,7 +111,7 @@ namespace ProjectCars.Service
             _updateMaintenanceValidator.ValidateAndThrow(maintenanceDto);
             _maintenanceRepository.Update(maintenance);
             _mapper.Map(maintenanceDto, maintenance);
-            _unitOfWork.Commit();
+            _maintenanceRepository.Save();
         }
 
         public void UpdateMaintenancePatch(int carServiceId, int maintenanceId, JsonPatchDocument<UpdateMaintenanceDto> patchDocument)
@@ -131,7 +131,7 @@ namespace ProjectCars.Service
             _updateMaintenanceValidator.ValidateAndThrow(maintenanceDto);
             _maintenanceRepository.Update(maintenance);
             _mapper.Map(maintenanceDto, maintenance);
-            _unitOfWork.Commit();
+            _maintenanceRepository.Save();
         }
 
         public void DeleteMaintenance(int carServiceId, int maintenanceId)
@@ -140,7 +140,7 @@ namespace ProjectCars.Service
             var maintenance = _maintenanceRepository.GetEntity(maintenanceId).EntityNotFoundCheck();
 
             _maintenanceRepository.Delete(maintenance);
-            _unitOfWork.Commit();
+            _maintenanceRepository.Save();
         }
 
         #endregion METHODS

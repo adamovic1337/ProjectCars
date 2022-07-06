@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -85,14 +84,16 @@ namespace ProjectCars.API.Helpers
                     RequireExpirationTime = false
                 };
             });
-            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddRoles<AppRole>()
                     .AddEntityFrameworkStores<ProjectCarsContext>();
 
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-            //});
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("User", policy => policy.RequireRole("User"));
+                options.AddPolicy("ServiceOwner", policy => policy.RequireRole("ServiceOwner"));
+            });
         }
 
         public static void AddRepositories(this IServiceCollection services)
@@ -112,8 +113,6 @@ namespace ProjectCars.API.Helpers
             services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public static void AddServices(this IServiceCollection services)

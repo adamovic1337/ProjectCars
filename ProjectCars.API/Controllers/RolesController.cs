@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using ProjectCars.API.Helpers;
@@ -16,6 +17,7 @@ namespace ProjectCars.API.Controllers
 {
     [Route("api/roles")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class RolesController : ControllerBase
     {
         #region FIELDS

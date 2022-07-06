@@ -11,9 +11,6 @@
       <li class="nav-item d-none d-sm-inline-block">
         <router-link :to="{ name: 'Home'}" class="nav-link">Home</router-link>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <router-link :to="{ name: 'Contact'}" class="nav-link">Contact</router-link>
-      </li>
     </ul>
 
     <!-- Right navbar links -->
@@ -24,7 +21,7 @@
         </a>
       </li>     
       <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button" @click="logout">
           <i class="fas fa-sign-out-alt"></i>
         </a>
       </li> 
@@ -35,7 +32,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.$router.push({naem: 'Home'});
+      this.$router.go();
+    }
+  }
+};
 </script>
 
 <style>

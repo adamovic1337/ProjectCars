@@ -80,6 +80,7 @@
 import toastr from "toastr/build/toastr.min.js";
 import axios from "axios";
 import $ from "jquery";
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {
@@ -103,7 +104,10 @@ export default {
 
       axios
         .get("/manufacturers", {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { 
+            Accept: "application/vnd.marvin.hateoas+json", 
+            Authorization: "Bearer " + localStorage.getItem('token')
+          },
           params: {
             manufacturerName: self.manufacturerName,
             orderBy: "name-asc",
@@ -115,7 +119,7 @@ export default {
           this.manufacturers = response.data.collection;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     getEngines() {
@@ -127,7 +131,10 @@ export default {
 
       axios
         .get("/engines", {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { 
+            Accept: "application/vnd.marvin.hateoas+json",
+            Authorization: "Bearer " + localStorage.getItem('token')
+          },
           params: {
             engineName: self.engineName,
             orderBy: "name-asc",
@@ -139,7 +146,7 @@ export default {
           this.engines = response.data.collection;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     saveData() {
@@ -152,21 +159,17 @@ export default {
           name: self.carModelData.name,
           manufacturerId: manufacturerId,
           engineId: engineId,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('token')
+          }
         })
         .then((response) => {
           toastr.success("Added new record", "Success");
         })
         .catch((error) => {
-          if (error.response.status === 422) {
-            let message = "";
-
-            error.response.data.errors.forEach((e) => {
-              message += `<li>${e.ErrorMessage} </li>`;
-            });
-            toastr.error(message, error.response.data.title);
-          } else {
-            toastr.error("Some error occured", "Error");
-          }
+          validationErrorResponse(error, this.$router);
         });
     },
   },

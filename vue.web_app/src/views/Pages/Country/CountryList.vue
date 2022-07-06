@@ -153,6 +153,7 @@
 import toastr from "toastr/build/toastr.min.js";
 import Preloader from "../../../components/Preloader.vue";
 import axios from "axios";
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {
@@ -196,7 +197,10 @@ export default {
     paginationData(url) {
       axios
         .get(url, {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { 
+            Accept: "application/vnd.marvin.hateoas+json",
+            Authorization: "Bearer " + localStorage.getItem('token')
+          },
         })
         .then((response) => {
           this.countries = response.data.collection;
@@ -204,7 +208,7 @@ export default {
           this.links = response.data.links;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     getData() {
@@ -216,7 +220,10 @@ export default {
 
       axios
         .get("/countries", {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { 
+            Accept: "application/vnd.marvin.hateoas+json",
+            Authorization: "Bearer " + localStorage.getItem('token')
+         },
           params: {
             countryName: self.countryName,
             orderBy: self.orderBy,
@@ -230,20 +237,23 @@ export default {
           this.links = response.data.links;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     deleteData(event) {
       let countryId = event.currentTarget.id;
 
       axios
-        .delete(`/countries/${countryId}`)
+        .delete(`/countries/${countryId}`, { headers : {
+          Authorization: "Bearer " + localStorage.getItem('token')
+        }
+        })
         .then((response) => {
           toastr.success("Deleted", "Success");
           this.getData();
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          validationErrorResponse(error, this.$router);
         });
     },
   },

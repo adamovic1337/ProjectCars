@@ -66,6 +66,12 @@ namespace ProjectCars.Repository.Common
             Context.Set<TEntity>().Remove(entityToDelete);
         }
 
+        public void Save()
+        {
+            Context.SaveChanges();
+        }
+
+
         #endregion METHODS
     }
 }

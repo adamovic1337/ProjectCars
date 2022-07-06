@@ -80,6 +80,7 @@
 import Preloader from "../../../components/Preloader.vue";
 import toastr from "toastr/build/toastr.min.js";
 import axios from "axios";
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {
@@ -97,49 +98,47 @@ export default {
       let self = this;
       axios
         .get(`/countries/${self.countryId}`, {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { 
+            Accept: "application/vnd.marvin.hateoas+json",
+            Authorization: "Bearer " + localStorage.getItem('token')
+           },
         })
         .then((response) => {
           self.countryData = response.data;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     saveData() {
       let self = this;
 
       axios
-        .put(`/countries/${self.countryId}`, { name: self.countryData.name })
+        .put(`/countries/${self.countryId}`, 
+        { name: self.countryData.name }, 
+        {headers: {
+          Authorization: "Bearer " + localStorage.getItem('token')
+        }})
         .then((response) => {
           toastr.success("Saved", "Success");
         })
         .catch((error) => {
-          if (error.response.status === 422) {
-            let message = "";
-
-            error.response.data.errors.forEach((e) => {
-              message += `<li>${e.ErrorMessage} </li>`;
-            });
-            toastr.error(message, error.response.data.title);
-          } else {
-            toastr.error("Some error occured", "Error");
-          }
+          validationErrorResponse(error, this.$router);
         });
     },
     deleteData(event) {
       let countryId = event.currentTarget.id;
 
       axios
-        .delete(`/countries/${countryId}`)
+        .delete(`/countries/${countryId}`, {headers: {Authorization: "Bearer " + localStorage.getItem('token')}})
         .then((response) => {
           toastr.success("Deleted", "Success");
           this.$router.push({ name: "CountryList" });
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          validationErrorResponse(error, this.$router);
         });
-    },
+    }
   },
 };
 </script>

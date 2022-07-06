@@ -39,5 +39,10 @@ namespace ProjectCars.Repository.Common.Contract
         /// </summary>
         /// <param name="entityToDelete"></param>
         void Delete(TEntity entityToDelete);
+
+        /// <summary>
+        /// Save changes to database
+        /// </summary>
+        void Save();
     }
 }

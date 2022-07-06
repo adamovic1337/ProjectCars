@@ -6,14 +6,12 @@ using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
-using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -21,7 +19,6 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IFuelTypeRepository _fuelTypeRepository;
         private readonly IMapper _mapper;
         private readonly CreateFuelTypeValidator _createFuelTypeValidator;
@@ -31,9 +28,8 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public FuelTypeService(IUnitOfWork unitOfWork, IFuelTypeRepository fuelTypeRepository, IMapper mapper, CreateFuelTypeValidator createFuelTypeValidator, UpdateFuelTypeValidator updateFuelTypeValidator)
+        public FuelTypeService(IFuelTypeRepository fuelTypeRepository, IMapper mapper, CreateFuelTypeValidator createFuelTypeValidator, UpdateFuelTypeValidator updateFuelTypeValidator)
         {
-            _unitOfWork = unitOfWork;
             _fuelTypeRepository = fuelTypeRepository;
             _mapper = mapper;
             _createFuelTypeValidator = createFuelTypeValidator;
@@ -51,7 +47,7 @@ namespace ProjectCars.Service
 
         public PaginationData<FuelType> PaginationData(SearchFuelTypeDto searchFuelType)
         {
-            return _fuelTypeRepository.GetPaginationData(searchFuelType, 
+            return _fuelTypeRepository.GetPaginationData(searchFuelType,
                                                          r => r.Name.Contains(searchFuelType.FuelTypeName.Trim()));
         }
 
@@ -66,7 +62,7 @@ namespace ProjectCars.Service
 
             var fuelTypeEntity = _mapper.Map<FuelType>(fuelTypeDto);
             _fuelTypeRepository.Create(fuelTypeEntity);
-            _unitOfWork.Commit();
+            _fuelTypeRepository.Save();
 
             var fuelTypeToReturn = _mapper.Map<FuelTypeDto>(fuelTypeEntity);
             return fuelTypeToReturn;
@@ -81,7 +77,7 @@ namespace ProjectCars.Service
             _updateFuelTypeValidator.ValidateAndThrow(fuelTypeDto);
             _fuelTypeRepository.Update(fuelType);
             _mapper.Map(fuelTypeDto, fuelType);
-            _unitOfWork.Commit();
+            _fuelTypeRepository.Save();
         }
 
         public void UpdateFuelTypePatch(int fuelTypeId, JsonPatchDocument<UpdateFuelTypeDto> patchDocument)
@@ -97,7 +93,7 @@ namespace ProjectCars.Service
             _updateFuelTypeValidator.ValidateAndThrow(fuelTypeDto);
             _fuelTypeRepository.Update(fuelType);
             _mapper.Map(fuelTypeDto, fuelType);
-            _unitOfWork.Commit();
+            _fuelTypeRepository.Save();
         }
 
         public void DeleteFuelType(int fuelTypeId)
@@ -105,7 +101,7 @@ namespace ProjectCars.Service
             var fuelType = _fuelTypeRepository.GetEntity(fuelTypeId).EntityNotFoundCheck();
 
             _fuelTypeRepository.Delete(fuelType);
-            _unitOfWork.Commit();
+            _fuelTypeRepository.Save();
         }
 
         #endregion METHODS

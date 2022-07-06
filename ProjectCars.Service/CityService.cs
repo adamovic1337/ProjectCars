@@ -21,7 +21,7 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
+        
         private readonly ICityRepository _cityRepository;
         private readonly IMapper _mapper;
         private readonly CreateCityValidator _createCityValidator;
@@ -31,9 +31,9 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public CityService(IUnitOfWork unitOfWork, ICityRepository cityRepository, IMapper mapper, CreateCityValidator createCityValidator, UpdateCityValidator updateCityValidator)
+        public CityService( ICityRepository cityRepository, IMapper mapper, CreateCityValidator createCityValidator, UpdateCityValidator updateCityValidator)
         {
-            _unitOfWork = unitOfWork;
+            
             _cityRepository = cityRepository;
             _mapper = mapper;
             _createCityValidator = createCityValidator;
@@ -66,7 +66,7 @@ namespace ProjectCars.Service
 
             var cityEntity = _mapper.Map<City>(cityDto);
             _cityRepository.Create(cityEntity);
-            _unitOfWork.Commit();
+            _cityRepository.Save();
 
             var cityToReturn = _mapper.Map<CityDto>(cityEntity);
             return cityToReturn;
@@ -81,7 +81,7 @@ namespace ProjectCars.Service
             _updateCityValidator.ValidateAndThrow(cityDto);
             _cityRepository.Update(city);
             _mapper.Map(cityDto, city);
-            _unitOfWork.Commit();
+            _cityRepository.Save();
         }
 
         public void UpdateCityPatch(int cityId, JsonPatchDocument<UpdateCityDto> patchDocument)
@@ -97,7 +97,7 @@ namespace ProjectCars.Service
             _updateCityValidator.ValidateAndThrow(cityDto);
             _cityRepository.Update(city);
             _mapper.Map(cityDto, city);
-            _unitOfWork.Commit();
+            _cityRepository.Save();
         }
 
         public void DeleteCity(int cityId)
@@ -105,7 +105,7 @@ namespace ProjectCars.Service
             var city = _cityRepository.GetEntity(cityId).EntityNotFoundCheck();
 
             _cityRepository.Delete(city);
-            _unitOfWork.Commit();
+            _cityRepository.Save();
         }
 
         #endregion METHODS

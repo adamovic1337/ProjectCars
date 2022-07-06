@@ -6,7 +6,6 @@ using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
-using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
@@ -20,7 +19,6 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IServiceRequestRepository _serviceRequestRepository;
         private readonly IMapper _mapper;
         private readonly CreateServiceRequestValidator _createServiceRequestValidator;
@@ -30,9 +28,8 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public ServiceRequestService(IUnitOfWork unitOfWork, IServiceRequestRepository serviceRequestRepository, IMapper mapper, CreateServiceRequestValidator createServiceRequestValidator, UpdateServiceRequestValidator updateServiceRequestValidator)
+        public ServiceRequestService(IServiceRequestRepository serviceRequestRepository, IMapper mapper, CreateServiceRequestValidator createServiceRequestValidator, UpdateServiceRequestValidator updateServiceRequestValidator)
         {
-            _unitOfWork = unitOfWork;
             _serviceRequestRepository = serviceRequestRepository;
             _mapper = mapper;
             _createServiceRequestValidator = createServiceRequestValidator;
@@ -65,7 +62,7 @@ namespace ProjectCars.Service
 
             var serviceRequestEntity = _mapper.Map<ServiceRequest>(serviceRequestDto);
             _serviceRequestRepository.Create(serviceRequestEntity);
-            _unitOfWork.Commit();
+            _serviceRequestRepository.Save();
 
             var serviceRequestToReturn = _mapper.Map<ServiceRequestDto>(serviceRequestEntity);
             return serviceRequestToReturn;
@@ -78,7 +75,7 @@ namespace ProjectCars.Service
             _updateServiceRequestValidator.ValidateAndThrow(serviceRequestDto);
             _serviceRequestRepository.Update(serviceRequest);
             _mapper.Map(serviceRequestDto, serviceRequest);
-            _unitOfWork.Commit();
+            _serviceRequestRepository.Save();
         }
 
         public void UpdateServiceRequestPatch(int serviceRequestId, JsonPatchDocument<UpdateServiceRequestDto> patchDocument)
@@ -92,7 +89,7 @@ namespace ProjectCars.Service
             _updateServiceRequestValidator.ValidateAndThrow(serviceRequestDto);
             _serviceRequestRepository.Update(serviceRequest);
             _mapper.Map(serviceRequestDto, serviceRequest);
-            _unitOfWork.Commit();
+            _serviceRequestRepository.Save();
         }
 
         public void DeleteServiceRequest(int serviceRequestId)
@@ -100,7 +97,7 @@ namespace ProjectCars.Service
             var serviceRequest = _serviceRequestRepository.GetEntity(serviceRequestId).EntityNotFoundCheck();
 
             _serviceRequestRepository.Delete(serviceRequest);
-            _unitOfWork.Commit();
+            _serviceRequestRepository.Save();
         }
 
         #endregion METHODS

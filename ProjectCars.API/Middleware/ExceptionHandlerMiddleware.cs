@@ -8,6 +8,8 @@ using System.Linq.Dynamic.Core.Exceptions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch.Exceptions;
 using ProjectCars.Service.Exceptions;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ProjectCars.API.Middleware
 {
@@ -82,6 +84,23 @@ namespace ProjectCars.API.Middleware
                         {
                             title = "Bad Request",
                             errors = parseException.Message,
+                            status = statusCode,
+                            traceId = Activity.Current?.Id ?? context?.TraceIdentifier
+                        };
+                        break;
+                    case DbUpdateException dbUpdateException:
+                        statusCode = StatusCodes.Status422UnprocessableEntity;
+                        response = new
+                        {
+                            title = "Failed due to validation errors.",
+                            errors = new[] 
+                            {
+                                new 
+                                {
+                                    PropertyName = "",
+                                    ErrorMessage = "Must first delete enitities that referenct to this entity."
+                                }
+                            } ,
                             status = statusCode,
                             traceId = Activity.Current?.Id ?? context?.TraceIdentifier
                         };

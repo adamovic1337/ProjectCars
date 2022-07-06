@@ -105,7 +105,7 @@ namespace ProjectCars.Service
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email, ClaimValueTypes.String),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString(), ClaimValueTypes.String),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.String),
-                    new Claim(ClaimTypes.Role, roles.ToString(), ClaimValueTypes.String),
+                    new Claim(ClaimTypes.Role, roles[0].ToString(), ClaimValueTypes.String),
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

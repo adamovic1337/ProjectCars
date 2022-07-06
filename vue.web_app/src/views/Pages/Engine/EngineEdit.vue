@@ -113,6 +113,7 @@ import Preloader from "../../../components/Preloader.vue";
 import toastr from "toastr/build/toastr.min.js";
 import axios from "axios";
 import $ from 'jquery'
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {
@@ -132,7 +133,10 @@ export default {
       let self = this;
       axios
         .get(`/engines/${self.engineId}`, {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { 
+            Accept: "application/vnd.marvin.hateoas+json",
+            Authorization: "Bearer " + localStorage.getItem('token')
+          },
         })
         .then((response) => {
           self.engineData = response.data;
@@ -140,7 +144,7 @@ export default {
           self.getFuelTypes();
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },    
     getFuelTypes() {
@@ -152,7 +156,9 @@ export default {
 
       axios
         .get("/fuelTypes", {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { Accept: "application/vnd.marvin.hateoas+json",
+          Authorization: "Bearer " + localStorage.getItem('token')
+          },
           params: {
             fuelTypeName: self.fuelTypeName,
             orderBy: "name-asc",
@@ -164,7 +170,7 @@ export default {
           this.fuelTypes = response.data.collection;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     saveData() {
@@ -177,36 +183,36 @@ export default {
           fuelTypeId: fuelTypeId,
           cubicCapacity: self.engineData.cubicCapacity,
           power: self.engineData.power, 
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('token')
+          }
         })
         .then((response) => {
           toastr.success("Saved", "Success");
         })
         .catch((error) => {
-          if (error.response.status === 422) {
-            let message = "";
-
-            error.response.data.errors.forEach((e) => {
-              message += `<li>${e.ErrorMessage} </li>`;
-            });
-            toastr.error(message, error.response.data.title);
-          } else {
-            toastr.error("Some error occured", "Error");
-          }
+          validationErrorResponse(error, this.$router);
         });
     },
     deleteData(event) {
       let engineId = event.currentTarget.id;
 
       axios
-        .delete(`/engines/${engineId}`)
+        .delete(`/engines/${engineId}`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('token')
+          }
+        })
         .then((response) => {
           toastr.success("Deleted", "Success");
           this.$router.push({ name: "EngineList" });
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          validationErrorResponse(error, this.$router);
         });
-    },
+    },    
   },
 };
 </script>

@@ -2,8 +2,8 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <router-link :to="{ name: 'Home' }" class="nav-link">
-      <span class="brand-link text-center">Car eBook</span>
+    <router-link :to="{ name: 'Home'}">
+      <h1 class="brand-link text-center">Car eBook <span class="h6 font-italic">{{portal}}</span></h1>
     </router-link>
 
     <!-- Sidebar -->
@@ -11,8 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
         <div class="info">
-          <a href="#" class="d-block"
-            ><i class="far fa-user-circle"></i> Alexander Pierce</a
+          <a href="#" class="d-block"><i class="far fa-user-circle"></i> {{username}}</a
           >
         </div>
       </div>
@@ -101,7 +100,34 @@
 </template>
 
 <script>
-export default {};
+import jwt_decode from 'jwt-decode';
+
+export default {
+  data() {
+    return {
+      username: null,
+      portal: null
+    }
+  },
+  mounted() {
+      let token = localStorage.getItem("token");
+      let decoded = jwt_decode(token);
+      this.username = decoded.unique_name;    
+      
+      switch (decoded.role){
+        case 'Admin':
+          this.portal = 'admin portal';
+          break;
+        case 'User':
+          this.portal = 'admin portal';
+          break;
+        case 'ServiceOwner':
+          this.portal = 'service portal';
+          break;    
+      } 
+      
+  },
+};
 </script>
 
 <style>

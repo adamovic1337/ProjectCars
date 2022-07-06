@@ -71,6 +71,7 @@
 import toastr from "toastr/build/toastr.min.js";
 import Preloader from "../../../components/Preloader.vue";
 import axios from "axios";
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {
@@ -88,29 +89,36 @@ export default {
       let self = this;
       axios
         .get(`/roles/${self.roleId}`, {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: {
+            Accept: "application/vnd.marvin.hateoas+json",
+            Authorization: "Bearer " + localStorage.getItem('token') 
+          },
         })
         .then((response) => {
           self.roleData = response.data;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     deleteData(event) {
       let roleId = event.currentTarget.id;
 
       axios
-        .delete(`/roles/${roleId}`)
+        .delete(`/roles/${roleId}`,{
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('token') 
+          },
+        })
         .then((response) => {
           toastr.success("Deleted", "Success");
           this.$router.push({ name: "RoleList" });
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          validationErrorResponse(error, this.$router);
         });
-    },
-  },
+    }
+  },  
 };
 </script>
 

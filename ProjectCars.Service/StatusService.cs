@@ -6,14 +6,12 @@ using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
-using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
 using ProjectCars.Service.Helpers;
 using ProjectCars.Service.Validation;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace ProjectCars.Service
 {
@@ -21,7 +19,6 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IStatusRepository _statusRepository;
         private readonly IMapper _mapper;
         private readonly CreateStatusValidator _createStatusValidator;
@@ -31,9 +28,8 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public StatusService(IUnitOfWork unitOfWork, IStatusRepository statusRepository, IMapper mapper, CreateStatusValidator createStatusValidator, UpdateStatusValidator updateStatusValidator)
+        public StatusService(IStatusRepository statusRepository, IMapper mapper, CreateStatusValidator createStatusValidator, UpdateStatusValidator updateStatusValidator)
         {
-            _unitOfWork = unitOfWork;
             _statusRepository = statusRepository;
             _mapper = mapper;
             _createStatusValidator = createStatusValidator;
@@ -66,7 +62,7 @@ namespace ProjectCars.Service
 
             var statusEntity = _mapper.Map<Status>(statusDto);
             _statusRepository.Create(statusEntity);
-            _unitOfWork.Commit();
+            _statusRepository.Save();
 
             var statusToReturn = _mapper.Map<StatusDto>(statusEntity);
             return statusToReturn;
@@ -81,7 +77,7 @@ namespace ProjectCars.Service
             _updateStatusValidator.ValidateAndThrow(statusDto);
             _statusRepository.Update(status);
             _mapper.Map(statusDto, status);
-            _unitOfWork.Commit();
+            _statusRepository.Save();
         }
 
         public void UpdateStatusPatch(int statusId, JsonPatchDocument<UpdateStatusDto> patchDocument)
@@ -97,7 +93,7 @@ namespace ProjectCars.Service
             _updateStatusValidator.ValidateAndThrow(statusDto);
             _statusRepository.Update(status);
             _mapper.Map(statusDto, status);
-            _unitOfWork.Commit();
+            _statusRepository.Save();
         }
 
         public void DeleteStatus(int statusId)
@@ -105,7 +101,7 @@ namespace ProjectCars.Service
             var status = _statusRepository.GetEntity(statusId).EntityNotFoundCheck();
 
             _statusRepository.Delete(status);
-            _unitOfWork.Commit();
+            _statusRepository.Save();
         }
 
         #endregion METHODS

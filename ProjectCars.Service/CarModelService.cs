@@ -6,7 +6,6 @@ using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
-using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
@@ -20,7 +19,6 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ICarModelRepository _carModelRepository;
         private readonly IMapper _mapper;
         private readonly CreateCarModelValidator _createCarModelValidator;
@@ -30,9 +28,8 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public CarModelService(IUnitOfWork unitOfWork, ICarModelRepository carModelRepository, IMapper mapper, CreateCarModelValidator createcarModelValidator, UpdateCarModelValidator updatecarModelValidator)
+        public CarModelService(ICarModelRepository carModelRepository, IMapper mapper, CreateCarModelValidator createcarModelValidator, UpdateCarModelValidator updatecarModelValidator)
         {
-            _unitOfWork = unitOfWork;
             _carModelRepository = carModelRepository;
             _mapper = mapper;
             _createCarModelValidator = createcarModelValidator;
@@ -65,7 +62,7 @@ namespace ProjectCars.Service
 
             var carModelEntity = _mapper.Map<CarModel>(carModelDto);
             _carModelRepository.Create(carModelEntity);
-            _unitOfWork.Commit();
+            _carModelRepository.Save();
 
             var carModelToReturn = _mapper.Map<CarModelDto>(carModelEntity);
             return carModelToReturn;
@@ -80,7 +77,7 @@ namespace ProjectCars.Service
             _updateCarModelValidator.ValidateAndThrow(carModelDto);
             _carModelRepository.Update(carModel);
             _mapper.Map(carModelDto, carModel);
-            _unitOfWork.Commit();
+            _carModelRepository.Save();
         }
 
         public void UpdateCarModelPatch(int carModelId, JsonPatchDocument<UpdateCarModelDto> patchDocument)
@@ -96,7 +93,7 @@ namespace ProjectCars.Service
             _updateCarModelValidator.ValidateAndThrow(carModelDto);
             _carModelRepository.Update(carModel);
             _mapper.Map(carModelDto, carModel);
-            _unitOfWork.Commit();
+            _carModelRepository.Save();
         }
 
         public void DeleteCarModel(int carModelId)
@@ -104,7 +101,7 @@ namespace ProjectCars.Service
             var carModel = _carModelRepository.GetEntity(carModelId).EntityNotFoundCheck();
 
             _carModelRepository.Delete(carModel);
-            _unitOfWork.Commit();
+            _carModelRepository.Save();
         }
 
         #endregion METHODS

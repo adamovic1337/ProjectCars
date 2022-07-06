@@ -7,7 +7,6 @@ using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
-using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
@@ -22,7 +21,6 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly CreateRoleValidator _createRoleValidator;
@@ -33,9 +31,8 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public RoleService(IUnitOfWork unitOfWork, IRoleRepository roleRepository, IMapper mapper, CreateRoleValidator createRoleValidator, UpdateRoleValidator updateRoleValidator, RoleManager<AppRole> roleManager)
+        public RoleService(IRoleRepository roleRepository, IMapper mapper, CreateRoleValidator createRoleValidator, UpdateRoleValidator updateRoleValidator, RoleManager<AppRole> roleManager)
         {
-            _unitOfWork = unitOfWork;
             _roleRepository = roleRepository;
             _mapper = mapper;
             _createRoleValidator = createRoleValidator;
@@ -54,7 +51,7 @@ namespace ProjectCars.Service
 
         public PaginationData<AppRole> PaginationData(SearchRoleDto searchRole)
         {
-            return _roleRepository.GetPaginationData(searchRole, 
+            return _roleRepository.GetPaginationData(searchRole,
                                                      r => r.Name.Contains(searchRole.RoleName.Trim()));
         }
 
@@ -70,7 +67,7 @@ namespace ProjectCars.Service
             var roleEntity = _mapper.Map<AppRole>(roleDto);
 
             _ = await _roleManager.CreateAsync(roleEntity);
-            _unitOfWork.Commit();
+            _roleRepository.Save();
 
             var roleToReturn = _mapper.Map<RoleDto>(roleEntity);
             return roleToReturn;
@@ -82,11 +79,11 @@ namespace ProjectCars.Service
 
             roleDto.Id = roleId;
 
-            _updateRoleValidator.ValidateAndThrow(roleDto);            
+            _updateRoleValidator.ValidateAndThrow(roleDto);
             _mapper.Map(roleDto, role);
 
             var update = await _roleManager.UpdateAsync(role);
-            _unitOfWork.Commit();
+            _roleRepository.Save();
 
             return update.Succeeded;
         }
@@ -105,7 +102,7 @@ namespace ProjectCars.Service
             _mapper.Map(roleDto, role);
 
             var update = await _roleManager.UpdateAsync(role);
-            _unitOfWork.Commit();
+            _roleRepository.Save();
 
             return update.Succeeded;
         }
@@ -115,7 +112,7 @@ namespace ProjectCars.Service
             var role = _roleRepository.GetEntity(roleId).EntityNotFoundCheck();
 
             var delete = await _roleManager.DeleteAsync(role);
-            _unitOfWork.Commit();
+            _roleRepository.Save();
 
             return delete.Succeeded;
         }

@@ -6,7 +6,6 @@ using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
-using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
@@ -20,7 +19,6 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ICarRepository _carRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -31,9 +29,8 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public CarsService(IUnitOfWork unitOfWork, ICarRepository carRepository, IMapper mapper, IUserRepository userRepository, CreateCarValidator createCarValidator, UpdateCarValidator updateCarValidator)
+        public CarsService(ICarRepository carRepository, IMapper mapper, IUserRepository userRepository, CreateCarValidator createCarValidator, UpdateCarValidator updateCarValidator)
         {
-            _unitOfWork = unitOfWork;
             _carRepository = carRepository;
             _mapper = mapper;
             _userRepository = userRepository;
@@ -68,7 +65,6 @@ namespace ProjectCars.Service
 
         public CarDto CreateCar(int userId, CreateCarDto carDto)
         {
-
             _createCarValidator.ValidateAndThrow(carDto);
 
             var carEntity = _mapper.Map<Car>(carDto);
@@ -77,7 +73,7 @@ namespace ProjectCars.Service
             carEntity.UserCars = new List<UserCar> { new UserCar { Car = carEntity, User = userEntity } };
 
             _carRepository.Create(carEntity);
-            _unitOfWork.Commit();
+            _carRepository.Save();
 
             var carToReturn = _carRepository.GetOne(userEntity.Id, carEntity.Id);
 
@@ -88,14 +84,14 @@ namespace ProjectCars.Service
         {
             _ = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
-            var car = _carRepository.GetEntity(carId).EntityNotFoundCheck();            
+            var car = _carRepository.GetEntity(carId).EntityNotFoundCheck();
 
             carDto.Id = carId;
 
             _updateCarValidator.ValidateAndThrow(carDto);
             _carRepository.Update(car);
             _mapper.Map(carDto, car);
-            _unitOfWork.Commit();
+            _carRepository.Save();
         }
 
         public void UpdateCarPatch(int userId, int carId, JsonPatchDocument<UpdateCarDto> patchDocument)
@@ -113,8 +109,8 @@ namespace ProjectCars.Service
             _updateCarValidator.ValidateAndThrow(carDto);
             _carRepository.Update(car);
             _mapper.Map(carDto, car);
-            _unitOfWork.Commit();
-        }        
+            _carRepository.Save();
+        }
 
         public void DeleteCar(int userId, int carId)
         {
@@ -124,7 +120,7 @@ namespace ProjectCars.Service
             car.UserCars = new List<UserCar> { new UserCar { Car = car, User = user } };
 
             _carRepository.Delete(car);
-            _unitOfWork.Commit();
+            _carRepository.Save();
         }
 
         #endregion METHODS

@@ -6,7 +6,6 @@ using ProjectCars.Model.DTO.Search;
 using ProjectCars.Model.DTO.Update;
 using ProjectCars.Model.DTO.View;
 using ProjectCars.Model.Entities;
-using ProjectCars.Repository.Common.Contract;
 using ProjectCars.Repository.Contracts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service.Contract;
@@ -21,7 +20,6 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly UpdateUserValidator _updateUserValidator;
@@ -31,9 +29,8 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public UserService(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper, UpdateUserValidator updateUserValidator, UserManager<AppUser> userManager)
+        public UserService(IUserRepository userRepository, IMapper mapper, UpdateUserValidator updateUserValidator, UserManager<AppUser> userManager)
         {
-            _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _mapper = mapper;
             _updateUserValidator = updateUserValidator;
@@ -70,7 +67,7 @@ namespace ProjectCars.Service
             _mapper.Map(userDto, user);
 
             var update = await _userManager.UpdateAsync(user);
-            _unitOfWork.Commit();
+            _userRepository.Save();
 
             return update.Succeeded;
         }
@@ -89,7 +86,7 @@ namespace ProjectCars.Service
             _mapper.Map(userDto, user);
 
             var update = await _userManager.UpdateAsync(user);
-            _unitOfWork.Commit();
+            _userRepository.Save();
 
             return update.Succeeded;
         }
@@ -99,7 +96,7 @@ namespace ProjectCars.Service
             var user = _userRepository.GetEntity(userId).EntityNotFoundCheck();
 
             var delete = await _userManager.DeleteAsync(user);
-            _unitOfWork.Commit();
+            _userRepository.Save();
 
             return delete.Succeeded;
         }

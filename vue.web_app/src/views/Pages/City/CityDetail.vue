@@ -81,6 +81,7 @@
 import toastr from "toastr/build/toastr.min.js";
 import Preloader from "../../../components/Preloader.vue";
 import axios from "axios";
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {
@@ -98,28 +99,31 @@ export default {
       let self = this;
       axios
         .get(`/cities/${self.cityId}`, {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: { Accept: "application/vnd.marvin.hateoas+json",
+          Authorization: "Bearer " + localStorage.getItem('token') },
         })
         .then((response) => {
           self.cityData = response.data;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
     deleteData(event) {
       let cityId = event.currentTarget.id;
 
       axios
-        .delete(`/cities/${cityId}`)
+        .delete(`/cities/${cityId}`, { headers: { 
+          Authorization: "Bearer " + localStorage.getItem('token') },
+        })
         .then((response) => {
           toastr.success("Deleted", "Success");
           this.$router.push({ name: "CityList" });
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          validationErrorResponse(error, this.$router);
         });
-    },
+    }
   },
 };
 </script>

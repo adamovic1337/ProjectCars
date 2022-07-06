@@ -20,7 +20,7 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
+        
         private readonly ICountryRepository _countryRepository;
         private readonly IMapper _mapper;
         private readonly CreateCountryValidator _createCountryValidator;
@@ -30,13 +30,12 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public CountryService(UpdateCountryValidator updateCountryValidator, CreateCountryValidator createCountryValidator, IMapper mapper, ICountryRepository countryRepository, IUnitOfWork unitOfWork)
+        public CountryService(UpdateCountryValidator updateCountryValidator, CreateCountryValidator createCountryValidator, IMapper mapper, ICountryRepository countryRepository)
         {
             _updateCountryValidator = updateCountryValidator;
             _createCountryValidator = createCountryValidator;
             _mapper = mapper;
             _countryRepository = countryRepository;
-            _unitOfWork = unitOfWork;
         }
 
         #endregion CONSTRUCTORS
@@ -65,7 +64,7 @@ namespace ProjectCars.Service
 
             var countryEntity = _mapper.Map<Country>(countryDto);
             _countryRepository.Create(countryEntity);
-            _unitOfWork.Commit();
+            _countryRepository.Save();
 
             var countryToReturn = _mapper.Map<CountryDto>(countryEntity);
             return countryToReturn;
@@ -80,7 +79,7 @@ namespace ProjectCars.Service
             _updateCountryValidator.ValidateAndThrow(countryDto);
             _countryRepository.Update(country);
             _mapper.Map(countryDto, country);
-            _unitOfWork.Commit();
+            _countryRepository.Save();
         }
 
         public void UpdateCountryPatch(int countryId, JsonPatchDocument<UpdateCountryDto> patchDocument)
@@ -96,7 +95,7 @@ namespace ProjectCars.Service
             _updateCountryValidator.ValidateAndThrow(countryDto);
             _countryRepository.Update(country);
             _mapper.Map(countryDto, country);
-            _unitOfWork.Commit();
+            _countryRepository.Save();
         }
 
         public void DeleteCountry(int countryId)
@@ -104,7 +103,7 @@ namespace ProjectCars.Service
             var country = _countryRepository.GetEntity(countryId).EntityNotFoundCheck();
 
             _countryRepository.Delete(country);
-            _unitOfWork.Commit();
+            _countryRepository.Save();
         }
 
         #endregion METHODS

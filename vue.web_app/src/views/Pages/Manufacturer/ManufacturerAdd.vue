@@ -62,6 +62,7 @@
 import toastr from "toastr/build/toastr.min.js";
 import axios from "axios";
 import $ from "jquery";
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {
@@ -83,21 +84,16 @@ export default {
         .post("/manufacturers", {
           name: self.manufacturerData.name,
           countryId: countryId,
+        },
+        { headers: {
+          Authorization: "Bearer " + localStorage.getItem('token')
+        }
         })
         .then((response) => {
           toastr.success("Added new record", "Success");
         })
         .catch((error) => {
-          if (error.response.status === 422) {
-            let message = "";
-
-            error.response.data.errors.forEach((e) => {
-              message += `<li>${e.ErrorMessage} </li>`;
-            });
-            toastr.error(message, error.response.data.title);
-          } else {
-            toastr.error("Some error occured", "Error");
-          }
+          validationErrorResponse(error, this.$router);
         });
     },
     getCountries() {
@@ -109,7 +105,10 @@ export default {
 
       axios
         .get("/countries", {
-          headers: { Accept: "application/vnd.marvin.hateoas+json" },
+          headers: {
+            Accept: "application/vnd.marvin.hateoas+json",
+            Authorization: "Bearer " + localStorage.getItem('token') 
+          },
           params: {
             countryName: self.countryName,
             orderBy: "name-asc",
@@ -121,7 +120,7 @@ export default {
           this.countries = response.data.collection;
         })
         .catch((error) => {
-          toastr.error("Some error occured", "Error");
+          unauthorized(error, this.$router);
         });
     },
   },

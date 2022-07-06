@@ -21,7 +21,7 @@ namespace ProjectCars.Service
     {
         #region FIELDS
 
-        private readonly IUnitOfWork _unitOfWork;
+        
         private readonly IManufacturerRepository _manufacturerRepository;
         private readonly IMapper _mapper;
         private readonly CreateManufacturerValidator _createManufacturerValidator;
@@ -31,9 +31,9 @@ namespace ProjectCars.Service
 
         #region CONSTRUCTORS
 
-        public ManufacturerService(IUnitOfWork unitOfWork, IManufacturerRepository manufacturerRepository, IMapper mapper, CreateManufacturerValidator createManufacturerValidator, UpdateManufacturerValidator updateManufacturerValidator)
+        public ManufacturerService( IManufacturerRepository manufacturerRepository, IMapper mapper, CreateManufacturerValidator createManufacturerValidator, UpdateManufacturerValidator updateManufacturerValidator)
         {
-            _unitOfWork = unitOfWork;
+            
             _manufacturerRepository = manufacturerRepository;
             _mapper = mapper;
             _createManufacturerValidator = createManufacturerValidator;
@@ -66,7 +66,7 @@ namespace ProjectCars.Service
 
             var manufacturerEntity = _mapper.Map<Manufacturer>(manufacturerDto);
             _manufacturerRepository.Create(manufacturerEntity);
-            _unitOfWork.Commit();
+            _manufacturerRepository.Save();
 
             var manufacturerToReturn = _mapper.Map<ManufacturerDto>(manufacturerEntity);
 
@@ -82,7 +82,7 @@ namespace ProjectCars.Service
             _updateManufacturerValidator.ValidateAndThrow(manufacturerDto);
             _manufacturerRepository.Update(manufacturer);
             _mapper.Map(manufacturerDto, manufacturer);
-            _unitOfWork.Commit();
+            _manufacturerRepository.Save();
         }
 
         public void UpdateManufacturerPatch(int manufacturerId, JsonPatchDocument<UpdateManufacturerDto> patchDocument)
@@ -98,7 +98,7 @@ namespace ProjectCars.Service
             _updateManufacturerValidator.ValidateAndThrow(manufacturerDto);
             _manufacturerRepository.Update(manufacturer);
             _mapper.Map(manufacturerDto, manufacturer);
-            _unitOfWork.Commit();
+            _manufacturerRepository.Save();
         }
 
         public void DeleteManufacturer(int manufacturerId)
@@ -106,7 +106,7 @@ namespace ProjectCars.Service
             var manufacturer = _manufacturerRepository.GetEntity(manufacturerId).EntityNotFoundCheck();
 
             _manufacturerRepository.Delete(manufacturer);
-            _unitOfWork.Commit();
+            _manufacturerRepository.Save();
         }
 
         #endregion METHODS
