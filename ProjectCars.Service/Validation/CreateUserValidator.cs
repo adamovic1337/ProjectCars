@@ -46,6 +46,10 @@ namespace ProjectCars.Service.Validation
             RuleFor(u => u.CityId)
                 .NotEmpty()
                 .WithMessage("City is required parameter");
+
+            RuleFor(u => u.Role)
+                .NotEmpty()
+                .WithMessage("Role is required parameter");
         }
     }
 }

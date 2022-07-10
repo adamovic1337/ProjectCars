@@ -56,12 +56,13 @@
           </div>
           <div class="card-body">
              <p class="login-box-msg">Register a new membership</p>
-             <form>
+             <div>
                 <div class="input-group mb-3">
                  <input
                    type="text"
                    class="form-control"
                    placeholder="First name"
+                   v-model="registerFirstName"
                  />
                  <div class="input-group-append">
                    <div class="input-group-text">
@@ -74,6 +75,7 @@
                    type="text"
                    class="form-control"
                    placeholder="Last name"
+                   v-model="registerLastName"
                  />
                  <div class="input-group-append">
                    <div class="input-group-text">
@@ -86,6 +88,7 @@
                    type="text"
                    class="form-control"
                    placeholder="Username"
+                   v-model="registerUsername"
                  />
                  <div class="input-group-append">
                    <div class="input-group-text">
@@ -98,6 +101,7 @@
                    type="email"
                    class="form-control"
                    placeholder="Email"
+                   v-model="registerEmail"
                  />
                  <div class="input-group-append">
                    <div class="input-group-text">
@@ -110,6 +114,7 @@
                    type="password"
                    class="form-control"
                    placeholder="Password"
+                   v-model="registerPassword"
                  />
                  <div class="input-group-append">
                    <div class="input-group-text">
@@ -117,28 +122,46 @@
                    </div>
                  </div>
                </div>
+               <div class="input-group mb-3">
+                <input
+                  class="form-control"
+                  list="cityListOptions"
+                  id="cityList"
+                  placeholder="Type to search city..."
+                  v-model="cityName"
+                  @keyup="getCities"
+                />
+                <div class="input-group-append">
+                   <div class="input-group-text">
+                     <span class="fas fa-city"></span>
+                   </div>
+                 </div>
+                <datalist id="cityListOptions">
+                  <option v-for="city in cities" :key="city.id" :data-cityid="city.id" :value="city.name"></option>
+                </datalist>
+              </div>
                <div class="row my-4 mx-1">
                   <div class="col-6">
                       <div class="custom-control custom-radio">
-                          <input type="radio" id="role" name="role" value="1" class="custom-control-input" checked>
-                            <label for="role" class="custom-control-label">
+                          <input type="radio" id="user" name="role" value="User" class="custom-control-input" v-model="role">
+                            <label for="user" class="custom-control-label">
                                Portal User
                             </label>
                       </div>
                   </div>
                   <div class="col-6">
                       <div class="custom-control custom-radio">
-                          <input type="radio" id="serviceOwner" name="role" value="2" class="custom-control-input">
+                          <input type="radio" id="serviceOwner" name="role" value="ServiceOwner" class="custom-control-input" v-model="role">
                             <label for="serviceOwner" class="custom-control-label">
                                Service Owner
                             </label>
                       </div>
                   </div>
                </div>
-               <button class="btn btn-primary btn-block">
+               <button class="btn btn-primary btn-block" @click="registerUser">
                      Register
                </button>
-             </form>
+             </div>
              <button class="btn btn-block btn-danger mt-4"  @click="signinPage">
                      I already have a membership
              </button>
@@ -172,7 +195,8 @@ import Footer from "./views/Layout/Footer.vue";
 import axios from "axios";
 import toastr from "toastr/build/toastr.min.js";
 import jwt_decode from 'jwt-decode';
-import {validationErrorResponse} from '../src/assets/helpers/helper';
+import {unauthorized, validationErrorResponse} from '../src/assets/helpers/helper';
+import $ from 'jquery';
 
 export default {
   name: "App",
@@ -187,10 +211,21 @@ export default {
       register: false,
       loginEmail: null,
       loginPassword: null,
+      registerFirstName: null,
+      registerLastName: null,
+      registerUsername: null,
+      registerEmail: null,
+      registerPassword: null,     
+      registerCity: null, 
+      role: null,
+
+      cityName: null,
+      cities: null,
     };
   },
   mounted() {
       this.isTokenValid();
+      this.getCities();
   },
   methods: {
     registerPage() {
@@ -231,6 +266,66 @@ export default {
         .catch((error) => {
           validationErrorResponse(error, this.$router);  
         });              
+    },
+    getCities(){
+      let self = this;
+
+      if (self.cityName == "") {
+        self.cityName = null;
+      }
+
+      axios
+        .get("/cities", {
+          headers: { Accept: "application/vnd.marvin.hateoas+json", Authorization: "Bearer " + localStorage.getItem('token') },
+          params: {
+            cityName: self.cityName,
+            orderBy: "name-asc",
+            pageNumber: 1,
+            pageSize: 10,
+          },
+        })
+        .then((response) => {
+          this.cities = response.data.collection;
+        })
+        .catch((error) => {
+          unauthorized(error, this.$router);
+        });
+    },
+    registerUser() {
+      let self = this;
+      let cityId  = $('#cityListOptions [value="' + $("#cityList").val() + '"]').data('cityid');
+      
+      if(typeof cityId == 'undefined') {
+        cityId = 0
+      }
+
+    console.log(cityId)
+
+      axios
+        .post(`/auth/Register`, {
+          firstName: self.registerFirstName,
+          lastName: self.registerLastName,
+          email: self.registerEmail,
+          username: self.registerUsername,
+          password: self.registerPassword,
+          role: self.role,
+          cityId: cityId,          
+        })
+        .then((response) => {           
+          let token = response.data.token;
+          if(token != null) {
+            localStorage.setItem("token", token);   
+            self.isTokenValid();
+          }   
+          else {
+            toastr.error( response.data.error, "Wrong credentials");           
+          }   
+        })
+        .catch((error) => {
+          validationErrorResponse(error, this.$router);  
+        }); 
+        
+      this.register = false;  
     }
   }
 };

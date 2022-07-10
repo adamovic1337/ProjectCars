@@ -19,6 +19,13 @@ namespace ProjectCars.Service.Contract
         List<CarModelDto> GetCarModels(SearchCarModelDto searchCarModel);
 
         /// <summary>
+        /// Returns all Car Models based on manufacturer id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<CarModelDto> GetCarModelsByManufacturer(int id);
+
+        /// <summary>
         /// Return Pagination Data for creating X-Pagination header
         /// </summary>
         /// <param name="searchCarModel"></param>

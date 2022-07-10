@@ -9,17 +9,24 @@ namespace ProjectCars.Repository.Contracts
     public interface ICarModelRepository : IGenericRepository<CarModel>
     {
         /// <summary>
-        /// Returns all users that match input filters
+        /// Returns all cars that match input filters
         /// </summary>
         /// <param name="searchCarModel"></param>
         /// <returns></returns>
         List<CarModelDto> GetAll(SearchCarModelDto searchCarModel);
 
         /// <summary>
-        /// Get one user that matches input filter
+        /// Get one car that matches input filter
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         CarModelDto GetOne(int id);
+
+        /// <summary>
+        /// Returns all cars that match manufacturer id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<CarModelDto> GetCarModelsByManufacturer(int id);
     }
 }

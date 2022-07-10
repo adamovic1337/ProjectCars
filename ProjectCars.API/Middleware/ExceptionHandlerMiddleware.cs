@@ -98,7 +98,7 @@ namespace ProjectCars.API.Middleware
                                 new 
                                 {
                                     PropertyName = "",
-                                    ErrorMessage = "Must first delete enitities that referenct to this entity."
+                                    ErrorMessage = "The record could not be deleted because od association."
                                 }
                             } ,
                             status = statusCode,

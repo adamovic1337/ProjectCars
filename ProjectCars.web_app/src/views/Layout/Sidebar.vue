@@ -9,12 +9,12 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
-        <div class="info">
-          <a href="#" class="d-block"><i class="far fa-user-circle"></i> {{username}}</a
-          >
-        </div>
+      <div class="user-panel d-flex justify-content-center">        
+          <router-link :to="{ name: 'UserEdit', params: { userId: userId } }" class="info">              
+              <p><i class="far fa-user-circle"></i> {{username}}</p>
+          </router-link>        
       </div>
+            
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -74,10 +74,10 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <router-link :to="{ name: 'CarDetail', params: { userId: userId } }" class="nav-link">
               <i class="nav-icon fas fa-car"></i>
               <p>Cars</p>
-            </a>
+            </router-link>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -106,20 +106,23 @@ export default {
   data() {
     return {
       username: null,
+      userId: 0,
       portal: null
     }
   },
   mounted() {
       let token = localStorage.getItem("token");
       let decoded = jwt_decode(token);
-      this.username = decoded.unique_name;    
+      this.userId = decoded.Id;
+      this.username = decoded.unique_name;  
       
+
       switch (decoded.role){
         case 'Admin':
           this.portal = 'admin portal';
           break;
         case 'User':
-          this.portal = 'admin portal';
+          this.portal = 'user portal';
           break;
         case 'ServiceOwner':
           this.portal = 'service portal';

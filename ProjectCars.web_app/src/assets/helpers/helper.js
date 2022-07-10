@@ -1,7 +1,6 @@
 import toastr from "toastr/build/toastr.min.js";
 
 function unauthorized(error, router) {
-    let self = this;
     if (error.response.status === 401) {
           localStorage.removeItem('token');
           toastr.warning("Session expired redirecting...", "Unauthorized");
@@ -22,7 +21,7 @@ function unauthorized(error, router) {
       });
       toastr.error(message, error.response.data.title);
     } else {
-      this.unauthorized(error, router);
+      unauthorized(error, router);
     }   
   }
 

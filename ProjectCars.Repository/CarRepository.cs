@@ -42,7 +42,7 @@ namespace ProjectCars.Repository
                     {
                         Id = c.Id,
                         Vin = c.Vin,
-                        FirstRegistration = c.FirstRegistration,
+                        FirstRegistration = c.FirstRegistration.Date.ToString(),
                         Mileage = c.Mileage,
                         ModelId = c.ModelId,
                         ModelName = cm.Name,
@@ -94,7 +94,7 @@ namespace ProjectCars.Repository
                     {
                         Id = c.Id,
                         Vin = c.Vin,
-                        FirstRegistration = c.FirstRegistration,
+                        FirstRegistration = c.FirstRegistration.Date.ToString(),
                         Mileage = c.Mileage,
                         ModelId = c.ModelId,
                         ModelName = cm.Name,

@@ -51,9 +51,9 @@ namespace ProjectCars.Service
 
         public async Task<RegistrationResponseDto> CreateUser(CreateUserDto userDto)
         {
-            _ = _cityRepository.GetEntity(userDto.CityId).EntityNotFoundCheck();
-
             _createUserValidator.ValidateAndThrow(userDto);
+
+            _ = _cityRepository.GetEntity(userDto.CityId).EntityNotFoundCheck();
 
             var newUser = _mapper.Map<AppUser>(userDto);
 

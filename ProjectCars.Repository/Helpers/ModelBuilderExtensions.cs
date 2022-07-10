@@ -18,6 +18,9 @@ namespace ProjectCars.Repository.Helpers
         ///
         public static void CreateScriptWithFakeData(this ModelBuilder modelBuilder)
         {
+            Directory.CreateDirectory("../SQL");
+            File.WriteAllText("../SQL/SqlData.sql", "");
+
             #region COUNTRIES
 
             var country = new Faker<Country>()
@@ -42,7 +45,7 @@ namespace ProjectCars.Repository.Helpers
                 }
             }
 
-            File.WriteAllText("../SQL/SqlData.sql", SQL1);
+            File.AppendAllText("../SQL/SqlData.sql", SQL1);
 
             #endregion COUNTRIES
 
@@ -96,7 +99,7 @@ namespace ProjectCars.Repository.Helpers
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
                 .RuleFor(u => u.Email, (f) => f.Internet.Email())
                 .RuleFor(u => u.UserName, f => f.Internet.UserName())
-                .RuleFor(u => u.PasswordHash, f => "password123")
+                .RuleFor(u => u.PasswordHash, f => "AQAAAAEAACcQAAAAEJGOzadIm2GeaRtqO1B1zspgd4RBRpFKNk9uxQF+tjNXCx7V4OWqAB72yRD9Wt7qXQ==") //Password123!
                 .RuleFor(u => u.CityId, f => f.Random.Int(1, totalCities));
 
             var generateUsers = user.Generate(200);
@@ -391,7 +394,7 @@ namespace ProjectCars.Repository.Helpers
 
             #region STATUS
 
-            var totalStatuses = 6;
+            var totalStatuses = 5;
             var SQL14 = $"--------------------< Total count: {totalStatuses} >--------------------{Environment.NewLine}" +
                         $"INSERT INTO dbo.Status{Environment.NewLine}" +
                         $"VALUES{Environment.NewLine}" +

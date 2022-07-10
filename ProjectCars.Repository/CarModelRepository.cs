@@ -61,6 +61,23 @@ namespace ProjectCars.Repository
                     }).FirstOrDefault();
         }
 
+        public List<CarModelDto> GetCarModelsByManufacturer(int id)
+        {
+            return (from cm in Context.CarModels
+                    join e in Context.Engines on cm.EngineId equals e.Id
+                    join m in Context.Manufacturers on cm.ManufacturerId equals m.Id
+                    where m.Id == id
+                    select new CarModelDto
+                    {
+                        Id = cm.Id,
+                        Name = cm.Name,
+                        EngineId = cm.EngineId,
+                        EngineName = e.Name,
+                        ManufacturerId = cm.ManufacturerId,
+                        ManufacturerName = m.Name,
+                    }).ToList();
+        }
+
         #endregion METHODS
     }
 }

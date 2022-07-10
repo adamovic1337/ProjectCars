@@ -150,6 +150,15 @@ namespace ProjectCars.API.Controllers
                      );
         }
 
+        // GET: api/carModels
+        [HttpGet("ddl/{manufacturerId}")]
+        public IActionResult Get(int manufacturerId)
+        {          
+            var carModels = _carModelService.GetCarModelsByManufacturer(manufacturerId);
+
+            return Ok(carModels);
+        }
+
         // GET api/carModels/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet("{carModelId}", Name = "GetCarModel")]

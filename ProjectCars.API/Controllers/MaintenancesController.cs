@@ -226,7 +226,8 @@ namespace ProjectCars.API.Controllers
 
         // GET: api/users/1/cars/1/maintenances
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet("users/{userId}/cars/{carId}/maintenances", Name = "GetMaintenancesForCars")]
+        [HttpGet("users/{userId}/cars/{carId}/maintenances")]
+        [HttpGet(Name = "GetMaintenancesForCars")]
         [HttpHead("users/{userId}/cars/{carId}/maintenances")]
         public IActionResult Get(int userId, int carId, [FromQuery] SearchMaintenanceDto searchCar, [FromHeader(Name = "Accept")] string mediaType)
         {
@@ -244,7 +245,8 @@ namespace ProjectCars.API.Controllers
 
         // GET: api/carServices/1/maintenances
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet("carServices/{carServiceId}/maintenances", Name = "GetMaintenances")]
+        [HttpGet("carServices/{carServiceId}/maintenances")]
+        [HttpGet(Name = "GetMaintenances")]
         [HttpHead("carServices/{carServiceId}/maintenances")]
         public IActionResult Get(int carServiceId, [FromQuery] SearchMaintenanceDto searchCar, [FromHeader(Name = "Accept")] string mediaType)
         {
@@ -262,7 +264,8 @@ namespace ProjectCars.API.Controllers
 
         // GET api/carServices/1/maintenances/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet("carServices/{carServiceId}/maintenances/{maintenanceId}", Name = "GetMaintenance")]
+        [HttpGet("carServices/{carServiceId}/maintenances/{maintenanceId}")]
+        [HttpGet(Name = "GetMaintenance")]
         public IActionResult Get(int carServiceId, int maintenanceId, [FromHeader(Name = "Accept")] string mediaType)
         {
             var maintenance = _maintenanceService.GetMaintenanceById(carServiceId, maintenanceId);
@@ -285,7 +288,8 @@ namespace ProjectCars.API.Controllers
 
         // POST api/carServices/1/maintenances
         [Consumes("application/json", "application/xml")]
-        [HttpPost("carServices/{carServiceId}/maintenances", Name = "CreateMaintenance")]
+        [HttpPost("carServices/{carServiceId}/maintenances")]
+        [HttpPost(Name = "CreateMaintenance")]
         public IActionResult Post(int carServiceId, [FromBody] CreateMaintenanceDto maintenanceDto)
         {
             var maintenanceToReturn = _maintenanceService.CreateMaintenance(carServiceId, maintenanceDto);
@@ -298,7 +302,8 @@ namespace ProjectCars.API.Controllers
 
         // PUT api/carServices/1/maintenances/5
         [Consumes("application/json", "application/xml")]
-        [HttpPut("carServices/{carServiceId}/maintenances/{maintenanceId}", Name = "UpdateMaintenancePut")]
+        [HttpPut("carServices/{carServiceId}/maintenances/{maintenanceId}")]
+        [HttpPut(Name = "UpdateMaintenancePut")]
         public IActionResult Put(int carServiceId, int maintenanceId, [FromBody] UpdateMaintenanceDto maintenanceDto)
         {
             _maintenanceService.UpdateMaintenancePut(carServiceId, maintenanceId, maintenanceDto);
@@ -307,7 +312,8 @@ namespace ProjectCars.API.Controllers
 
         // PATCH api/carServices/1/maintenances/5
         [Consumes("application/json-patch+json")]
-        [HttpPatch("carServices/{carServiceId}/maintenances/{maintenanceId}", Name = "UpdateMaintenancePatch")]
+        [HttpPatch("carServices/{carServiceId}/maintenances/{maintenanceId}")]
+        [HttpPatch(Name = "UpdateMaintenancePatch")]
         public IActionResult Patch(int carServiceId, int maintenanceId, [FromBody] JsonPatchDocument<UpdateMaintenanceDto> patchDocument)
         {
             _maintenanceService.UpdateMaintenancePatch(carServiceId, maintenanceId, patchDocument);
@@ -315,7 +321,8 @@ namespace ProjectCars.API.Controllers
         }
 
         // DELETE api/carServices/1/maintenances/5
-        [HttpDelete("carServices/{carServiceId}/maintenances/{maintenanceId}", Name = "DeleteMaintenance")]
+        [HttpDelete("carServices/{carServiceId}/maintenances/{maintenanceId}")]
+        [HttpDelete(Name = "DeleteMaintenance")]
         public IActionResult Delete(int carServiceId, int maintenanceId)
         {
             _maintenanceService.DeleteMaintenance(carServiceId, maintenanceId);

@@ -41,7 +41,7 @@
 <script>
 import toastr from "toastr/build/toastr.min.js";
 import axios from "axios";
-import {validationErrorResponse} from '../../../assets/helpers/helper';
+import {unauthorized, validationErrorResponse} from '../../../assets/helpers/helper';
 
 export default {
   data() {

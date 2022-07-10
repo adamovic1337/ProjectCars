@@ -45,6 +45,11 @@ namespace ProjectCars.Service
             return _carModelRepository.GetAll(searchCarModel);
         }
 
+        public List<CarModelDto> GetCarModelsByManufacturer(int id)
+        {
+            return _carModelRepository.GetCarModelsByManufacturer(id);
+        }
+
         public PaginationData<CarModel> PaginationData(SearchCarModelDto searchCarModel)
         {
             return _carModelRepository.GetPaginationData(searchCarModel,

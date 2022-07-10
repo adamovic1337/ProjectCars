@@ -35,7 +35,7 @@ namespace ProjectCars.Repository
                     join m in Context.Manufacturers on cm.ManufacturerId equals m.Id
                     join u in Context.Users on uc.UserId equals u.Id
                     join s in Context.Status on sr.StatusId equals s.Id
-                    where searchServiceRequest.StatusId == s.Id
+                    where sr.StatusId == searchServiceRequest.StatusId
                     select new ServiceRequestDto
                     {
                         Id = sr.Id,

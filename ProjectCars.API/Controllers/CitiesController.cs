@@ -15,8 +15,7 @@ using System.Linq;
 namespace ProjectCars.API.Controllers
 {
     [Route("api/cities")]
-    [ApiController]
-    [Authorize(Roles = "Admin")]
+    [ApiController]    
     public class CitiesController : ControllerBase
     {
         #region FIELDS
@@ -152,7 +151,8 @@ namespace ProjectCars.API.Controllers
 
         // GET api/cities/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
-        [HttpGet("{cityId}", Name = "GetCity")]        
+        [HttpGet("{cityId}", Name = "GetCity")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Get(int cityId, [FromHeader(Name = "Accept")] string mediaType)
         {
             var city = _cityService.GetCityById(cityId);
@@ -176,6 +176,7 @@ namespace ProjectCars.API.Controllers
         // POST api/cities
         [Consumes("application/json", "application/xml")]
         [HttpPost(Name = "CreateCity")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Post([FromBody] CreateCityDto cityDto)
         {
             var cityToReturn = _cityService.CreateCity(cityDto);
@@ -189,6 +190,7 @@ namespace ProjectCars.API.Controllers
         // PUT api/cities/5
         [Consumes("application/json", "application/xml")]
         [HttpPut("{cityId}", Name = "UpdateCityPut")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Put(int cityId, [FromBody] UpdateCityDto cityDto)
         {
             _cityService.UpdateCityPut(cityId, cityDto);
@@ -198,6 +200,7 @@ namespace ProjectCars.API.Controllers
         // PATCH api/cities/5
         [Consumes("application/json-patch+json")]
         [HttpPatch("{cityId}", Name = "UpdateCityPatch")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Patch(int cityId, [FromBody] JsonPatchDocument<UpdateCityDto> patchDocument)
         {
             _cityService.UpdateCityPatch(cityId, patchDocument);
@@ -206,6 +209,7 @@ namespace ProjectCars.API.Controllers
 
         // DELETE api/cities/5
         [HttpDelete("{cityId}", Name = "DeleteCity")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int cityId)
         {
             _cityService.DeleteCity(cityId);

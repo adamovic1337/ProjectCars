@@ -6,7 +6,7 @@ namespace ProjectCars.Model.DTO.View
     {
         public string Repairs { get; set; }
         public int Mileage { get; set; }
-        public DateTime RepairDate { get; set; }
+        public string RepairDate { get; set; }
         public int CarId { get; set; }
         public string ManufactrurerName { get; set; }
         public string ModelName { get; set; }
