@@ -29,11 +29,10 @@ namespace ProjectCars.Repository
 
             return (from sr in Context.ServiceRequest
                     join cs in Context.CarServices on sr.CarServiceId equals cs.Id
-                    join uc in Context.UserCars on sr.UserId equals uc.UserId
-                    join c in Context.Cars on uc.CarId equals c.Id
+                    join c in Context.Cars on sr.CarId equals c.Id
                     join cm in Context.CarModels on c.ModelId equals cm.Id
                     join m in Context.Manufacturers on cm.ManufacturerId equals m.Id
-                    join u in Context.Users on uc.UserId equals u.Id
+                    join u in Context.Users on sr.UserId equals u.Id
                     join s in Context.Status on sr.StatusId equals s.Id
                     where sr.StatusId == searchServiceRequest.StatusId
                         && (u.Id == searchServiceRequest.UserId || cs.Id == searchServiceRequest.CarServiceId)
@@ -63,11 +62,10 @@ namespace ProjectCars.Repository
         {
             return (from sr in Context.ServiceRequest
                     join cs in Context.CarServices on sr.CarServiceId equals cs.Id
-                    join uc in Context.UserCars on sr.UserId equals uc.UserId
-                    join c in Context.Cars on uc.CarId equals c.Id
+                    join c in Context.Cars on sr.CarId equals c.Id
                     join cm in Context.CarModels on c.ModelId equals cm.Id
                     join m in Context.Manufacturers on cm.ManufacturerId equals m.Id
-                    join u in Context.Users on uc.UserId equals u.Id
+                    join u in Context.Users on sr.UserId equals u.Id
                     join s in Context.Status on sr.StatusId equals s.Id
                     where sr.Id == id
                     select new ServiceRequestDto

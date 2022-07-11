@@ -80,10 +80,10 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <router-link :to="{ name: 'ServiceRequestList' }" class="nav-link">
               <i class="nav-icon fas fa-wrench"></i>
               <p>Service Requests</p>
-            </a>
+            </router-link> 
           </li>
           <li class="nav-item">
             <router-link :to="{ name: 'MaintenaceList', params: { userId: userId} }" class="nav-link">
@@ -96,10 +96,17 @@
               <i class="nav-icon fas fa-tasks"></i>
               <p>All Repairs</p>
             </router-link>
-          </li><li class="nav-item">
+          </li>
+          <li class="nav-item">
             <router-link :to="{ name: 'CarService' }" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>
               <p>Manage Service</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'RequestList' }" class="nav-link">
+              <i class="nav-icon fas fa-tools"></i>
+              <p>Manage Service Requests</p>
             </router-link>
           </li>
         </ul>
@@ -121,7 +128,8 @@ export default {
       username: null,
       userId: 0,
       portal: null,
-      carServiceId: 0
+      carServiceId: 0,
+      role: null
     }
   },
   mounted() {      
@@ -135,12 +143,15 @@ export default {
       switch (decoded.role){
         case 'Admin':
           this.portal = 'admin portal';
+          this.role = decoded.role;
           break;
         case 'User':
           this.portal = 'user portal';
+          this.role = decoded.role;
           break;
         case 'ServiceOwner':
           this.portal = 'service portal';
+          this.role = decoded.role;
           break;    
       } 
       

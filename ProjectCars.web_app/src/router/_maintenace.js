@@ -1,5 +1,6 @@
 import MaintenaceList from '../views/Pages/Maintenace/MaintenanceList.vue'
 import ServiceMaintenaceList from '../views/Pages/Maintenace/ServiceMaintenanceList.vue'
+import MaintenaceAdd from '../views/Pages/Maintenace/MaintenanceAdd.vue'
 
 
 export default [
@@ -13,6 +14,12 @@ export default [
       path: '/carService/:carServiceId/maintenances',
       name: 'ServiceMaintenaceList',
       component: ServiceMaintenaceList,
+      params: true
+    },
+    {
+      path: '/carService/:carServiceId/maintenances/car/:carId',
+      name: 'MaintenaceAdd',
+      component: MaintenaceAdd,
       params: true
     },
   ]

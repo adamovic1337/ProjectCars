@@ -13,6 +13,7 @@ import users from './_users'
 import cars from './_cars'
 import maintenaces from './_maintenace'
 import carService from './_carService'
+import serviceRequest from './_serviceRequest'
 
 const allRoutes = [];
 const routes = allRoutes.concat(
@@ -28,7 +29,8 @@ const routes = allRoutes.concat(
                           users,
                           cars,
                           maintenaces,
-                          carService
+                          carService,
+                          serviceRequest
                         );
 
 

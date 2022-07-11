@@ -69,18 +69,18 @@ namespace ProjectCars.API.Controllers
 
         private string CreateResourceUri(SearchServiceRequestDto search, ResourceUriType type)
         {
-            var name = "ServiceRequest";
+            var name = "ServiceRequests";
 
             return type switch
             {
                 ResourceUriType.PreviousPage => Url.Link($"Get{name}",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, status = search.StatusId }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber - 1, pageSize = search.PageSize, status = search.StatusId, userId = search.UserId, carServiceId = search.CarServiceId }),
                 ResourceUriType.NextPage => Url.Link($"Get{name}",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, status = search.StatusId }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber + 1, pageSize = search.PageSize, status = search.StatusId, userId = search.UserId, carServiceId = search.CarServiceId }),
                 ResourceUriType.Current => Url.Link($"Get{name}",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.StatusId }),
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.StatusId, userId = search.UserId, carServiceId = search.CarServiceId }),
                 _ => Url.Link($"Get{name}",
-                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.StatusId })
+                    new { orderBy = search.OrderBy, pageNumber = search.PageNumber, pageSize = search.PageSize, status = search.StatusId, userId = search.UserId, carServiceId = search.CarServiceId })
             };
         }
 

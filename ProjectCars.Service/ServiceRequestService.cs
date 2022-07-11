@@ -48,7 +48,9 @@ namespace ProjectCars.Service
         public PaginationData<ServiceRequest> PaginationData(SearchServiceRequestDto searchServiceRequest)
         {
             return _serviceRequestRepository.GetPaginationData(searchServiceRequest,
-                                                               sr => sr.StatusId == searchServiceRequest.StatusId);
+                                                               sr => sr.StatusId == searchServiceRequest.StatusId
+                                                                             && (sr.UserId == searchServiceRequest.UserId || 
+                                                                                 sr.CarServiceId == searchServiceRequest.CarServiceId));
         }
 
         public ServiceRequestDto GetServiceRequestById(int serviceRequestId)

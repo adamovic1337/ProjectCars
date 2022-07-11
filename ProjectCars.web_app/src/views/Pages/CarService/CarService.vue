@@ -111,7 +111,8 @@ export default {
   data() {
     return {
       userId: 0,
-      carServiceId: 0,  
+      carServiceId: 0,
+      role: null,  
       
       serviceData: {},
       cityName: null,
@@ -128,9 +129,11 @@ export default {
         let token = localStorage.getItem("token");
         let decoded = jwt_decode(token);
         this.userId = decoded.Id;
+        this.role = decoded.role;
     },
     getCarServiceId() {
-      axios
+      if(this.role === 'ServiceOwner' || this.role === 'Admin') {
+        axios
         .get(`/carServices/owner/${this.userId}`, {
           headers: {
             Accept: "application/json",
@@ -147,6 +150,8 @@ export default {
         .catch((error) => {
           unauthorized(error, this.$router);
         });
+      }
+      
     },
     getData() {
       let self = this;
