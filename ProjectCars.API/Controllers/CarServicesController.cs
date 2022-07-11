@@ -163,6 +163,16 @@ namespace ProjectCars.API.Controllers
                      );
         }
 
+        // GET api/carServices/5
+        [Produces("application/json", "application/xml")]
+        [HttpGet("owner/{ownerId}")]
+        public IActionResult Get(int ownerId)
+        {
+            var carService = _carServiceService.GetCarServiceByOwnerId(ownerId);
+
+            return Ok(carService);
+        }
+
         // OPTIONS api/carServices
         [HttpOptions]
         public IActionResult GetOptions()

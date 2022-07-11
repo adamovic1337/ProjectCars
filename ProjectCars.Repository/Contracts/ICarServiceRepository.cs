@@ -21,5 +21,7 @@ namespace ProjectCars.Repository.Contracts
         /// <param name="id"></param>
         /// <returns></returns>
         CarServiceDto GetOne(int id);
+
+        CarServiceDto GetOneByOwner(int id);
     }
 }

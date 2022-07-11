@@ -99,7 +99,7 @@ namespace ProjectCars.Repository.Helpers
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
                 .RuleFor(u => u.Email, (f) => f.Internet.Email())
                 .RuleFor(u => u.UserName, f => f.Internet.UserName())
-                .RuleFor(u => u.PasswordHash, f => "AQAAAAEAACcQAAAAEJGOzadIm2GeaRtqO1B1zspgd4RBRpFKNk9uxQF+tjNXCx7V4OWqAB72yRD9Wt7qXQ==") //Password123!
+                .RuleFor(u => u.PasswordHash, f => "Password123!")
                 .RuleFor(u => u.CityId, f => f.Random.Int(1, totalCities));
 
             var generateUsers = user.Generate(200);

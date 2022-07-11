@@ -56,6 +56,11 @@ namespace ProjectCars.Service
             return _carServiceRepository.GetOne(carServiceId).EntityNotFoundCheck();
         }
 
+        public CarServiceDto GetCarServiceByOwnerId(int ownderId)
+        {
+            return _carServiceRepository.GetOneByOwner(ownderId).EntityNotFoundCheck();
+        }
+
         public CarServiceDto CreateCarService(CreateCarServiceDto carServiceDto)
         {
             _createCarServiceValidator.ValidateAndThrow(carServiceDto);

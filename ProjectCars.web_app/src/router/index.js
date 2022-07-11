@@ -11,6 +11,8 @@ import engines from './_engines'
 import carModels from './_carModel'
 import users from './_users'
 import cars from './_cars'
+import maintenaces from './_maintenace'
+import carService from './_carService'
 
 const allRoutes = [];
 const routes = allRoutes.concat(
@@ -24,7 +26,9 @@ const routes = allRoutes.concat(
                           engines,
                           carModels,
                           users,
-                          cars
+                          cars,
+                          maintenaces,
+                          carService
                         );
 
 

@@ -86,10 +86,21 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <router-link :to="{ name: 'MaintenaceList', params: { userId: userId} }" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>Repairs</p>
-            </a>
+            </router-link>            
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'ServiceMaintenaceList', params: { carServiceId: carServiceId} }" class="nav-link">
+              <i class="nav-icon fas fa-tasks"></i>
+              <p>All Repairs</p>
+            </router-link>
+          </li><li class="nav-item">
+            <router-link :to="{ name: 'CarService' }" class="nav-link">
+              <i class="nav-icon fas fa-tools"></i>
+              <p>Manage Service</p>
+            </router-link>
           </li>
         </ul>
       </nav>
@@ -100,6 +111,8 @@
 </template>
 
 <script>
+import axios from "axios";
+import {unauthorized, validationErrorResponse} from '../../assets/helpers/helper';
 import jwt_decode from 'jwt-decode';
 
 export default {
@@ -107,14 +120,16 @@ export default {
     return {
       username: null,
       userId: 0,
-      portal: null
+      portal: null,
+      carServiceId: 0
     }
   },
-  mounted() {
+  mounted() {      
       let token = localStorage.getItem("token");
       let decoded = jwt_decode(token);
       this.userId = decoded.Id;
-      this.username = decoded.unique_name;  
+      this.username = decoded.unique_name; 
+      this.getCarServiceId(); 
       
 
       switch (decoded.role){
@@ -130,6 +145,23 @@ export default {
       } 
       
   },
+  methods: {
+    getCarServiceId() {
+      axios
+        .get(`/carServices/owner/${this.userId}`, {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          }
+        })
+        .then((response) => {
+          this.carServiceId = response.data.id;
+        })
+        .catch((error) => {
+          unauthorized(error, this.$router);
+        });
+    }
+  }
 };
 </script>
 

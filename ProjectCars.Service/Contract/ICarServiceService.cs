@@ -32,6 +32,8 @@ namespace ProjectCars.Service.Contract
         /// <returns>Returns one Car Service object</returns>
         CarServiceDto GetCarServiceById(int carServiceId);
 
+        CarServiceDto GetCarServiceByOwnerId(int ownderId);
+
         /// <summary>
         /// Creates Car Service entity
         /// </summary>

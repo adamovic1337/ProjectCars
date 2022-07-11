@@ -69,6 +69,27 @@ namespace ProjectCars.Repository
                     }).FirstOrDefault();
         }
 
+        public CarServiceDto GetOneByOwner(int id)
+        {
+            return (from cs in Context.CarServices
+                    join u in Context.Users on cs.OwnerId equals u.Id
+                    join c in Context.Cities on u.CityId equals c.Id
+                    where cs.OwnerId == id
+                    select new CarServiceDto
+                    {
+                        Id = cs.Id,
+                        Name = cs.Name,
+                        Phone = cs.Phone,
+                        Address = cs.Address,
+                        Email = cs.Email,
+                        Website = cs.Website,
+                        CityId = cs.CityId,
+                        CityName = c.Name,
+                        OwnerId = cs.OwnerId,
+                        OwnerName = $"{u.FirstName} {u.LastName}",
+                    }).FirstOrDefault();
+        }
+
         #endregion METHODS
     }
 }

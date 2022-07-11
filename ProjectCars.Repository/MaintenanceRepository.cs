@@ -35,7 +35,7 @@ namespace ProjectCars.Repository
                     join man in Context.Manufacturers on cm.ManufacturerId equals man.Id
                     join uc in Context.UserCars on c.Id equals uc.CarId
                     join u in Context.Users on uc.UserId equals u.Id
-                    where u.Id == userId && c.Id == carId && man.Name.Contains(searchMaintenance.ManufacturerName.Trim())
+                    where u.Id == userId && c.Id == carId
 
                     select new MaintenanceDto
                     {
@@ -65,7 +65,7 @@ namespace ProjectCars.Repository
                     join man in Context.Manufacturers on cm.ManufacturerId equals man.Id
                     join uc in Context.UserCars on c.Id equals uc.CarId
                     join u in Context.Users on uc.UserId equals u.Id
-                    where u.Id == carServiceId && man.Name.Contains(searchMaintenance.ManufacturerName.Trim())
+                    where m.CarServiceId == carServiceId && (m.RepairDate > searchMaintenance.DateFrom && m.RepairDate < searchMaintenance.DateTo)
 
                     select new MaintenanceDto
                     {
@@ -92,7 +92,7 @@ namespace ProjectCars.Repository
                          join man in Context.Manufacturers on cm.ManufacturerId equals man.Id
                          join uc in Context.UserCars on c.Id equals uc.CarId
                          join u in Context.Users on uc.UserId equals u.Id
-                         where u.Id == userId && c.Id == carId && man.Name.Contains(searchMaintenance.ManufacturerName.Trim())
+                         where u.Id == userId && c.Id == carId
 
                          select new Maintenance
                          {
@@ -116,7 +116,7 @@ namespace ProjectCars.Repository
                          join man in Context.Manufacturers on cm.ManufacturerId equals man.Id
                          join uc in Context.UserCars on c.Id equals uc.CarId
                          join u in Context.Users on uc.UserId equals u.Id
-                         where u.Id == carServiceId && man.Name.Contains(searchMaintenance.ManufacturerName.Trim())
+                         where m.CarServiceId == carServiceId && (m.RepairDate > searchMaintenance.DateFrom && m.RepairDate < searchMaintenance.DateTo)
                          select new Maintenance
                          {
                              Id = m.Id,
@@ -162,7 +162,7 @@ namespace ProjectCars.Repository
                     join c in Context.Cars on m.CarId equals c.Id
                     join uc in Context.UserCars on c.Id equals uc.CarId
                     join u in Context.Users on uc.UserId equals u.Id
-                    where cs.Id == carServiceId && m.Id == maintenanceId
+                    where m.CarServiceId == carServiceId && m.Id == maintenanceId
 
                     select new Maintenance
                     {

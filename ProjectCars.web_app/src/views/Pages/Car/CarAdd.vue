@@ -118,8 +118,6 @@ export default {
       let self = this;
       let modelId = $('#modelListOptions [value="' + $("#modelList").val() + '"]').data('modelid');
 
-      console.log(self.carData)
-      console.log(modelId)
       axios
         .post(`/users/${self.userId}/cars`, { 
           vin: self.carData.vin,

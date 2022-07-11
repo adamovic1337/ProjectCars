@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ProjectCars.Model.Entities;
 using ProjectCars.Repository.Configurations;
 using ProjectCars.Repository.Helpers;
@@ -8,15 +9,18 @@ namespace ProjectCars.Repository.DbContexts
 {
     public class ProjectCarsContext : IdentityDbContext<AppUser, AppRole, int>
     {
+        private readonly IConfiguration _configuration;
+
         #region CONSTRUCTORS
 
         public ProjectCarsContext()
         {
         }
 
-        public ProjectCarsContext(DbContextOptions<ProjectCarsContext> options)
+        public ProjectCarsContext(DbContextOptions<ProjectCarsContext> options, IConfiguration configuration)
             : base(options)
         {
+            _configuration = configuration;
         }
 
         #endregion CONSTRUCTORS
@@ -40,10 +44,9 @@ namespace ProjectCars.Repository.DbContexts
 
         #region METHODS
 
-        ////This method should only be used when seeding database, connection string should be in appsettings.json
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        //    optionsBuilder.UseSqlServer(@"Data Source = .\SQLEXPRESS; Initial Catalog = ProjectCars; Integrated Security = True");
+        //    optionsBuilder.UseSqlServer(_configuration.GetConnectionString("ProjectCars"));
         //    base.OnConfiguring(optionsBuilder);
         //}
 

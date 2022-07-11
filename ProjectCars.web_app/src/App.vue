@@ -298,9 +298,7 @@ export default {
       if(typeof cityId == 'undefined') {
         cityId = 0
       }
-
-    console.log(cityId)
-
+      
       axios
         .post(`/auth/Register`, {
           firstName: self.registerFirstName,

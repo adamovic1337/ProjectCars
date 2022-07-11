@@ -153,7 +153,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header border-0">
-              <h3 class="text-center">Last 10 Repairs</h3>
+              <h3 class="text-center">Last 5 Repairs</h3>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-valign-middle">
@@ -233,7 +233,6 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
           unauthorized(error, this.$router);
         });
     },
@@ -265,7 +264,7 @@ export default {
           },
           params: {
             orderBy: "repairDate-desc",
-            pageSize: 10,
+            pageSize: 5,
           },
         })
         .then((response) => {
