@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using ProjectCars.API.Helpers;
@@ -15,6 +16,7 @@ namespace ProjectCars.API.Controllers
 {
     [Route("api/serviceRequests")]
     [ApiController]
+    [Authorize(Roles = "User,ServiceOwner")]
     public class ServiceRequestsController : ControllerBase
     {
         #region FIELDS

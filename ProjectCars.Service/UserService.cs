@@ -86,6 +86,8 @@ namespace ProjectCars.Service
             _mapper.Map(userDto, user);
 
             var update = await _userManager.UpdateAsync(user);
+            await _userManager.RemovePasswordAsync(user);
+            await _userManager.AddPasswordAsync(user, userDto.Password);
             _userRepository.Save();
 
             return update.Succeeded;

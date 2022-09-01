@@ -16,7 +16,6 @@ namespace ProjectCars.API.Controllers
 {
     [Route("api/manufacturers")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class ManufacturersController : ControllerBase
     {
         #region FIELDS
@@ -136,6 +135,7 @@ namespace ProjectCars.API.Controllers
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet(Name = "GetManufacturers")]
         [HttpHead]
+        [Authorize(Roles = "Admin,User,ServiceOwner")]
         public IActionResult Get([FromQuery] SearchManufacturerDto searchManufacturer, [FromHeader(Name = "Accept")] string mediaType)
         {
             this.PaginationMetadata(_manufacturerService.PaginationData(searchManufacturer));
@@ -153,6 +153,7 @@ namespace ProjectCars.API.Controllers
         // GET api/manufacturers/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet("{manufacturerId}", Name = "GetManufacturer")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Get(int manufacturerId, [FromHeader(Name = "Accept")] string mediaType)
         {
             var manufacturer = _manufacturerService.GetManufacturerById(manufacturerId);
@@ -176,6 +177,7 @@ namespace ProjectCars.API.Controllers
         // POST api/manufacturers
         [Consumes("application/json", "application/xml")]
         [HttpPost(Name = "CreateManufacturers")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Post([FromBody] CreateManufacturerDto manufacturerDto)
         {
             var manufacturerToReturn = _manufacturerService.CreateManufacturer(manufacturerDto);
@@ -189,6 +191,7 @@ namespace ProjectCars.API.Controllers
         // PUT api/manufacturers/5
         [Consumes("application/json", "application/xml")]
         [HttpPut("{manufacturerId}", Name = "UpdateManufacturerPut")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Put(int manufacturerId, [FromBody] UpdateManufacturerDto manufacturerDto)
         {
             _manufacturerService.UpdateManufacturerPut(manufacturerId, manufacturerDto);
@@ -198,6 +201,7 @@ namespace ProjectCars.API.Controllers
         // PATCH api/manufacturers/5
         [Consumes("application/json-patch+json")]
         [HttpPatch("{manufacturerId}", Name = "UpdateManufacturerPatch")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Patch(int manufacturerId, [FromBody] JsonPatchDocument<UpdateManufacturerDto> patchDocument)
         {
             _manufacturerService.UpdateManufacturerPatch(manufacturerId, patchDocument);
@@ -206,6 +210,7 @@ namespace ProjectCars.API.Controllers
 
         // DELETE api/manufacturers/5
         [HttpDelete("{manufacturerId}", Name = "DeleteManufacturer")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int manufacturerId)
         {
             _manufacturerService.DeleteManufacturer(manufacturerId);

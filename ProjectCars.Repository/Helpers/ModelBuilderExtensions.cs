@@ -402,7 +402,7 @@ namespace ProjectCars.Repository.Helpers
                         $"('Accepted'),{Environment.NewLine}" +
                         $"('Repairing'),{Environment.NewLine}" +
                         $"('Ready for pick up'),{Environment.NewLine}" +
-                        $"('Completed'),{Environment.NewLine}";
+                        $"('Completed');{Environment.NewLine}";
 
             File.AppendAllText("../SQL/SqlData.sql", SQL14);
 

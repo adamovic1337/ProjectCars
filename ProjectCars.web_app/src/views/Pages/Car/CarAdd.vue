@@ -12,7 +12,7 @@
               <div class="form-group">
                 <label for="vin">VIN</label>
                 <input
-                  type="text"
+                  type="number"
                   id="vin"
                   class="form-control"
                   v-model="carData.vin"
@@ -30,7 +30,7 @@
               <div class="form-group">
                 <label for="mileage">Mileage</label>
                 <input
-                  type="text"
+                  type="number"
                   id="mileage"
                   class="form-control"
                   v-model="carData.mileage"
@@ -122,7 +122,7 @@ export default {
         .post(`/users/${self.userId}/cars`, { 
           vin: self.carData.vin,
           firstRegistration: self.carData.firstRegistration, 
-          mileage: self.carData.vin,
+          mileage: self.carData.mileage,
           modelId: modelId
         }, 
         {

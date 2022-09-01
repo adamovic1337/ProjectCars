@@ -141,7 +141,10 @@ export default {
           }
         })
         .then((response) => {
-          this.carServiceId = response.data.id;   
+          if(typeof response.data.id != 'undefined')
+          {
+            this.carServiceId = response.data.id;
+          }   
           
           if(this.carServiceId > 0){
             this.getData();

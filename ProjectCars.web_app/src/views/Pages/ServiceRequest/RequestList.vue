@@ -52,6 +52,7 @@
                 <td class="text-center">{{ r.status }}</td>
                 <td class="project-actions text-center">
                   <router-link
+                    v-if="r.statusId != 5"
                     :to="{
                       name: 'RequestEdit',
                       params: { requestId: r.id, carId: r.carId },

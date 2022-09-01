@@ -15,8 +15,7 @@ using System.Linq;
 namespace ProjectCars.API.Controllers
 {
     [Route("api/carModels")]
-    [ApiController]
-    [Authorize(Roles = "Admin")]
+    [ApiController]    
     public class CarModelsController : ControllerBase
     {
         #region FIELDS
@@ -136,6 +135,7 @@ namespace ProjectCars.API.Controllers
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet(Name = "GetCarModels")]
         [HttpHead]
+        [Authorize(Roles = "Admin,User,ServiceOwner")]
         public IActionResult Get([FromQuery] SearchCarModelDto searchCarModel, [FromHeader(Name = "Accept")] string mediaType)
         {
             this.PaginationMetadata(_carModelService.PaginationData(searchCarModel));
@@ -152,6 +152,7 @@ namespace ProjectCars.API.Controllers
 
         // GET: api/carModels
         [HttpGet("ddl/{manufacturerId}")]
+        [Authorize(Roles = "Admin,User,ServiceOwner")]
         public IActionResult Get(int manufacturerId)
         {          
             var carModels = _carModelService.GetCarModelsByManufacturer(manufacturerId);
@@ -162,6 +163,7 @@ namespace ProjectCars.API.Controllers
         // GET api/carModels/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet("{carModelId}", Name = "GetCarModel")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Get(int carModelId, [FromHeader(Name = "Accept")] string mediaType)
         {
             var carModel = _carModelService.GetCarModelById(carModelId);
@@ -185,6 +187,7 @@ namespace ProjectCars.API.Controllers
         // POST api/carModels
         [Consumes("application/json", "application/xml")]
         [HttpPost(Name = "CreateCarModel")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Post([FromBody] CreateCarModelDto carModelDto)
         {
             var carModelToReturn = _carModelService.CreateCarModel(carModelDto);
@@ -198,6 +201,7 @@ namespace ProjectCars.API.Controllers
         // PUT api/carModels/5
         [Consumes("application/json", "application/xml")]
         [HttpPut("{carModelId}", Name = "UpdateCarModelPut")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Put(int carModelId, [FromBody] UpdateCarModelDto carModelDto)
         {
             _carModelService.UpdateCarModelPut(carModelId, carModelDto);
@@ -207,6 +211,7 @@ namespace ProjectCars.API.Controllers
         // PATCH api/carModels/5
         [Consumes("application/json-patch+json")]
         [HttpPatch("{carModelId}", Name = "UpdateCarModelPatch")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Patch(int carModelId, [FromBody] JsonPatchDocument<UpdateCarModelDto> patchDocument)
         {
             _carModelService.UpdateCarModelPatch(carModelId, patchDocument);
@@ -215,6 +220,7 @@ namespace ProjectCars.API.Controllers
 
         // DELETE api/carModels/5
         [HttpDelete("{carModelId}", Name = "DeleteCarModel")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int carModelId)
         {
             _carModelService.DeleteCarModel(carModelId);

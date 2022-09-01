@@ -42,7 +42,7 @@
             <thead>
                   <tr>
                     <th class="w-50">Repairs</th>
-                    <th>Car Service</th>
+                    <th>Car Model</th>
                     <th>Repair Date</th>
                     <th>Mileage</th>
                   </tr>
@@ -50,7 +50,7 @@
                 <tbody>
                   <tr v-for="r in repairs" :key="r.id" :value="r.id">
                     <td>{{r.repairs}}</td>
-                    <td>{{r.carServiceName}}</td>
+                    <td>{{r.modelName}}</td>
                     <td>{{r.repairDate}}</td>
                     <td>{{r.mileage}}</td>
                   </tr>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using ProjectCars.API.Helpers;
@@ -228,6 +229,7 @@ namespace ProjectCars.API.Controllers
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet(template: "users/{userId}/cars/{carId}/maintenances", Name = "GetMaintenancesForCars")]
         [HttpHead("users/{userId}/cars/{carId}/maintenances")]
+        [Authorize(Roles = "User")]
         public IActionResult Get(int userId, int carId, [FromQuery] SearchMaintenanceDto searchCar, [FromHeader(Name = "Accept")] string mediaType)
         {
             this.PaginationMetadata(_maintenanceService.PaginationData(userId, carId, searchCar));
@@ -246,6 +248,7 @@ namespace ProjectCars.API.Controllers
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet(template: "carServices/{carServiceId}/maintenances", Name = "GetMaintenances")]
         [HttpHead("carServices/{carServiceId}/maintenances")]
+        [Authorize(Roles = "ServiceOwner")]
         public IActionResult Get(int carServiceId, [FromQuery] SearchMaintenanceDto searchCar, [FromHeader(Name = "Accept")] string mediaType)
         {
             this.PaginationMetadata(_maintenanceService.PaginationData(carServiceId, searchCar));
@@ -263,6 +266,7 @@ namespace ProjectCars.API.Controllers
         // GET api/carServices/1/maintenances/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet(template: "carServices/{carServiceId}/maintenances/{maintenanceId}", Name = "GetMaintenance")]
+        [Authorize(Roles = "ServiceOwner")]
         public IActionResult Get(int carServiceId, int maintenanceId, [FromHeader(Name = "Accept")] string mediaType)
         {
             var maintenance = _maintenanceService.GetMaintenanceById(carServiceId, maintenanceId);
@@ -277,6 +281,7 @@ namespace ProjectCars.API.Controllers
 
         // OPTIONS api/carServices/1/maintenances
         [HttpOptions("carServices/{carServiceId}/maintenances")]
+        [Authorize(Roles = "ServiceOwner")]
         public IActionResult GetOptions()
         {
             Response.Headers.Add("Allow", "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
@@ -286,6 +291,7 @@ namespace ProjectCars.API.Controllers
         // POST api/carServices/1/maintenances
         [Consumes("application/json", "application/xml")]
         [HttpPost(template: "carServices/{carServiceId}/maintenances", Name = "CreateMaintenance")]
+        [Authorize(Roles = "ServiceOwner")]
         public IActionResult Post(int carServiceId, [FromBody] CreateMaintenanceDto maintenanceDto)
         {
             var maintenanceToReturn = _maintenanceService.CreateMaintenance(carServiceId, maintenanceDto);
@@ -299,6 +305,7 @@ namespace ProjectCars.API.Controllers
         // PUT api/carServices/1/maintenances/5
         [Consumes("application/json", "application/xml")]
         [HttpPut("carServices/{carServiceId}/maintenances/{maintenanceId}", Name = "UpdateMaintenancePut")]
+        [Authorize(Roles = "ServiceOwner")]
         public IActionResult Put(int carServiceId, int maintenanceId, [FromBody] UpdateMaintenanceDto maintenanceDto)
         {
             _maintenanceService.UpdateMaintenancePut(carServiceId, maintenanceId, maintenanceDto);
@@ -308,6 +315,7 @@ namespace ProjectCars.API.Controllers
         // PATCH api/carServices/1/maintenances/5
         [Consumes("application/json-patch+json")]
         [HttpPatch("carServices/{carServiceId}/maintenances/{maintenanceId}", Name = "UpdateMaintenancePatch")]
+        [Authorize(Roles = "ServiceOwner")]
         public IActionResult Patch(int carServiceId, int maintenanceId, [FromBody] JsonPatchDocument<UpdateMaintenanceDto> patchDocument)
         {
             _maintenanceService.UpdateMaintenancePatch(carServiceId, maintenanceId, patchDocument);
@@ -316,6 +324,7 @@ namespace ProjectCars.API.Controllers
 
         // DELETE api/carServices/1/maintenances/5
         [HttpDelete("carServices/{carServiceId}/maintenances/{maintenanceId}", Name = "DeleteMaintenance")]
+        [Authorize(Roles = "ServiceOwner")]
         public IActionResult Delete(int carServiceId, int maintenanceId)
         {
             _maintenanceService.DeleteMaintenance(carServiceId, maintenanceId);

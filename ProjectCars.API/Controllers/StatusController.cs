@@ -16,7 +16,6 @@ namespace ProjectCars.API.Controllers
 {
     [Route("api/status")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class StatusController : ControllerBase
     {
         #region FIELDS
@@ -136,6 +135,7 @@ namespace ProjectCars.API.Controllers
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet(Name = "GetStatuses")]
         [HttpHead]
+        [Authorize(Roles = "Admin,User,ServiceOwner")]
         public IActionResult Get([FromQuery] SearchStatusDto searchStatus, [FromHeader(Name = "Accept")] string mediaType)
         {
             this.PaginationMetadata(_statusService.PaginationData(searchStatus));
@@ -153,6 +153,7 @@ namespace ProjectCars.API.Controllers
         // GET api/status/5
         [Produces("application/json", "application/vnd.marvin.hateoas+json", "application/xml")]
         [HttpGet("{statusId}", Name = "GetStatus")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Get(int statusId, [FromHeader(Name = "Accept")] string mediaType)
         {
             var status = _statusService.GetStatusById(statusId);
@@ -176,6 +177,7 @@ namespace ProjectCars.API.Controllers
         // POST api/status
         [Consumes("application/json", "application/xml")]
         [HttpPost(Name = "CreateStatus")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Post([FromBody] CreateStatusDto statusDto)
         {
             var statusToReturn = _statusService.CreateStatus(statusDto);
@@ -189,6 +191,7 @@ namespace ProjectCars.API.Controllers
         // PUT api/status/5
         [Consumes("application/json", "application/xml")]
         [HttpPut("{statusId}", Name = "UpdateStatusPut")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Put(int statusId, [FromBody] UpdateStatusDto statusDto)
         {
             _statusService.UpdateStatusPut(statusId, statusDto);
@@ -198,6 +201,7 @@ namespace ProjectCars.API.Controllers
         // PATCH api/status/5
         [Consumes("application/json-patch+json")]
         [HttpPatch("{statusId}", Name = "UpdateStatusPatch")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Patch(int statusId, [FromBody] JsonPatchDocument<UpdateStatusDto> patchDocument)
         {
             _statusService.UpdateStatusPatch(statusId, patchDocument);
@@ -206,6 +210,7 @@ namespace ProjectCars.API.Controllers
 
         // DELETE api/status/5
         [HttpDelete("{statusId}", Name = "DeleteStatus")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int statusId)
         {
             _statusService.DeleteStatus(statusId);

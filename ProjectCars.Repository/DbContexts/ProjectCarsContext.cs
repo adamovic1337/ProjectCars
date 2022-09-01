@@ -9,18 +9,11 @@ namespace ProjectCars.Repository.DbContexts
 {
     public class ProjectCarsContext : IdentityDbContext<AppUser, AppRole, int>
     {
-        private readonly IConfiguration _configuration;
-
         #region CONSTRUCTORS
 
-        public ProjectCarsContext()
-        {
-        }
-
-        public ProjectCarsContext(DbContextOptions<ProjectCarsContext> options, IConfiguration configuration)
+        public ProjectCarsContext(DbContextOptions<ProjectCarsContext> options)
             : base(options)
         {
-            _configuration = configuration;
         }
 
         #endregion CONSTRUCTORS
@@ -46,7 +39,7 @@ namespace ProjectCars.Repository.DbContexts
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        //    optionsBuilder.UseSqlServer(_configuration.GetConnectionString("ProjectCars"));
+        //    optionsBuilder.UseSqlServer("Data Source= .\\SQLEXPRESS;Initial Catalog=ProjectCars;Integrated Security=True");
         //    base.OnConfiguring(optionsBuilder);
         //}
 

@@ -36,8 +36,8 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem('token');
-      this.$router.push( {name: 'Home'} );
-      this.$router.go();
+      let url = location.origin;
+      location.replace(url);
     }
   }
 };

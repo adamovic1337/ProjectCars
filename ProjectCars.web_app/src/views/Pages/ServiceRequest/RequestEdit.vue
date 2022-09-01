@@ -22,7 +22,7 @@
               <div class="form-group">
                 <label for="appointment">Appointment</label>
                 <input
-                  type="text"
+                  type="date"
                   id="appointment"
                   class="form-control"
                   v-model="requestData.appointment"
@@ -31,7 +31,7 @@
               <div class="form-group">
                 <label for="repairStart">Repair Start</label>
                 <input
-                  type="text"
+                  type="date"
                   id="repairStart"
                   class="form-control"
                   v-model="requestData.repairStart"
@@ -40,7 +40,7 @@
               <div class="form-group">
                 <label for="repairEnd">Repair End</label>
                 <input
-                  type="text"
+                  type="date"
                   id="repairEnd"
                   class="form-control"
                   v-model="requestData.repairEnd"

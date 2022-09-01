@@ -5,9 +5,9 @@ namespace ProjectCars.Model.DTO.View
     public class ServiceRequestDto : BaseViewDTO
     {
         public string UserDescription { get; set; }
-        public DateTime? Appointment { get; set; }
-        public DateTime? RepairStart { get; set; }
-        public DateTime? RepairEnd { get; set; }
+        public string Appointment { get; set; }
+        public string RepairStart { get; set; }
+        public string RepairEnd { get; set; }
         public int CarServiceId { get; set; }
         public string CarServiceName { get; set; }
         public int UserId { get; set; }

@@ -25,85 +25,85 @@
           data-accordion="false"
         >
           <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-          <li class="nav-item">
+          <li v-if="role == 'Admin'" class="nav-item">
             <router-link :to="{ name: 'RoleList' }" class="nav-link">
               <i class="nav-icon fas fa-id-card-alt"></i>
               <p>Manage Roles</p>
             </router-link>
           </li>          
-          <li class="nav-item">
+          <li v-if="role == 'Admin'"  class="nav-item">
             <router-link :to="{ name: 'CityList' }" class="nav-link">
               <i class="nav-icon fas fa-city"></i>
               <p>Manage Cities</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'Admin'"  class="nav-item">
             <router-link :to="{ name: 'CountryList' }" class="nav-link">
               <i class="nav-icon fas fa-globe-europe"></i>
               <p>Manage Countries</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'Admin'"  class="nav-item">
             <router-link :to="{ name: 'EngineList' }" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Manage Engines</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'Admin'"  class="nav-item">
             <router-link :to="{ name: 'FuelTypeList' }" class="nav-link">
               <i class="nav-icon fas fa-gas-pump"></i>
               <p>Manage Fuel Types</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'Admin'"  class="nav-item">
             <router-link :to="{ name: 'ManufacturerList' }" class="nav-link">
               <i class="nav-icon fas fa-industry"></i>
               <p>Manage Manufacturers</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'Admin'"  class="nav-item">
             <router-link :to="{ name: 'CarModelList' }" class="nav-link">
               <i class="nav-icon fas fa-car-side"></i>
               <p>Manage Car Models</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'Admin'"  class="nav-item">
             <router-link :to="{ name: 'StatusList' }" class="nav-link">
               <i class="nav-icon fas fa-spinner"></i>
               <p>Manage Repair Status</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'User'" class="nav-item">
             <router-link :to="{ name: 'CarDetail', params: { userId: userId } }" class="nav-link">
               <i class="nav-icon fas fa-car"></i>
               <p>Cars</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'User'" class="nav-item">
             <router-link :to="{ name: 'ServiceRequestList' }" class="nav-link">
               <i class="nav-icon fas fa-wrench"></i>
               <p>Service Requests</p>
             </router-link> 
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'User'" class="nav-item">
             <router-link :to="{ name: 'MaintenaceList', params: { userId: userId} }" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>Repairs</p>
             </router-link>            
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'ServiceOwner'" class="nav-item">
             <router-link :to="{ name: 'ServiceMaintenaceList', params: { carServiceId: carServiceId} }" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>All Repairs</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'ServiceOwner'" class="nav-item">
             <router-link :to="{ name: 'CarService' }" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>
               <p>Manage Service</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="role == 'ServiceOwner'" class="nav-item">
             <router-link :to="{ name: 'RequestList' }" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>
               <p>Manage Service Requests</p>
@@ -137,7 +137,12 @@ export default {
       let decoded = jwt_decode(token);
       this.userId = decoded.Id;
       this.username = decoded.unique_name; 
-      this.getCarServiceId(); 
+
+      if (decoded.role == 'ServiceOwner')
+      {
+        this.getCarServiceId(); 
+      }
+           
       
 
       switch (decoded.role){
@@ -166,7 +171,11 @@ export default {
           }
         })
         .then((response) => {
-          this.carServiceId = response.data.id;
+          if(typeof response.data.id != 'undefined')
+          {
+            this.carServiceId = response.data.id;
+          }
+          
         })
         .catch((error) => {
           unauthorized(error, this.$router);

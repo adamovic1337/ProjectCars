@@ -174,7 +174,7 @@ namespace ProjectCars.API.Controllers
 
         // PUT api/users/5
         [Consumes("application/json", "application/xml")]
-        [HttpPut("{userId}", Name = "UpdateUserPut")]
+        [HttpPut("{userId}")]
         public async Task<IActionResult> Put(int userId, [FromBody] UpdateUserDto userDto)
         {
             _ = await _userService.UpdateUserPut(userId, userDto);
