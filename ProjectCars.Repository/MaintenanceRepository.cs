@@ -65,7 +65,7 @@ namespace ProjectCars.Repository
                     join man in Context.Manufacturers on cm.ManufacturerId equals man.Id
                     join uc in Context.UserCars on c.Id equals uc.CarId
                     join u in Context.Users on uc.UserId equals u.Id
-                    where m.CarServiceId == carServiceId && (m.RepairDate > searchMaintenance.DateFrom && m.RepairDate < searchMaintenance.DateTo)
+                    where m.CarServiceId == carServiceId && m.RepairDate > searchMaintenance.DateFrom && m.RepairDate < searchMaintenance.DateTo
 
                     select new MaintenanceDto
                     {

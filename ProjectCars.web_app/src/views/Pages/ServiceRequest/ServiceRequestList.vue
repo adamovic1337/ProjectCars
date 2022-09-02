@@ -252,6 +252,7 @@ export default {
         })
         .then((response) => {
           toastr.success("Added new record", "Success");
+          location.reload();
         })
         .catch((error) => {
           validationErrorResponse(error, this.$router)

@@ -135,6 +135,8 @@ export default {
           self.userData = response.data;
           self.userData.password = null;
           self.cityName = response.data.cityName
+          this.getCities();
+          
         })
         .catch((error) => {
           unauthorized(error, this.$router);
