@@ -16,6 +16,7 @@ using ProjectCars.Repository.DbContexts;
 using ProjectCars.Repository.Helpers;
 using ProjectCars.Service;
 using ProjectCars.Service.Contract;
+using ProjectCars.Service.Email;
 using ProjectCars.Service.JWT;
 using ProjectCars.Service.Profiles;
 using ProjectCars.Service.Validation;
@@ -52,6 +53,8 @@ namespace ProjectCars.API.Helpers
 
         public static void AddDependencies(this IServiceCollection services, IConfiguration Configuration)
         {
+            services.Configure<EmailConfig>(Configuration.GetSection("EmailConfig"));
+            services.AddScoped<ISendNotification, SendNotification>();
             services.AddAutoMapper(typeof(RoleProfile).Assembly);
             services.AddDbContext<ProjectCarsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectCars")));
             services.AddSwaggerGen(c =>

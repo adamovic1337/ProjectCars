@@ -29,7 +29,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="repairStart">Repair Start</label>
+                <label for="repairStart">Repair Started</label>
                 <input
                   type="date"
                   id="repairStart"
@@ -38,7 +38,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="repairEnd">Repair End</label>
+                <label for="repairEnd">Request Completed</label>
                 <input
                   type="date"
                   id="repairEnd"
@@ -205,7 +205,7 @@ export default {
             appointment: self.requestData.appointment,
             repairStart: self.requestData.repairStart,
             repairEnd: self.requestData.repairEnd,
-            carServiceId: self.carServiceId,
+            carServiceId: self.requestData.carServiceId,
             carId: self.requestData.carId,
             userId: self.requestData.userId,
             statusId: self.selectedStatus,
@@ -218,6 +218,30 @@ export default {
         )
         .then((response) => {
           toastr.success("Saved", "Success");
+          this.sendNotification();
+        })
+        .catch((error) => {
+          validationErrorResponse(error, this.$router);
+        });
+    },
+    sendNotification() {
+      let self = this;
+
+      axios
+        .post(
+          `Notification/SendEmail`,
+          { 
+            UserId: self.requestData.userId,
+            ServiceId: self.requestData.carServiceId,            
+            StatusId: self.selectedStatus,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
         })
         .catch((error) => {
           validationErrorResponse(error, this.$router);

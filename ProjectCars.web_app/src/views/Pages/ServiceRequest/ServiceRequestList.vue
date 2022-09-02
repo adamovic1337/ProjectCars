@@ -85,20 +85,20 @@
               <table class="table table-striped table-valign-middle">
                 <thead>
                   <tr>
-                    <th class="w-25">Description</th>
-                    <th class="w-25">Appointment</th>
-                    <th class="w-25">Service Name</th>
-                    <th class="w-25">Car Model</th>
-                    <th class="w-25">Status</th>
+                    <th style="width: 20%">Description</th>
+                    <th style="width: 20%">Appointment</th>
+                    <th style="width: 20%">Service Name</th>
+                    <th style="width: 20%">Car Model</th>
+                    <th style="width: 20%">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="r in userRequests" :key="r.id" :value="r.id">
-                    <td class="w-25">{{ r.userDescription }}</td>
-                    <td class="w-25">{{ r.appointment }}</td>
-                    <td class="w-25">{{ r.carServiceName }}</td>
-                    <td class="w-25">{{ r.carModel }}</td>
-                    <td class="w-25">{{ r.status }}</td>
+                    <td style="width: 20%">{{ r.userDescription }}</td>
+                    <td style="width: 20%">{{ r.appointment }}</td>
+                    <td style="width: 20%">{{ r.carServiceName }}</td>
+                    <td style="width: 20%">{{ r.carModel }}</td>
+                    <td style="width: 20%">{{ r.status }}</td>
                   </tr>
                 </tbody>
               </table>
