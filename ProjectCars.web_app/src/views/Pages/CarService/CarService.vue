@@ -74,7 +74,7 @@
                   v-if="carServiceId > 0"
                   class="btn btn-warning btn-sm w-100"
                   title="Save"
-                  @click="saveData"
+                  @click="updateData"
                 >
                   <i class="fas fa-save"></i> Save
                 </button>
@@ -167,6 +167,7 @@ export default {
         .then((response) => {
           self.serviceData = response.data;
           self.cityName = response.data.cityName
+          self.getCities();
         })
         .catch((error) => {
           unauthorized(error, this.$router);
@@ -225,7 +226,7 @@ export default {
       let cityId = $('#cityListOptions [value="' + $("#cityList").val() + '"]').data('cityid');
 
       axios
-        .put(`/carServices`, { 
+        .put(`/carServices/${self.carServiceId}`, { 
           name: self.serviceData.name,
           phone: self.serviceData.phone,
           address: self.serviceData.address,
@@ -238,7 +239,7 @@ export default {
           Authorization: "Bearer " + localStorage.getItem('token') },
         })
         .then((response) => {
-          toastr.success("Added new record", "Success");
+          toastr.success("Saved", "Success");
         })
         .catch((error) => {
           validationErrorResponse(error, this.$router)
