@@ -92,17 +92,17 @@
             </router-link>            
           </li>
           <li v-if="role == 'ServiceOwner'" class="nav-item">
-            <router-link :to="{ name: 'ServiceMaintenaceList', params: { carServiceId: carServiceId} }" class="nav-link">
-              <i class="nav-icon fas fa-tasks"></i>
-              <p>All Repairs</p>
-            </router-link>
-          </li>
-          <li v-if="role == 'ServiceOwner'" class="nav-item">
             <router-link :to="{ name: 'CarService' }" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>
               <p>Manage Service</p>
             </router-link>
           </li>
+          <li v-if="role == 'ServiceOwner'" class="nav-item">
+            <router-link :to="{ name: 'ServiceMaintenaceList', params: { carServiceId: carServiceId} }" class="nav-link">
+              <i class="nav-icon fas fa-tasks"></i>
+              <p>All Repairs</p>
+            </router-link>
+          </li>          
           <li v-if="role == 'ServiceOwner'" class="nav-item">
             <router-link :to="{ name: 'RequestList' }" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>

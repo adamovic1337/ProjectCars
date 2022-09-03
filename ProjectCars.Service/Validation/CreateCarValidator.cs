@@ -19,7 +19,7 @@ namespace ProjectCars.Service.Validation
 
             RuleFor(c => c.Mileage)
                 .NotEmpty()
-                .WithMessage("First Registration is required parameter");
+                .WithMessage("Mileage is required parameter");
 
             RuleFor(c => c.ModelId)
                 .NotEmpty()
